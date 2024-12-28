@@ -1,3 +1,7 @@
+## What is this?
+
+This is a personal website, portfolio, interactive resume, and more!
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
