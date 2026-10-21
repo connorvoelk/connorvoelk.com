@@ -3,23 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "optimize:models": "scripts/optimize-models.sh"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.1.3"
+    "@google/model-viewer": "^4.4.0",
+    "next": "^16.4.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "^0.183.2"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "eslint": "^9",
-    "eslint-config-next": "15.1.3",
-    "@eslint/eslintrc": "^3"
+    "eslint-config-next": "^16.4.2",
+    "typescript": "^5"
   }
 }
