@@ -13,9 +13,11 @@ This document tracks the current state, known issues, and planned work for the p
 
 - `[x]` **Registered connorvoelk.com** through Vercel (2026-10-21). Vercel runs its DNS, so there are no records to set up by hand.
 - `[x]` Vercel account (existing account, not originally created with GitHub, which is fine).
-- `[ ]` Push this repo to `github.com/connorvoelk/connorvoelk.com`.
-- `[ ]` In Vercel: **Add New → Project → Import Git Repository**. Because the account wasn't made with GitHub, Vercel first asks you to connect GitHub. That installs the Vercel GitHub App; pick **Only select repositories** → `connorvoelk.com`. Then import → **Deploy** (the Next.js defaults are correct). After that, every push to `main` auto-deploys and every other branch gets its own preview URL.
-- `[ ]` Project → **Settings → Domains → Add Domain** → `connorvoelk.com`. Accept Vercel's prompt to add `www` too, so one redirects to the other.
+- `[x]` Pushed to `github.com/connorvoelk/connorvoelk.com` (2026-10-21).
+- `[x]` Vercel project `connorvoelk.com` imported from GitHub, production branch `main`. The Framework Preset had defaulted to "Other" because the repo only held a README at import time, so it was switched to **Next.js**.
+- `[x]` Domains: `connorvoelk.com` redirects (308) to `www.connorvoelk.com`; SSL is valid on both.
+- `[x]` **Site is live at https://www.connorvoelk.com** (2026-10-21). All pages return 200 and all 9 models render.
+- `[ ]` **Confirm pushes auto-deploy.** The first push (2026-10-21 08:29) did *not* trigger a deployment, and Vercel left no "blocked" status on GitHub. The live deploy was started by hand through the Vercel API. After the next push to `main`, check Vercel → Deployments for a new build. If none appears, check Vercel Account Settings → Authentication and make sure GitHub `connorvoelk` is connected as a login method, since the free plan only deploys commits it can match to the account owner.
 
 ### Phase 1 — Launch v1 (content only you can write, ~1 weekend)
 Things on live pages that are currently wrong or empty:
