@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# original high-res source assets (optimized copies live in /public)
+/assets-src/
+
+# local-only files
+/reference-files/
+.claude/settings.local.json

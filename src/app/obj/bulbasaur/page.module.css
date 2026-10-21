@@ -1,0 +1,142 @@
+/* Tall scroll track for the zoom phase. The scene is pinned (fixed) within it
+   while zooming; once the zoom completes (~1.5 screens of scroll) the scene
+   releases to absolute at the section's bottom and the page scrolls normally. */
+.zoomSection {
+  position: relative;
+  height: 250vh;
+  background: #000;
+}
+
+.scene {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Released state: drop the scene at the bottom of the zoom section so it sits
+   exactly where the pinned scene last was, then scrolls away with the page. */
+.sceneReleased {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+}
+
+/* The GBA, always contained as a 16:9 box centered in the viewport.
+   --scale (set from scroll) zooms it about the screen's center. */
+.gbaFrame {
+  --scale: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(100vw, calc(100vh * 16 / 9));
+  aspect-ratio: 1920 / 1080;
+  transform: translate(-50%, -50%) scale(var(--scale));
+  /* Origin = center of the screen window within the frame, so zooming pins
+     the screen to the viewport center. */
+  transform-origin: 50.05% 50.09%;
+  will-change: transform;
+}
+
+/* The transparent screen window, positioned exactly over the GBA cutout.
+   Child of the frame, so it scales in lockstep at any screen size. */
+.screen {
+  position: absolute;
+  left: 25.104%;
+  top: 20.556%;
+  width: 49.896%;
+  height: 59.074%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Pokémon scene fills the window. Pinned to the bottom so the dialogue box
+   is never cropped; pixelated keeps the low-res art crisp when zoomed. */
+.stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  image-rendering: pixelated;
+}
+
+/* Bulbasaur model layered over the scene, inside the screen. Scaled to 0.9 and
+   nudged into the top-right third of the screen. Adjust the translate to
+   reposition, the scale to resize. */
+.model {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: transparent;
+  --poster-color: transparent;
+  transform: translate(24%, -28%) scale(0.65);
+}
+
+/* GBA bezel on top: its transparent window reveals the screen, the body hides
+   any overflow. pointer-events: none lets clicks reach the model below. */
+.outline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.backLink {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+
+.backLink:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* Placeholder content revealed after the zoom completes. */
+.content {
+  min-height: 100vh;
+  padding: 6rem 2rem;
+  background: #111;
+  color: #eee;
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+}
+
+.content h1 {
+  font-size: 2.5rem;
+  margin: 0 0 1rem;
+}
+
+.content p {
+  max-width: 42rem;
+  margin: 0 0 1rem;
+  line-height: 1.6;
+  color: #bbb;
+}
+
+.spacer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  margin-top: 2rem;
+  border: 1px dashed #444;
+  border-radius: 8px;
+  color: #777;
+}

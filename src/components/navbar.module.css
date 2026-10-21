@@ -1,0 +1,249 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  max-width: 454px;
+}
+
+.navContent {
+  background-color: rgba(71, 71, 71, 0.8);
+  border-radius: 34.5px;
+  padding: 0;
+  min-height: 69px;
+  max-height: 69px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.expanded {
+  background-color: rgba(71, 71, 71, 0.95);
+  border-radius: 20px;
+}
+
+.hasActiveSection {
+  max-height: 300px;
+}
+
+/* Primary Nav Section */
+.primaryNavContainer {
+  height: 69px;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.mainNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 48px;
+}
+
+/* Logo styles */
+.logo {
+  width: 79px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.outlinePath {
+  stroke: white;
+  stroke-width: 6;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.gradientPath,
+.trianglePath {
+  fill: transparent;
+  transition: fill 0.5s ease;
+}
+
+/* Logo hover states */
+.expanded .outlinePath {
+  opacity: 0;
+}
+
+.expanded .gradientPath {
+  fill: url(#circleGradient);
+}
+
+.expanded .trianglePath {
+  fill: url(#triangleGradient);
+}
+
+/* Navigation links */
+.navLinks,
+.secondaryNav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.linkWrapper,
+.secondaryLink {
+  position: relative;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.link,
+.secondaryLink {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  text-transform: lowercase;
+}
+
+/* Primary nav hover states */
+.linkWrapper.active .link {
+  text-shadow: 0 0 0.65px white;
+}
+
+.navLinks:has(.active) .linkWrapper:not(.active) {
+  opacity: 0.6;
+}
+
+/* Secondary nav hover states */
+.secondaryNav:hover .secondaryLink {
+  opacity: 0.6;
+}
+
+.secondaryLink:hover {
+  opacity: 1 !important;
+  text-shadow: 0 0 0.65px white;
+}
+
+/* Secondary Nav Section */
+.secondaryNavContainer {
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  padding: 0 1.5rem;
+  width: 100%;
+  /* when closing: delay visibility until after opacity/transform finish */
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0s 0.3s;
+}
+
+.hasActiveSection .secondaryNavContainer {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  /* when opening: visibility is immediate */
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0s;
+}
+
+/* Divider */
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin: 0.5rem 0;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.hasActiveSection .divider {
+  transform: scaleX(1);
+}
+
+/* Secondary Navigation */
+.secondaryNav {
+  display: flex;
+  gap: 2rem;
+  padding: 0.5rem 0 1.5rem 0;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Profile picture */
+.profilePic {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profilePic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.5s ease;
+}
+
+.expanded .profilePic img {
+  filter: grayscale(0%);
+}
+
+/* Gradient animations */
+@keyframes gradientShift1 {
+  0% {
+    stop-color: #22c55e;
+  }
+  33% {
+    stop-color: #0d9488;
+  }
+  66% {
+    stop-color: #0891b2;
+  }
+  100% {
+    stop-color: #22c55e;
+  }
+}
+
+@keyframes gradientShift2 {
+  0% {
+    stop-color: #1d4ed8;
+  }
+  33% {
+    stop-color: #4338ca;
+  }
+  66% {
+    stop-color: #6d28d9;
+  }
+  100% {
+    stop-color: #1d4ed8;
+  }
+}
+
+.expanded .gradientStop1 {
+  animation: gradientShift1 4s infinite;
+}
+
+.expanded .gradientStop2 {
+  animation: gradientShift1 4s infinite 0.5s;
+}
+
+.expanded .gradientStop3 {
+  animation: gradientShift2 4s infinite;
+}
+
+.expanded .gradientStop4 {
+  animation: gradientShift2 4s infinite 0.5s;
+}

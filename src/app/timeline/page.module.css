@@ -1,0 +1,46 @@
+/* page.module.css */
+.container {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background-color: black;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.backgroundCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+.main {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  position: relative;
+  flex: 1;
+  padding-top: 100px; /* Increased from 85px to give more space below navbar */
+  z-index: 1;
+  width: 100%;
+}
+
+/* Add this to your navbar.module.css */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2; /* Higher than content */
+}

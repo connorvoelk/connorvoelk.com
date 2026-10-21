@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="660"
+   height="660"
+   viewBox="0 0 174.62502 174.625"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
+   sodipodi:docname="ubicomp_square_filled_wordmark.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     width="660px"
+     units="px"
+     inkscape:zoom="0.57204525"
+     inkscape:cx="253.47645"
+     inkscape:cy="250.85428"
+     inkscape:window-width="1395"
+     inkscape:window-height="847"
+     inkscape:window-x="257"
+     inkscape:window-y="1465"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="161.48291"
+       y="531.4256"
+       width="120.37817"
+       height="322.96582"
+       id="rect11485" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text11483"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect11485);fill:#000000;fill-opacity:1;stroke:none" />
+    <rect
+       style="fill:#33006f;fill-opacity:1;stroke:#33006f;stroke-width:3.37816;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect21762"
+       width="160.66351"
+       height="160.66351"
+       x="6.9807472"
+       y="6.9807453" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:50.8px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="13.182661"
+       y="77.345909"
+       id="text891"><tspan
+         sodipodi:role="line"
+         id="tspan889"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50.8px;font-family:Avenir;-inkscape-font-specification:Avenir;fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
+         x="13.182661"
+         y="77.345909"><tspan
+           style="font-weight:bold;font-size:50.8px;fill:#ffffff;fill-opacity:1"
+           id="tspan4397">ubi</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:50.8px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="13.619692"
+       y="112.72633"
+       id="text891-3"><tspan
+         sodipodi:role="line"
+         id="tspan889-3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50.8px;font-family:Avenir;-inkscape-font-specification:Avenir;fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
+         x="13.619692"
+         y="112.72633"><tspan
+           style="font-weight:bold;font-size:50.8px;fill:#ffffff;fill-opacity:1"
+           id="tspan4397-7">comp</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:50.8px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="12.430368"
+       y="158.42349"
+       id="text891-3-8"><tspan
+         sodipodi:role="line"
+         id="tspan889-3-5"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50.8px;font-family:Avenir;-inkscape-font-specification:Avenir;fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
+         x="12.430368"
+         y="158.42349">lab</tspan></text>
+  </g>
+</svg>
