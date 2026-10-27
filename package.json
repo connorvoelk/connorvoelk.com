@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/check-private-info.mjs && next build",
     "start": "next start",
     "lint": "eslint .",
-    "optimize:models": "scripts/optimize-models.sh"
+    "optimize:models": "scripts/optimize-models.sh",
+    "resume:pdf": "scripts/generate-resume-pdf.sh"
   },
   "dependencies": {
     "@google/model-viewer": "^4.4.0",

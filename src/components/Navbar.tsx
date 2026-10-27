@@ -11,10 +11,10 @@ const sections = [
   {
     id: 'resume',
     href: '/resume',
-    ready: false,
+    ready: true,
     links: [
       { label: 'timeline', href: '/timeline', ready: true },
-      { label: 'file', href: '/file', ready: false },
+      { label: 'file', href: '/connor-voelk-resume.pdf', ready: true },
     ],
   },
   {
@@ -186,15 +186,27 @@ const Navbar = () => {
             <div className={styles.secondaryNav}>
               {liveSections
                 .find((section) => section.id === visibleSection)
-                ?.links.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={styles.secondaryLink}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                ?.links.map((link) =>
+                  // Files (like the resume PDF) aren't pages, so they skip
+                  // Next's client-side navigation
+                  link.href.endsWith('.pdf') ? (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      className={styles.secondaryLink}
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={styles.secondaryLink}
+                    >
+                      {link.label}
+                    </Link>
+                  )
+                )}
             </div>
           </div>
         </div>

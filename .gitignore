@@ -46,3 +46,7 @@ next-env.d.ts
 # local-only files
 /reference-files/
 .claude/settings.local.json
+
+# original resume files contain a phone number and email — never commit them
+# (the site's PDF is generated from the /resume page instead)
+*ConnorVoelkResume*
