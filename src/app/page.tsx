@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import styles from './page.module.css'
 import Navbar from '@/components/Navbar'
+import { gridLines } from '@/components/dotGrid'
 
 interface Dot {
   x: number
@@ -24,36 +25,21 @@ export default function Home() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const spacing = 40 // Space between dots
     const dotSize = 5 // Size of each dot
     const proximityRadius = 96 // ~1 inch at 96dpi
 
-    // Function to create dots grid
+    // Function to create dots grid (shared layout with the page transitions)
     const createDots = (width: number, height: number): Dot[] => {
-      const dots: Dot[] = []
-
-      // Calculate number of dots that can fit in each dimension
-      const numDotsX = Math.floor(width / spacing)
-      const numDotsY = Math.floor(height / spacing)
-
-      // Calculate padding to center the grid
-      const paddingX = (width - (numDotsX - 1) * spacing) / 2
-      const paddingY = (height - (numDotsY - 1) * spacing) / 2
-
-      // Create dots grid
-      for (let i = 0; i < numDotsX; i++) {
-        for (let j = 0; j < numDotsY; j++) {
-          dots.push({
-            x: paddingX + i * spacing,
-            y: paddingY + j * spacing,
-            opacity: 0.3,
-            speed: 0.001 + Math.random() * 0.002,
-            offset: Math.random() * Math.PI * 2,
-          })
-        }
-      }
-
-      return dots
+      const ys = gridLines(height)
+      return gridLines(width).flatMap((x) =>
+        ys.map((y) => ({
+          x,
+          y,
+          opacity: 0.3,
+          speed: 0.001 + Math.random() * 0.002,
+          offset: Math.random() * Math.PI * 2,
+        }))
+      )
     }
 
     // Set canvas size and create initial dots

@@ -44,6 +44,22 @@ a {
   }
 }
 
+/* Page transitions (src/components/PageTransitions.tsx): instead of the
+   browser's default cross-fade, the new page appears square by square
+   through a tile mask, over the old page's snapshot */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  mask-image: var(--tile-mask);
+  mask-size: 100% calc(var(--tile-frames) * 100%);
+  mask-repeat: no-repeat;
+  mask-position: 0% 0%;
+}
+
 * {
   margin: 0;
   padding: 0;
