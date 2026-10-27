@@ -27,20 +27,10 @@ export const data = {
       name: 'University of Washington',
       startDate: new Date('2018-09-01'),
       endDate: new Date('2022-06-30'),
-      stops: [
-        {
-          date: new Date('2019-03-15'),
-          name: 'Project',
-          description: 'Machine learning research project',
-        },
-        {
-          date: new Date('2020-01-15'),
-          name: 'Other Project',
-          description: 'Computer vision implementation',
-        },
-      ],
+      stops: [],
       color: '#32006e',
-      description: 'Computer Science Degree',
+      description:
+        'Bachelor of Science in Informatics, Specialization in Human Computer Interaction',
       logoPath: '/uw.png',
       location: 'Seattle, WA',
     },
@@ -60,7 +50,8 @@ export const data = {
       endDate: new Date('2021-01-20'),
       stops: [],
       color: '#32006e',
-      description: 'Computer Science Degree',
+      description:
+        'Android development for research in the UW CSE Ubiquitous Computing Lab.',
       logoPath: '/ubicomplab.svg',
       location: 'Seattle, WA',
     },
@@ -115,14 +106,14 @@ export const data = {
       ],
       color: '#003679',
       description:
-        'Contributed towards internal Python library that interfaces with hardware and manages data pipelines • Built internal web app with React.js front end, REST API for Python interfacing and MySQL database. • Automated test data ingestion, processing, and reporting for urgent high-voltage system tests.',
+        'Cloud architecture internship with AWS Professional Services.',
       logoPath: '/aws-white.png',
       location: 'Herndon, VA (Remote)',
     },
     {
-      name: 'Cloud Application Developer @ Amazon Web Services (Professional Services)',
+      name: 'Frontend Engineer, Delivery Consultant @ Amazon Web Services (Professional Services)',
       startDate: new Date('2022-07-06'),
-      endDate: new Date('2025-01-01'),
+      endDate: new Date('2024-01-01'),
       stops: [
         {
           date: new Date('2022-08-10'),
@@ -136,6 +127,18 @@ export const data = {
           description:
             'To show my progress in developing applications with AWS Cloud technologies, I achieved the AWS Developer Certification',
         },
+      ],
+      color: '#003679',
+      description:
+        'Leveraging value and impact through intuitive, high-performance user interfaces for complex backends. • ML-Driven Dashboard for a major national media network • Multi-Destination Live-Stream Orchestrator for a Fortune 10 big tech platform',
+      logoPath: '/aws-white.png',
+      location: 'Seattle, WA',
+    },
+    {
+      name: 'Cloud Application Developer @ Amazon Web Services (Professional Services)',
+      startDate: new Date('2024-01-01'),
+      endDate: new Date('2026-07-31'),
+      stops: [
         {
           date: new Date('2025-01-03'),
           name: 'AWS AI Practitioner Certification',
@@ -145,9 +148,9 @@ export const data = {
       ],
       color: '#003679',
       description:
-        'Contributed towards internal Python library that interfaces with hardware and manages data pipelines • Built internal web app with React.js front end, REST API for Python interfacing and MySQL database. • Automated test data ingestion, processing, and reporting for urgent high-voltage system tests.',
+        'Translating C-suite business requirements into high-impact GenAI and cloud-native software architectures. • Agentic AI Platform for a Fortune 50 healthcare company • Mobile Telemetry SDK for a market-leading satellite provider',
       logoPath: '/aws-white.png',
-      location: 'Herndon, VA (Remote)',
+      location: 'Seattle, WA',
     },
   ],
 }

@@ -4,6 +4,19 @@ import Image from 'next/image'
 import styles from './timeline.module.css'
 import { data } from './timelineData'
 
+// The axis spans whole years around the data, from January of the earliest
+// start to the January after the latest end, labelled every five years.
+// (UTC because '2015-01-01' parses as UTC midnight, which is still 2014
+// in US time zones.)
+const firstYear = Math.min(...data.lines.map((l) => l.startDate.getUTCFullYear()))
+const lastYear = Math.max(...data.lines.map((l) => l.endDate.getUTCFullYear())) + 1
+const timelineStart = new Date(`${firstYear}-01-01`)
+const timelineEnd = new Date(`${lastYear}-01-01`)
+const legendYears = Array.from(
+  { length: Math.floor((lastYear - firstYear) / 5) + 1 },
+  (_, i) => firstYear + i * 5
+)
+
 interface TimelineStop {
   date: Date
   name: string
@@ -106,8 +119,6 @@ const Timeline = () => {
   }, [])
 
   const dateToPosition = (date: Date): number => {
-    const timelineStart = new Date('2015-01-01')
-    const timelineEnd = new Date('2025-01-01')
     const totalDays =
       (timelineEnd.getTime() - timelineStart.getTime()) / (1000 * 60 * 60 * 24)
     const daysSinceStart =
@@ -134,10 +145,12 @@ const Timeline = () => {
       'December',
     ]
 
-    const startMonth = months[start.getMonth()]
-    const endMonth = months[end.getMonth()]
-    const startYear = start.getFullYear()
-    const endYear = end.getFullYear()
+    // UTC: dates like '2024-01-01' parse as UTC midnight, which is still
+    // the previous day in US time zones
+    const startMonth = months[start.getUTCMonth()]
+    const endMonth = months[end.getUTCMonth()]
+    const startYear = start.getUTCFullYear()
+    const endYear = end.getUTCFullYear()
 
     if (startYear === endYear) {
       return `${startMonth} - ${endMonth} ${startYear}`
@@ -183,16 +196,18 @@ const Timeline = () => {
         }`}
       >
         {/* Timeline legend */}
+        {/* Year marks use the same scale as the lines; the legend already
+            sits inside the 2rem (32px) padding that dateToPosition adds */}
         <div className={styles.legend}>
-          <span className={styles.yearMark} style={{ left: '0%' }}>
-            2015
-          </span>
-          <span className={styles.yearMark} style={{ left: '50%' }}>
-            2020
-          </span>
-          <span className={styles.yearMark} style={{ left: '100%' }}>
-            2025
-          </span>
+          {legendYears.map((year) => (
+            <span
+              key={year}
+              className={styles.yearMark}
+              style={{ left: dateToPosition(new Date(`${year}-01-01`)) - 32 }}
+            >
+              {year}
+            </span>
+          ))}
         </div>
 
         {/* Timeline base */}
