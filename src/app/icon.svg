@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -53.94 280.79 280.79">
+  <!-- The navbar logo in its hover colors, centered in a square. Filled shapes
+       read on both light and dark browser tabs, unlike the white outline. -->
+  <defs>
+    <linearGradient id="circle" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <linearGradient id="triangle" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+  </defs>
+  <path fill="url(#circle)" d="M86.76,3.39c-45.91,0-83.14,37.22-83.14,83.14s37.22,83.14,83.14,83.14h82.97" />
+  <path fill="url(#triangle)" d="M169.73,169.67 L275.18,3.39H87.06l82.67,166.27" />
+</svg>
