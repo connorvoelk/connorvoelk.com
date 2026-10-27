@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
+import Link from 'next/link'
 import styles from './page.module.css'
 import Navbar from '@/components/Navbar'
 
@@ -77,8 +78,10 @@ export default function Home() {
     const handleMouseLeave = () => {
       mouseRef.current = null
     }
-    canvas.addEventListener('mousemove', handleMouseMove)
-    canvas.addEventListener('mouseleave', handleMouseLeave)
+    // Listen on the window, not the canvas: the intro text sits on top of the
+    // canvas and would otherwise swallow the mouse events
+    window.addEventListener('mousemove', handleMouseMove)
+    document.documentElement.addEventListener('mouseleave', handleMouseLeave)
 
     // Animation function
     const animate = () => {
@@ -119,8 +122,8 @@ export default function Home() {
 
     return () => {
       window.removeEventListener('resize', resizeCanvas)
-      canvas.removeEventListener('mousemove', handleMouseMove)
-      canvas.removeEventListener('mouseleave', handleMouseLeave)
+      window.removeEventListener('mousemove', handleMouseMove)
+      document.documentElement.removeEventListener('mouseleave', handleMouseLeave)
     }
   }, [])
 
@@ -129,7 +132,42 @@ export default function Home() {
       <canvas ref={canvasRef} className={styles.backgroundCanvas} />
       <main className={styles.main}>
         <Navbar />
-
+        <section className={styles.intro}>
+          <h1 className={styles.name}>Connor Voelk</h1>
+          <p className={styles.lead}>
+            I build applications with GenAI and cloud products, working
+            backwards from requirements.
+          </p>
+          <p className={styles.proof}>
+            Software engineer in Seattle. Four years at AWS building for
+            enterprise customers, and before that, Tesla and the University of
+            Washington&apos;s Information School and Paul G. Allen School of
+            Computer Science &amp; Engineering.
+          </p>
+          <p className={styles.now}>
+            <strong>Currently</strong> building my own projects, and open to my
+            next full-time role.
+          </p>
+          <div className={styles.links}>
+            <Link href="/resume" className={styles.primaryLink}>
+              Resume
+            </Link>
+            <a
+              href="https://www.linkedin.com/in/connorvoelk"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://github.com/connorvoelk"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+          </div>
+        </section>
       </main>
     </div>
   )
