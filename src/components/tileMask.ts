@@ -56,7 +56,11 @@ export function buildTileMask(width: number, height: number): string {
 // JavaScript yet (Mozilla bug 1977916), and the mask is written in directly
 // rather than via a custom property so nothing depends on inheritance into
 // the view-transition pseudo-elements.
-export function tileTransitionStyles(width: number, height: number): string {
+export function tileTransitionStyles(
+  width: number,
+  height: number,
+  durationMs = TRANSITION_MS
+): string {
   return `
     ::view-transition-old(root),
     ::view-transition-new(root) {
@@ -67,7 +71,7 @@ export function tileTransitionStyles(width: number, height: number): string {
       mask-image: ${buildTileMask(width, height)};
       mask-size: 100% ${MASK_FRAMES * 100}%;
       mask-repeat: no-repeat;
-      animation: tile-reveal ${TRANSITION_MS}ms steps(${MASK_FRAMES}, jump-none) both;
+      animation: tile-reveal ${durationMs}ms steps(${MASK_FRAMES}, jump-none) both;
     }
     @keyframes tile-reveal {
       from { mask-position: 0% 0%; }
