@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { buildTileMask, MASK_FRAMES, TRANSITION_MS } from './tileMask'
+import { tileTransitionStyles } from './tileMask'
 
 // Turns every link to another page on this site into a square-by-square
 // transition: the browser snapshots the old page (View Transitions API), the
@@ -54,12 +54,14 @@ const PageTransitions = () => {
       // already handled
       e.preventDefault()
 
-      const root = document.documentElement
-      root.style.setProperty(
-        '--tile-mask',
-        buildTileMask(window.innerWidth, window.innerHeight)
+      // The tile animation is plain CSS added just for this transition (see
+      // tileTransitionStyles for why it isn't driven from JavaScript)
+      const style = document.createElement('style')
+      style.textContent = tileTransitionStyles(
+        window.innerWidth,
+        window.innerHeight
       )
-      root.style.setProperty('--tile-frames', String(MASK_FRAMES))
+      document.head.append(style)
 
       const transition = document.startViewTransition(
         () =>
@@ -71,26 +73,9 @@ const PageTransitions = () => {
           })
       )
 
-      transition.ready
-        .then(() => {
-          // Step through the mask's frames, one per step, over 0.7s
-          root.animate(
-            { maskPosition: ['0% 0%', '0% 100%'] },
-            {
-              duration: TRANSITION_MS,
-              easing: `steps(${MASK_FRAMES}, jump-none)`,
-              pseudoElement: '::view-transition-new(root)',
-            }
-          )
-        })
-        .catch(() => {
-          // The transition was skipped; the navigation still happens
-        })
-
-      transition.finished.finally(() => {
-        root.style.removeProperty('--tile-mask')
-        root.style.removeProperty('--tile-frames')
-      })
+      // A skipped transition (e.g. the tab is hidden) still navigates
+      transition.ready.catch(() => {})
+      transition.finished.finally(() => style.remove())
     }
 
     // Capture phase, so this runs before <Link>'s own click handler

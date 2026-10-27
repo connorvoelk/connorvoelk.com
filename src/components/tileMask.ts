@@ -48,3 +48,30 @@ export function buildTileMask(width: number, height: number): string {
 
   return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
 }
+
+// The CSS for one transition: instead of the browser's default cross-fade,
+// the new page's snapshot sits over the old one, masked by the tile strip,
+// stepping one frame at a time. It's plain CSS rather than element.animate()
+// because Firefox can't target view-transition pseudo-elements from
+// JavaScript yet (Mozilla bug 1977916), and the mask is written in directly
+// rather than via a custom property so nothing depends on inheritance into
+// the view-transition pseudo-elements.
+export function tileTransitionStyles(width: number, height: number): string {
+  return `
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal;
+    }
+    ::view-transition-new(root) {
+      mask-image: ${buildTileMask(width, height)};
+      mask-size: 100% ${MASK_FRAMES * 100}%;
+      mask-repeat: no-repeat;
+      animation: tile-reveal ${TRANSITION_MS}ms steps(${MASK_FRAMES}, jump-none) both;
+    }
+    @keyframes tile-reveal {
+      from { mask-position: 0% 0%; }
+      to { mask-position: 0% 100%; }
+    }
+  `
+}
