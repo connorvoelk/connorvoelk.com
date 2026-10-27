@@ -27,17 +27,18 @@ This document tracks the current state, known issues, and planned work for the p
    - **Editing the resume:** change `resumeData.ts`, then run `npm run resume:pdf` to regenerate `public/connor-voelk-resume.pdf` from the page.
    - **Privacy rule:** no phone number, address, or email anywhere on the site. The original resume PDFs (which include them) are gitignored and never copied in. `npm run build` fails if anything that looks like a phone number appears in `src/` or `public/` (`scripts/check-private-info.mjs`).
    - The timeline now matches the resume: AWS is split into its two roles with real descriptions, UW lists the Informatics/HCI degree, placeholder stops are removed, and the axis is derived from the data (it runs to 2027).
-2. `[ ]` **Home page**: name, a one-liner (draft it from the resume summary), what you're doing now, links (GitHub, LinkedIn), and entry points into resume / [obj] / blog. Right now it's just the dot grid and navbar, so a visitor can't tell whose site it is.
-   - Needs from you: what to say you're doing now (AWS ended July 2026), and a yes/no on each line of the draft.
+2. `[x]` **Home page** (live 2026-10-27): an intro over the dot grid with your name, a one-liner, a line on AWS, Tesla, and UW, a low-key "Currently…" line, and links to Resume, LinkedIn, and GitHub. Copy is Connor's own wording, in `src/app/page.tsx`. Also: the navbar logo links home, and hovering the profile picture shows LinkedIn, GitHub, and Instagram.
 3. `[ ]` **Blog with one post**: posts are Markdown files in the repo (set up when we get here). Launch with the single post closest to done; the others stay hidden until written.
    - Needs from you: which post, plus your notes or draft. The words have to be yours.
 
 Smaller v1 items, done in the gaps:
-- `[ ]` **Favicon + share image**: `src/app/icon.svg` (the CV logo works, but its white strokes need a dark background to show up in browser tabs) and `src/app/opengraph-image.png` (1200×630) for link previews. The current favicon is still the Next.js default.
+- `[x]` **Favicon**: the logo in its hover colors (`src/app/icon.svg`, `favicon.ico`, `apple-icon.png`).
+- `[ ]` **Share image**: `src/app/opengraph-image.png` (1200×630), so links to the site get a preview card on LinkedIn, iMessage, etc.
 - `[ ]` **Hale timeline stops**: "Slovenian Union of America Website" and "Hale Tech Night" still carry placeholder descriptions. They don't render yet (the stop detail view is unbuilt), so this isn't urgent.
 
 ### Phase 2 — Grow in public (after launch, any order)
 Each item is a standalone update. When a page ships, flip its `ready` flag in `Navbar.tsx`.
+- Home intro as a "fill in the blank" sentence whose key words change dynamically (idea from 2026-10-27; the static intro ships first)
 - [obj] individual pages (8 remaining) + gallery category filtering
 - Projects: listening pal, pokeDB, monolith (+ `/projects` index)
 - Blog: Data Driven Design, Lapras Invasion, Dead Internet (+ `/blog` index); consider MDX for posts
