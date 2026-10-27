@@ -50,6 +50,13 @@ const liveSections = sections
   }))
   .filter((section) => section.ready || section.links.length > 0)
 
+// Shown when hovering the profile picture
+const profileLinks = [
+  { label: 'linkedin', href: 'https://www.linkedin.com/in/connorvoelk' },
+  { label: 'github', href: 'https://github.com/connorvoelk' },
+  { label: 'instagram', href: 'https://www.instagram.com/connor.voelk' },
+]
+
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const [visibleSection, setVisibleSection] = useState<string | null>(null)
@@ -68,6 +75,12 @@ const Navbar = () => {
     setVisibleSection(section)
   }
 
+  const visibleLinks =
+    visibleSection === 'profile'
+      ? profileLinks
+      : liveSections.find((section) => section.id === visibleSection)?.links ??
+        []
+
   return (
     <nav
       className={styles.navbar}
@@ -83,7 +96,7 @@ const Navbar = () => {
           {/* Primary Nav Container */}
           <div className={styles.primaryNavContainer}>
             <div className={styles.mainNav}>
-              <div className={styles.logo}>
+              <Link href="/" className={styles.logo} aria-label="Home">
                 <svg
                   version="1.1"
                   xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +162,7 @@ const Navbar = () => {
                     fill="transparent"
                   />
                 </svg>
-              </div>
+              </Link>
 
               <div className={styles.navLinks}>
                 {liveSections.map((section) => (
@@ -170,7 +183,12 @@ const Navbar = () => {
                 ))}
               </div>
 
-              <div className={styles.profilePic}>
+              <div
+                className={`${styles.profilePic} ${
+                  activeSection === 'profile' ? styles.active : ''
+                }`}
+                onMouseEnter={() => handleSectionEnter('profile')}
+              >
                 <Image
                   src="/profile-picture.jpg"
                   alt="Connor Voelk"
@@ -185,29 +203,32 @@ const Navbar = () => {
           <div className={styles.secondaryNavContainer}>
             <div className={styles.divider} />
             <div className={styles.secondaryNav}>
-              {liveSections
-                .find((section) => section.id === visibleSection)
-                ?.links.map((link) =>
-                  // Files (like the resume PDF) aren't pages, so they skip
-                  // Next's client-side navigation
-                  link.href.endsWith('.pdf') ? (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      className={styles.secondaryLink}
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={styles.secondaryLink}
-                    >
-                      {link.label}
-                    </Link>
-                  )
-                )}
+              {visibleLinks.map((link) => {
+                const external = link.href.startsWith('http')
+                // Other sites and files (like the resume PDF) aren't pages in
+                // this app, so they skip Next's client-side navigation
+                return external || link.href.endsWith('.pdf') ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className={styles.secondaryLink}
+                    {...(external && {
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                    })}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={styles.secondaryLink}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </div>

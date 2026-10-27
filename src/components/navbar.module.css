@@ -118,7 +118,8 @@
   text-shadow: 0 0 0.65px white;
 }
 
-.navLinks:has(.active) .linkWrapper:not(.active) {
+.navLinks:has(.active) .linkWrapper:not(.active),
+.mainNav:has(.profilePic.active) .linkWrapper {
   opacity: 0.6;
 }
 
