@@ -28,8 +28,11 @@ This document tracks the current state, known issues, and planned work for the p
    - **Privacy rule:** no phone number, address, or email anywhere on the site. The original resume PDFs (which include them) are gitignored and never copied in. `npm run build` fails if anything that looks like a phone number appears in `src/` or `public/` (`scripts/check-private-info.mjs`).
    - The timeline now matches the resume: AWS is split into its two roles with real descriptions, UW lists the Informatics/HCI degree, placeholder stops are removed, and the axis is derived from the data (it runs to 2027).
 2. `[x]` **Home page** (live 2026-10-27): an intro over the dot grid with your name, a one-liner, a line on AWS, Tesla, and UW, a low-key "Currently…" line, and links to Resume, LinkedIn, and GitHub. Copy is Connor's own wording, in `src/app/page.tsx`. Also: the navbar logo links home, and hovering the profile picture shows LinkedIn, GitHub, and Instagram.
-3. `[ ]` **Blog with one post**: posts are Markdown files in the repo (set up when we get here). Launch with the single post closest to done; the others stay hidden until written.
-   - Needs from you: which post, plus your notes or draft. The words have to be yours.
+3. `[~]` **Blog with one post**: scaffolded on the `blog` branch (2026-10-27), not yet merged into `main`.
+   - Each post is its own experience: `src/app/blog/<slug>/` holds its own `layout.tsx` and `theme.module.css` (starter moods: graph paper / ocean + pixel type / Web 1.0), and the words go in `page.mdx`. MDX means a post can mix prose with interactive components.
+   - `src/app/blog/posts.ts` lists the posts. Drafts are visible locally and on preview links but **hidden on the production site** (no nav link, no index entry, and the URL 404s), so merging is safe even while other posts are unfinished.
+   - **To ship:** write one post's `page.mdx`, set its status to `'published'` in `posts.ts`, then merge `blog` into `main`.
+   - Needs from you: the words for one post.
 
 Smaller v1 items, done in the gaps:
 - `[x]` **Favicon**: the logo in its hover colors (`src/app/icon.svg`, `favicon.ico`, `apple-icon.png`).

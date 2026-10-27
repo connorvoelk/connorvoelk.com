@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useRef } from 'react'
 import styles from './navbar.module.css'
+import { visiblePosts } from '@/app/blog/posts'
 
 // Pages that aren't built yet stay listed with ready: false so they're hidden
 // from the nav instead of 404ing. Flip the flag when a page ships.
@@ -35,12 +36,13 @@ const sections = [
   {
     id: 'blog',
     href: '/blog',
-    ready: false,
-    links: [
-      { label: 'Data Driven Design', href: '/data-driven-design', ready: false },
-      { label: 'Lapras Invasion', href: '/lapras-invasion', ready: false },
-      { label: 'Dead Internet', href: '/dead-internet', ready: false },
-    ],
+    // Built from the post list, which hides drafts on the production site
+    ready: visiblePosts.length > 0,
+    links: visiblePosts.map((post) => ({
+      label: post.title,
+      href: `/blog/${post.slug}`,
+      ready: true,
+    })),
   },
 ]
 
