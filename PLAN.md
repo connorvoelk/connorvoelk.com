@@ -17,16 +17,24 @@ This document tracks the current state, known issues, and planned work for the p
 - `[x]` Vercel project `connorvoelk.com` imported from GitHub, production branch `main`. The Framework Preset had defaulted to "Other" because the repo only held a README at import time, so it was switched to **Next.js**.
 - `[x]` Domains: `connorvoelk.com` redirects (308) to `www.connorvoelk.com`; SSL is valid on both.
 - `[x]` **Site is live at https://www.connorvoelk.com** (2026-10-21). All pages return 200 and all 9 models render.
-- `[ ]` **Confirm pushes auto-deploy.** The first push (2026-10-21 08:29) did *not* trigger a deployment, and Vercel left no "blocked" status on GitHub. The live deploy was started by hand through the Vercel API. After the next push to `main`, check Vercel → Deployments for a new build. If none appears, check Vercel Account Settings → Authentication and make sure GitHub `connorvoelk` is connected as a login method, since the free plan only deploys commits it can match to the account owner.
+- `[x]` **Pushes to `main` auto-deploy** (confirmed 2026-10-21). On launch day, deploys arrived 15–20 minutes after each push because of a GitHub incident delaying webhook deliveries. Normally they start within seconds. If a push ever seems ignored, check githubstatus.com before changing any settings.
 
-### Phase 1 — Launch v1 (content only you can write, ~1 weekend)
-Things on live pages that are currently wrong or empty:
-- `[ ]` **Home intro**: name, one line about you, and links (GitHub, LinkedIn, contact). Right now the home page is just the dot grid and navbar, so a visitor can't tell whose site it is.
-- `[ ]` **Timeline descriptions**: AWS intern and AWS full-time are copies of the Tesla text; UW Research Assistant says "Computer Science Degree"; UW stops are "Project" / "Other Project"; the Hale stop descriptions are copied ML/CV text.
-- `[ ]` **Timeline "now"**: AWS ends 2025-01-01 and the axis stops at 2025. Add your current role and extend the axis (hardcoded to 2015–2025 in `Timeline.tsx`).
-- `[ ]` **Resume PDF**: drop it at `public/resume.pdf`, point the `file` nav link at it, and flip it to `ready: true` in `Navbar.tsx`.
+### Phase 1 — The v1 finish line (set 2026-10-27)
+**Three things, in this order. Each one goes live before the next one starts.** New ideas go in the parking lot (Phase 2/3), not into the code. "Live" beats "perfect": polish later.
+
+1. `[x]` **Resume** (built 2026-10-27)
+   - `/resume` is a web page built from `src/app/resume/resumeData.ts`, transcribed from the July 2026 resume. It has a one-page **Download PDF**, and the nav's `file` link points to the same PDF.
+   - **Editing the resume:** change `resumeData.ts`, then run `npm run resume:pdf` to regenerate `public/connor-voelk-resume.pdf` from the page.
+   - **Privacy rule:** no phone number, address, or email anywhere on the site. The original resume PDFs (which include them) are gitignored and never copied in. `npm run build` fails if anything that looks like a phone number appears in `src/` or `public/` (`scripts/check-private-info.mjs`).
+   - The timeline now matches the resume: AWS is split into its two roles with real descriptions, UW lists the Informatics/HCI degree, placeholder stops are removed, and the axis is derived from the data (it runs to 2027).
+2. `[ ]` **Home page**: name, a one-liner (draft it from the resume summary), what you're doing now, links (GitHub, LinkedIn), and entry points into resume / [obj] / blog. Right now it's just the dot grid and navbar, so a visitor can't tell whose site it is.
+   - Needs from you: what to say you're doing now (AWS ended July 2026), and a yes/no on each line of the draft.
+3. `[ ]` **Blog with one post**: posts are Markdown files in the repo (set up when we get here). Launch with the single post closest to done; the others stay hidden until written.
+   - Needs from you: which post, plus your notes or draft. The words have to be yours.
+
+Smaller v1 items, done in the gaps:
 - `[ ]` **Favicon + share image**: `src/app/icon.svg` (the CV logo works, but its white strokes need a dark background to show up in browser tabs) and `src/app/opengraph-image.png` (1200×630) for link previews. The current favicon is still the Next.js default.
-- `[ ]` **Phone check**: layouts aren't responsive yet. For v1, "works but not beautiful" on mobile is acceptable.
+- `[ ]` **Hale timeline stops**: "Slovenian Union of America Website" and "Hale Tech Night" still carry placeholder descriptions. They don't render yet (the stop detail view is unbuilt), so this isn't urgent.
 
 ### Phase 2 — Grow in public (after launch, any order)
 Each item is a standalone update. When a page ships, flip its `ready` flag in `Navbar.tsx`.
@@ -68,8 +76,8 @@ See [HOME-SCENE.md](./HOME-SCENE.md). Build it on a branch (Vercel gives every b
 | `/timeline` | `[~]` | Renders, line layout algorithm works, but info panel cards are empty and data has placeholder content |
 | `/obj` | `[~]` | Grid renders 3D models, but sidebar filtering is non-functional and only bulbasaur has its own page |
 | `/obj/bulbasaur` | `[~]` | GBA zoom-scroll works; content section below is placeholder |
-| `/resume` | `[ ]` | Hidden from nav until built (`ready: false`) |
-| `/file` | `[ ]` | Hidden from nav until built |
+| `/resume` | `[x]` | Web resume built from `resumeData.ts`, with a one-page PDF download |
+| `/file` | `[x]` | The nav's `file` link opens `/connor-voelk-resume.pdf` (no separate page) |
 | `/projects` | `[ ]` | Hidden from nav until built |
 | `/listening-pal` | `[ ]` | Hidden from nav until built |
 | `/pokedb` | `[ ]` | Hidden from nav until built |
@@ -97,12 +105,12 @@ See [HOME-SCENE.md](./HOME-SCENE.md). Build it on a branch (Vercel gives every b
 - `[x]` Click-to-expand line detail panel
 - `[x]` Clickable stops on lines
 - `[x]` Logo circle appears on selected line
-- `[~]` Timeline data (`timelineData.ts`): dates and typos fixed; placeholder/copied descriptions remain (see Bugs section)
+- `[x]` Timeline data (`timelineData.ts`) matches the 2026 resume; only the Hale stop descriptions remain placeholders (see Bugs section)
 - `[ ]` Info cards in detail panel — 3 cards rendered but empty (`{/* Card content 1/2/3 */}`)
   - Need to decide what each card shows (skills? projects? media? highlights?)
 - `[ ]` Stop detail view — clicking a stop shows `selectedStop` state but nothing renders it
-- `[ ]` Year legend — hardcoded to 2015/2020/2025; should derive from data or at least be accurate
-- `[ ]` UW stops — currently placeholder names ("Project", "Other Project") with duplicate descriptions
+- `[x]` Year legend and axis range derived from the data (every five years; same scale as the lines)
+- `[x]` UW placeholder stops ("Project", "Other Project") removed
 - `[ ]` Mobile/responsive layout
 
 ---
@@ -150,10 +158,10 @@ Each object should have its own dedicated page. The bulbasaur page shows the int
 ---
 
 ### Resume (`/resume` and `/file`)
-- `[ ]` `/resume` — decide what this page is (PDF viewer? formatted HTML resume?)
-- `[ ]` `/file` — likely the actual PDF/file download or embed
-- `[ ]` Resume data — could reuse timeline data or have separate structured content
-- `[ ]` PDF viewer component (if going that route)
+- `[x]` `/resume` — formatted HTML resume (dates on a rail, echoing the timeline) with print styles
+- `[x]` PDF download generated from the page by `npm run resume:pdf` (one Letter page, no contact details beyond city + LinkedIn/GitHub)
+- `[x]` Resume data lives in `src/app/resume/resumeData.ts`, separate from the timeline (which has colors, logos, and stops the resume doesn't)
+- `[x]` No PDF viewer needed — the web page is the resume
 
 ---
 
@@ -195,18 +203,18 @@ Each object should have its own dedicated page. The bulbasaur page shows the int
 ### `timelineData.ts` — Data Quality
 - `[x]` Invalid date: `new Date('2021-06-024')` (AWS intern start) → `2021-06-24`
 - `[x]` Non-standard dates `2018-05-7`, `2022-8-10` → zero-padded
-- `[ ]` AWS intern description is copy-pasted from Tesla description (wrong content)
-- `[ ]` AWS full-time description is also copy-pasted from Tesla description (wrong content)
-- `[ ]` UW Research Assistant description is copy-pasted ("Computer Science Degree" — same as main UW line)
-- `[ ]` UW stop names are placeholders ("Project", "Other Project")
-- `[ ]` UW stop descriptions are placeholder/duplicate ("Machine learning research project", "Computer vision implementation")
+- `[x]` AWS intern description (was copied from Tesla)
+- `[x]` AWS full-time split into its two roles with descriptions from the resume
+- `[x]` UW Research Assistant and UW degree descriptions (degree is Informatics/HCI, not CS)
+- `[x]` UW placeholder stops removed
 - `[ ]` Hale stop descriptions are the same placeholder text
-- `[ ]` AWS AI Practitioner cert (2025-01-03) falls after the timeline's 2025-01-01 end
+- `[x]` Timeline end now derived from data (fixes the AI Practitioner cert falling off the end)
+- `[x]` Date ranges showed the previous month for dates on the 1st (UTC vs local time)
 - `[x]` Typos: "Contriubted", "Proffesional", "Practionier", "injestion", "processising", "acheived", "phyiscal"
 
 ### `Timeline.tsx` — Code
 - `[x]` Debug `console.log`s removed
-- `[ ]` Year legend is hardcoded to 2015/2020/2025
+- `[x]` Year legend derived from data
 
 ### `layout.tsx` — Metadata
 - `[x]` Title still says "Create Next App"
