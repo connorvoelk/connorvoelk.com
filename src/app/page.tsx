@@ -27,6 +27,8 @@ export default function Home() {
 
     const dotSize = 5 // Size of each dot
     const proximityRadius = 96 // ~1 inch at 96dpi
+    const minPulseOpacity = 0.2 // Dimmest point of each dot's pulse (0.35 ± 0.15)
+    const nearOpacity = 0.85 // Minimum opacity of a dot right under the cursor
 
     // Function to create dots grid (shared layout with the page transitions)
     const createDots = (width: number, height: number): Dot[] => {
@@ -82,8 +84,9 @@ export default function Home() {
         dot.opacity =
           0.35 + Math.sin(performance.now() * dot.speed + dot.offset) * 0.15
 
-        // Scale dot size based on proximity to cursor
+        // Scale dot size and brightness based on proximity to cursor
         let size = dotSize
+        let opacity = dot.opacity
         if (mouse) {
           const dx = dot.x - mouse.x
           const dy = dot.y - mouse.y
@@ -91,13 +94,17 @@ export default function Home() {
           if (dist < proximityRadius) {
             const t = 1 - dist / proximityRadius
             size = dotSize * (1 + t) // grows up to 2x at center
+            // Raise the pulse's floor: from its usual minimum at the edge of
+            // the radius up to nearOpacity right under the cursor
+            const floor = minPulseOpacity + (nearOpacity - minPulseOpacity) * t
+            opacity = Math.max(opacity, floor)
           }
         }
 
         // Draw dot (round center, not offset, to prevent jitter as size changes)
         const cx = Math.round(dot.x)
         const cy = Math.round(dot.y)
-        ctx.fillStyle = `rgba(217, 217, 217, ${dot.opacity})`
+        ctx.fillStyle = `rgba(217, 217, 217, ${opacity})`
         ctx.fillRect(cx - size / 2, cy - size / 2, size, size)
       })
 
