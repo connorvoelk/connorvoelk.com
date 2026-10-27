@@ -13,6 +13,7 @@ const sections = [
     href: '/resume',
     ready: true,
     links: [
+      { label: 'overview', href: '/resume', ready: true },
       { label: 'timeline', href: '/timeline', ready: true },
       { label: 'file', href: '/connor-voelk-resume.pdf', ready: true },
     ],
