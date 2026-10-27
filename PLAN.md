@@ -39,6 +39,8 @@ Smaller v1 items, done in the gaps:
 ### Phase 2 — Grow in public (after launch, any order)
 Each item is a standalone update. When a page ships, flip its `ready` flag in `Navbar.tsx`.
 - Home intro as a "fill in the blank" sentence whose key words change dynamically (idea from 2026-10-27; the static intro ships first)
+- `[x]` **Page transitions** (live 2026-10-27): on every internal link, the next page appears square by square over the current one, with squares cut along the home page's dot grid. 0.4s total, each square fading in over ~0.1s, random order. Uses the browser's View Transitions API (`src/components/PageTransitions.tsx`, `tileMask.ts`); unsupported browsers and reduced-motion users navigate instantly. **If the transition doesn't show, check reduce motion first:** it can be on in the OS, or set per browser (Firefox and Zen have a hidden `ui.prefersReducedMotion` in `about:config`). Ideas to try later: a ripple from the click point, flashing the grid lines. Back/forward buttons don't animate yet.
+- `[x]` **Home dot grid hover** (live 2026-10-27): dots near the cursor brighten (up to 0.85 opacity) instead of growing, and thin grid lines connecting the dots fade in to 15% while hovering any link. Tuning values sit at the top of the canvas code in `src/app/page.tsx`.
 - [obj] individual pages (8 remaining) + gallery category filtering
 - Projects: listening pal, pokeDB, monolith (+ `/projects` index)
 - Blog: Data Driven Design, Lapras Invasion, Dead Internet (+ `/blog` index); consider MDX for posts

@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import styles from './page.module.css'
 import Navbar from '@/components/Navbar'
+import { gridLines } from '@/components/dotGrid'
 
 interface Dot {
   x: number
@@ -24,48 +25,48 @@ export default function Home() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const spacing = 40 // Space between dots
     const dotSize = 5 // Size of each dot
     const proximityRadius = 96 // ~1 inch at 96dpi
+    const minPulseOpacity = 0.2 // Dimmest point of each dot's pulse (0.35 ± 0.15)
+    const nearOpacity = 0.85 // Minimum opacity of a dot right under the cursor
+    const gridLineOpacity = 0.15 // Lines between the dots, while hovering a link
+    const gridFadeMs = 80 // How quickly the lines fade in and out (~0.25s to settle)
 
-    // Function to create dots grid
-    const createDots = (width: number, height: number): Dot[] => {
-      const dots: Dot[] = []
+    // Grid line positions, the lines' current opacity, and whether the
+    // pointer is over a link
+    let xs: number[] = []
+    let ys: number[] = []
+    let gridOpacity = 0
+    let overLink = false
+    let dpr = 1
 
-      // Calculate number of dots that can fit in each dimension
-      const numDotsX = Math.floor(width / spacing)
-      const numDotsY = Math.floor(height / spacing)
-
-      // Calculate padding to center the grid
-      const paddingX = (width - (numDotsX - 1) * spacing) / 2
-      const paddingY = (height - (numDotsY - 1) * spacing) / 2
-
-      // Create dots grid
-      for (let i = 0; i < numDotsX; i++) {
-        for (let j = 0; j < numDotsY; j++) {
-          dots.push({
-            x: paddingX + i * spacing,
-            y: paddingY + j * spacing,
-            opacity: 0.3,
-            speed: 0.001 + Math.random() * 0.002,
-            offset: Math.random() * Math.PI * 2,
-          })
-        }
-      }
-
-      return dots
-    }
+    // Function to create dots grid (shared layout with the page transitions)
+    const createDots = (): Dot[] =>
+      xs.flatMap((x) =>
+        ys.map((y) => ({
+          x,
+          y,
+          opacity: 0.3,
+          speed: 0.001 + Math.random() * 0.002,
+          offset: Math.random() * Math.PI * 2,
+        }))
+      )
 
     // Set canvas size and create initial dots
     const resizeCanvas = () => {
       if (!canvas) return
 
-      // Set canvas size to window size
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      // Draw at the screen's full resolution (crisp on Retina, and lets the
+      // grid lines be a single device pixel), in CSS-pixel coordinates
+      dpr = window.devicePixelRatio || 1
+      canvas.width = Math.round(window.innerWidth * dpr)
+      canvas.height = Math.round(window.innerHeight * dpr)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
       // Recreate dots for new dimensions
-      dotsRef.current = createDots(canvas.width, canvas.height)
+      xs = gridLines(window.innerWidth)
+      ys = gridLines(window.innerHeight)
+      dotsRef.current = createDots()
     }
 
     resizeCanvas()
@@ -83,11 +84,50 @@ export default function Home() {
     window.addEventListener('mousemove', handleMouseMove)
     document.documentElement.addEventListener('mouseleave', handleMouseLeave)
 
+    // The grid lines show while the pointer is over a link
+    const handlePointerOver = (e: PointerEvent) => {
+      overLink = !!(e.target as Element | null)?.closest?.('a')
+    }
+    const handlePointerOut = (e: PointerEvent) => {
+      if (!e.relatedTarget) overLink = false // left the window
+    }
+    document.addEventListener('pointerover', handlePointerOver)
+    document.addEventListener('pointerout', handlePointerOut)
+
     // Animation function
+    let frame = 0
+    let lastFrameTime = performance.now()
     const animate = () => {
       if (!canvas || !ctx) return
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+
+      // Ease the grid lines' opacity toward on or off
+      const now = performance.now()
+      const target = overLink ? gridLineOpacity : 0
+      gridOpacity +=
+        (target - gridOpacity) * (1 - Math.exp(-(now - lastFrameTime) / gridFadeMs))
+      lastFrameTime = now
+
+      // Lines connecting the dots, one device pixel wide and nudged half a
+      // device pixel so they land on the pixel grid and stay crisp
+      if (gridOpacity > 0.005 && xs.length && ys.length) {
+        const half = 0.5 / dpr
+        const [left, right] = [Math.round(xs[0]), Math.round(xs[xs.length - 1])]
+        const [top, bottom] = [Math.round(ys[0]), Math.round(ys[ys.length - 1])]
+        ctx.beginPath()
+        for (const x of xs) {
+          ctx.moveTo(Math.round(x) + half, top)
+          ctx.lineTo(Math.round(x) + half, bottom)
+        }
+        for (const y of ys) {
+          ctx.moveTo(left, Math.round(y) + half)
+          ctx.lineTo(right, Math.round(y) + half)
+        }
+        ctx.lineWidth = 1 / dpr
+        ctx.strokeStyle = `rgba(217, 217, 217, ${gridOpacity})`
+        ctx.stroke()
+      }
 
       const mouse = mouseRef.current
 
@@ -96,34 +136,42 @@ export default function Home() {
         dot.opacity =
           0.35 + Math.sin(performance.now() * dot.speed + dot.offset) * 0.15
 
-        // Scale dot size based on proximity to cursor
-        let size = dotSize
+        // Brighten dots near the cursor
+        let opacity = dot.opacity
         if (mouse) {
           const dx = dot.x - mouse.x
           const dy = dot.y - mouse.y
           const dist = Math.sqrt(dx * dx + dy * dy)
           if (dist < proximityRadius) {
             const t = 1 - dist / proximityRadius
-            size = dotSize * (1 + t) // grows up to 2x at center
+            // Raise the pulse's floor: from its usual minimum at the edge of
+            // the radius up to nearOpacity right under the cursor
+            const floor = minPulseOpacity + (nearOpacity - minPulseOpacity) * t
+            opacity = Math.max(opacity, floor)
           }
         }
 
-        // Draw dot (round center, not offset, to prevent jitter as size changes)
+        // Draw dot centered on its (rounded) grid point
         const cx = Math.round(dot.x)
         const cy = Math.round(dot.y)
-        ctx.fillStyle = `rgba(217, 217, 217, ${dot.opacity})`
-        ctx.fillRect(cx - size / 2, cy - size / 2, size, size)
+        ctx.fillStyle = `rgba(217, 217, 217, ${opacity})`
+        ctx.fillRect(cx - dotSize / 2, cy - dotSize / 2, dotSize, dotSize)
       })
 
-      requestAnimationFrame(animate)
+      frame = requestAnimationFrame(animate)
     }
 
     animate()
 
     return () => {
+      // Stop the loop when leaving the page; otherwise every visit to the
+      // home page would start another one that keeps running in the background
+      cancelAnimationFrame(frame)
       window.removeEventListener('resize', resizeCanvas)
       window.removeEventListener('mousemove', handleMouseMove)
       document.documentElement.removeEventListener('mouseleave', handleMouseLeave)
+      document.removeEventListener('pointerover', handlePointerOver)
+      document.removeEventListener('pointerout', handlePointerOut)
     }
   }, [])
 
