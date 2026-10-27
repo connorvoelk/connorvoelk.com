@@ -29,11 +29,11 @@ export default function Home() {
     const proximityRadius = 96 // ~1 inch at 96dpi
     const minPulseOpacity = 0.2 // Dimmest point of each dot's pulse (0.35 ± 0.15)
     const nearOpacity = 0.85 // Minimum opacity of a dot right under the cursor
-    const gridLineOpacity = 0.3 // Lines between the dots, while hovering a link or the nav
+    const gridLineOpacity = 0.15 // Lines between the dots, while hovering a link
     const gridFadeMs = 80 // How quickly the lines fade in and out (~0.25s to settle)
 
     // Grid line positions, the lines' current opacity, and whether the
-    // pointer is over a link or the navbar
+    // pointer is over a link
     let xs: number[] = []
     let ys: number[] = []
     let gridOpacity = 0
@@ -84,9 +84,10 @@ export default function Home() {
     window.addEventListener('mousemove', handleMouseMove)
     document.documentElement.addEventListener('mouseleave', handleMouseLeave)
 
-    // The grid lines show while the pointer is over a link or the navbar
+    // The grid lines show while the pointer is over a link (in the navbar or
+    // anywhere else), not just anywhere on the open navbar
     const handlePointerOver = (e: PointerEvent) => {
-      overLink = !!(e.target as Element | null)?.closest?.('a, nav')
+      overLink = !!(e.target as Element | null)?.closest?.('a')
     }
     const handlePointerOut = (e: PointerEvent) => {
       if (!e.relatedTarget) overLink = false // left the window
