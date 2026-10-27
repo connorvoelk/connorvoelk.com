@@ -1,15 +1,17 @@
 import { gridLines } from './dotGrid'
 
-export const TRANSITION_MS = 700
-// How many distinct moments a square can flip at. More is smoother but makes
-// a bigger mask; 24 over 0.7s is about one new batch of squares per 30ms.
+export const TRANSITION_MS = 400
+// Frames in the mask strip; 24 over 0.4s is about one per screen refresh
 export const MASK_FRAMES = 24
+// How many frames each square takes to fade in (6 of 24 ≈ 0.1s)
+const FADE_FRAMES = 6
 
 // Builds an SVG "film strip" of MASK_FRAMES frames, each one viewport tall.
-// Frame 0 shows no squares and the last frame shows all of them; every square
-// switches on at a random frame in between. Stepping through the strip as a
-// mask reveals the incoming page square by square, with squares cut along the
-// dot grid so the dots sit on their corners.
+// Frame 0 shows no squares and the last frame shows all of them; in between,
+// every square starts fading in at a random frame and reaches full opacity
+// FADE_FRAMES later. Stepping through the strip as a mask reveals the incoming
+// page square by square, with squares cut along the dot grid so the dots sit
+// on their corners.
 export function buildTileMask(width: number, height: number): string {
   const xs = [0, ...gridLines(width), width]
   const ys = [0, ...gridLines(height), height]
@@ -21,30 +23,50 @@ export function buildTileMask(width: number, height: number): string {
     }
   }
 
-  // Shuffle so the squares flip in a random order (Fisher–Yates)
+  // Shuffle so the squares start in a random order (Fisher–Yates)
   for (let i = squares.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
     ;[squares[i], squares[j]] = [squares[j], squares[i]]
   }
 
-  // Each frame reuses the previous one and adds its own batch of squares,
-  // so every square is written into the SVG only once
-  const perFrame = squares.length / (MASK_FRAMES - 1)
-  let frames = '<g id="f0"/>'
-  let strip = '<use href="#f0"/>'
-  for (let k = 1; k < MASK_FRAMES; k++) {
+  // Split the squares into batches by the frame they start fading in at,
+  // from frame 1 to the last frame that still leaves time to finish the fade.
+  // Each batch is written into the SVG once and reused by every frame.
+  const lastStart = MASK_FRAMES - FADE_FRAMES
+  const perBatch = squares.length / lastStart
+  let defs = ''
+  for (let s = 1; s <= lastStart; s++) {
     const batch = squares
-      .slice(Math.round((k - 1) * perFrame), Math.round(k * perFrame))
+      .slice(Math.round((s - 1) * perBatch), Math.round(s * perBatch))
       .join('')
-    frames += `<g id="f${k}"><use href="#f${k - 1}"/><path d="${batch}"/></g>`
-    strip += `<use href="#f${k}" y="${k * height}"/>`
+    defs += `<path id="b${s}" d="${batch}"/>`
+  }
+
+  // Frame k: batches that have finished fading are fully opaque (kept as a
+  // running group so each frame builds on the last), and the ones still
+  // fading are drawn at (frames since they started) / FADE_FRAMES opacity
+  let opaque = 'o0'
+  defs += '<g id="o0"/>'
+  let strip = ''
+  for (let k = 0; k < MASK_FRAMES; k++) {
+    const finished = k - FADE_FRAMES + 1
+    if (finished >= 1 && finished <= lastStart) {
+      defs += `<g id="o${k}"><use href="#${opaque}"/><use href="#b${finished}"/></g>`
+      opaque = `o${k}`
+    }
+    let fading = ''
+    for (let s = Math.max(1, finished + 1); s <= Math.min(k, lastStart); s++) {
+      const opacity = ((k - s + 1) / FADE_FRAMES).toFixed(3)
+      fading += `<use href="#b${s}" opacity="${opacity}"/>`
+    }
+    strip += `<g transform="translate(0 ${k * height})"><use href="#${opaque}"/>${fading}</g>`
   }
 
   const stripHeight = height * MASK_FRAMES
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${stripHeight}" ` +
     `viewBox="0 0 ${width} ${stripHeight}" preserveAspectRatio="none" ` +
-    `fill="#fff" shape-rendering="crispEdges"><defs>${frames}</defs>${strip}</svg>`
+    `fill="#fff" shape-rendering="crispEdges"><defs>${defs}</defs>${strip}</svg>`
 
   return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`
 }
