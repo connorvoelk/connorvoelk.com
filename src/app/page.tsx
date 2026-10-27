@@ -84,8 +84,7 @@ export default function Home() {
         dot.opacity =
           0.35 + Math.sin(performance.now() * dot.speed + dot.offset) * 0.15
 
-        // Scale dot size and brightness based on proximity to cursor
-        let size = dotSize
+        // Brighten dots near the cursor
         let opacity = dot.opacity
         if (mouse) {
           const dx = dot.x - mouse.x
@@ -93,7 +92,6 @@ export default function Home() {
           const dist = Math.sqrt(dx * dx + dy * dy)
           if (dist < proximityRadius) {
             const t = 1 - dist / proximityRadius
-            size = dotSize * (1 + t) // grows up to 2x at center
             // Raise the pulse's floor: from its usual minimum at the edge of
             // the radius up to nearOpacity right under the cursor
             const floor = minPulseOpacity + (nearOpacity - minPulseOpacity) * t
@@ -101,11 +99,11 @@ export default function Home() {
           }
         }
 
-        // Draw dot (round center, not offset, to prevent jitter as size changes)
+        // Draw dot centered on its (rounded) grid point
         const cx = Math.round(dot.x)
         const cy = Math.round(dot.y)
         ctx.fillStyle = `rgba(217, 217, 217, ${opacity})`
-        ctx.fillRect(cx - size / 2, cy - size / 2, size, size)
+        ctx.fillRect(cx - dotSize / 2, cy - dotSize / 2, dotSize, dotSize)
       })
 
       requestAnimationFrame(animate)
