@@ -29,11 +29,20 @@ export default function Home() {
     const proximityRadius = 96 // ~1 inch at 96dpi
     const minPulseOpacity = 0.2 // Dimmest point of each dot's pulse (0.35 ± 0.15)
     const nearOpacity = 0.85 // Minimum opacity of a dot right under the cursor
+    const gridLineOpacity = 0.3 // Lines between the dots, while hovering a link or the nav
+    const gridFadeMs = 80 // How quickly the lines fade in and out (~0.25s to settle)
+
+    // Grid line positions, the lines' current opacity, and whether the
+    // pointer is over a link or the navbar
+    let xs: number[] = []
+    let ys: number[] = []
+    let gridOpacity = 0
+    let overLink = false
+    let dpr = 1
 
     // Function to create dots grid (shared layout with the page transitions)
-    const createDots = (width: number, height: number): Dot[] => {
-      const ys = gridLines(height)
-      return gridLines(width).flatMap((x) =>
+    const createDots = (): Dot[] =>
+      xs.flatMap((x) =>
         ys.map((y) => ({
           x,
           y,
@@ -42,18 +51,22 @@ export default function Home() {
           offset: Math.random() * Math.PI * 2,
         }))
       )
-    }
 
     // Set canvas size and create initial dots
     const resizeCanvas = () => {
       if (!canvas) return
 
-      // Set canvas size to window size
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      // Draw at the screen's full resolution (crisp on Retina, and lets the
+      // grid lines be a single device pixel), in CSS-pixel coordinates
+      dpr = window.devicePixelRatio || 1
+      canvas.width = Math.round(window.innerWidth * dpr)
+      canvas.height = Math.round(window.innerHeight * dpr)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
       // Recreate dots for new dimensions
-      dotsRef.current = createDots(canvas.width, canvas.height)
+      xs = gridLines(window.innerWidth)
+      ys = gridLines(window.innerHeight)
+      dotsRef.current = createDots()
     }
 
     resizeCanvas()
@@ -71,11 +84,50 @@ export default function Home() {
     window.addEventListener('mousemove', handleMouseMove)
     document.documentElement.addEventListener('mouseleave', handleMouseLeave)
 
+    // The grid lines show while the pointer is over a link or the navbar
+    const handlePointerOver = (e: PointerEvent) => {
+      overLink = !!(e.target as Element | null)?.closest?.('a, nav')
+    }
+    const handlePointerOut = (e: PointerEvent) => {
+      if (!e.relatedTarget) overLink = false // left the window
+    }
+    document.addEventListener('pointerover', handlePointerOver)
+    document.addEventListener('pointerout', handlePointerOut)
+
     // Animation function
+    let frame = 0
+    let lastFrameTime = performance.now()
     const animate = () => {
       if (!canvas || !ctx) return
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+
+      // Ease the grid lines' opacity toward on or off
+      const now = performance.now()
+      const target = overLink ? gridLineOpacity : 0
+      gridOpacity +=
+        (target - gridOpacity) * (1 - Math.exp(-(now - lastFrameTime) / gridFadeMs))
+      lastFrameTime = now
+
+      // Lines connecting the dots, one device pixel wide and nudged half a
+      // device pixel so they land on the pixel grid and stay crisp
+      if (gridOpacity > 0.005 && xs.length && ys.length) {
+        const half = 0.5 / dpr
+        const [left, right] = [Math.round(xs[0]), Math.round(xs[xs.length - 1])]
+        const [top, bottom] = [Math.round(ys[0]), Math.round(ys[ys.length - 1])]
+        ctx.beginPath()
+        for (const x of xs) {
+          ctx.moveTo(Math.round(x) + half, top)
+          ctx.lineTo(Math.round(x) + half, bottom)
+        }
+        for (const y of ys) {
+          ctx.moveTo(left, Math.round(y) + half)
+          ctx.lineTo(right, Math.round(y) + half)
+        }
+        ctx.lineWidth = 1 / dpr
+        ctx.strokeStyle = `rgba(217, 217, 217, ${gridOpacity})`
+        ctx.stroke()
+      }
 
       const mouse = mouseRef.current
 
@@ -106,15 +158,20 @@ export default function Home() {
         ctx.fillRect(cx - dotSize / 2, cy - dotSize / 2, dotSize, dotSize)
       })
 
-      requestAnimationFrame(animate)
+      frame = requestAnimationFrame(animate)
     }
 
     animate()
 
     return () => {
+      // Stop the loop when leaving the page; otherwise every visit to the
+      // home page would start another one that keeps running in the background
+      cancelAnimationFrame(frame)
       window.removeEventListener('resize', resizeCanvas)
       window.removeEventListener('mousemove', handleMouseMove)
       document.documentElement.removeEventListener('mouseleave', handleMouseLeave)
+      document.removeEventListener('pointerover', handlePointerOver)
+      document.removeEventListener('pointerout', handlePointerOut)
     }
   }, [])
 
