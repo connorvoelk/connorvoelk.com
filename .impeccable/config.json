@@ -4,22 +4,10 @@
     "ignoreFiles": [],
     "ignoreValues": [
       {
-        "rule": "layout-transition",
-        "value": "*",
-        "files": [
-          "src/components/timeline.module.css"
-        ],
-        "createdAt": "2026-10-27T14:47:27.072Z",
-        "reason": "Claude: pre-existing intentional click interaction; the selected timeline line widens leftward to make room for its logo circle (Timeline.tsx adjustedStartX). Click-triggered on a few small bars, and transform would distort the rounded ends."
-      },
-      {
-        "rule": "layout-transition",
-        "value": "*",
-        "files": [
-          "src/components/Timeline.module.css"
-        ],
-        "createdAt": "2026-10-27T14:47:27.096Z",
-        "reason": "Claude: pre-existing intentional click interaction; the selected timeline line widens leftward to make room for its logo circle (Timeline.tsx adjustedStartX). Click-triggered on a few small bars, and transform would distort the rounded ends."
+        "rule": "overused-font",
+        "value": "helvetica",
+        "createdAt": "2026-10-28T18:07:33.480Z",
+        "reason": "Claude: the timeline deliberately recreates an NYC subway car's strip map from Connor's reference photo, and NYC subway signage is set in Helvetica"
       }
     ]
   }
