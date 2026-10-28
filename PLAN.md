@@ -77,7 +77,7 @@ See [HOME-SCENE.md](./HOME-SCENE.md). Build it on a branch (Vercel gives every b
 | Route | Status | Notes |
 |---|---|---|
 | `/` | `[~]` | Dot-grid canvas animation exists, but page is mostly empty — no intro content, bio, or CTAs |
-| `/timeline` | `[~]` | Renders, line layout algorithm works, but info panel cards are empty and data has placeholder content |
+| `/timeline` | `[~]` | Hidden from the nav (2026-10-28) until it's reworked; the page still exists at its URL |
 | `/obj` | `[~]` | Grid renders 3D models, but sidebar filtering is non-functional and only bulbasaur has its own page |
 | `/obj/bulbasaur` | `[~]` | GBA zoom-scroll works; content section below is placeholder |
 | `/resume` | `[x]` | Web resume built from `resumeData.ts`, with a one-page PDF download |

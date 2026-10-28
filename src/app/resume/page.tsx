@@ -20,7 +20,10 @@ const Bullets = ({ items }: { items: string[] }) => (
 )
 
 const Role = ({ role }: { role: ResumeRole }) => (
-  <article className={`${styles.row} ${styles.role}`}>
+  <article
+    className={`${styles.row} ${styles.role}`}
+    style={{ '--dot': role.dotColor } as React.CSSProperties}
+  >
     <p className={styles.dates}>{role.dates}</p>
     <div>
       <h4 className={styles.roleTitle}>{role.title}</h4>
@@ -93,7 +96,10 @@ export default function ResumePage() {
             Education
           </h2>
           <div className={styles.entries}>
-            <article className={`${styles.row} ${styles.role}`}>
+            <article
+              className={`${styles.row} ${styles.role}`}
+              style={{ '--dot': education.dotColor } as React.CSSProperties}
+            >
               <p className={styles.dates}>{education.year}</p>
               <div>
                 <div className={styles.companyHeader}>

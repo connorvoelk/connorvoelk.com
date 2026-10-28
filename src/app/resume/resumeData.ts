@@ -10,9 +10,18 @@ export interface ResumeProject {
   bullets: string[]
 }
 
+// Brand colors for the dots on the web resume's date rail
+export const brandColors = {
+  amazonOrange: '#FF9900', // Amazon's primary brand color
+  awsSquid: '#232F3E', // the navy AWS calls "Squid" (Squid Ink)
+  teslaRed: '#E82127',
+  huskyPurple: '#32006E', // UW's primary brand color
+}
+
 export interface ResumeRole {
   title: string
   dates: string
+  dotColor: string
   summary?: string
   projects?: ResumeProject[]
   bullets?: string[]
@@ -41,6 +50,7 @@ export const resume = {
         {
           title: 'Cloud Application Developer',
           dates: 'January 2024 – July 2026',
+          dotColor: brandColors.amazonOrange,
           summary:
             'Translating C-suite business requirements into high-impact GenAI and cloud-native software architectures.',
           projects: [
@@ -67,6 +77,7 @@ export const resume = {
         {
           title: 'Frontend Engineer, Delivery Consultant',
           dates: 'July 2022 – January 2024',
+          dotColor: brandColors.awsSquid,
           summary:
             'Leveraging value and impact through intuitive, high-performance user interfaces for complex backends.',
           projects: [
@@ -99,6 +110,7 @@ export const resume = {
         {
           title: 'Software Engineer Intern',
           dates: 'January – June 2021',
+          dotColor: brandColors.teslaRed,
           bullets: [
             'Automated real-time data ingestion and processing for hardware-in-the-loop (HIL) testing by architecting a Python and Apache Kafka pipeline, replacing manual reporting for urgent hardware tests.',
             'Developed a centralized web application using React.js and Flask, featuring visualizations that enabled engineers to monitor live sensor streams and query legacy test data with sub-second response times.',
@@ -112,6 +124,7 @@ export const resume = {
     location: 'Seattle, WA',
     degree: 'Bachelor of Science in Informatics, Specialization in Human Computer Interaction',
     year: '2022',
+    dotColor: brandColors.huskyPurple,
     honors: "Dean's List Scholarship, iSchool Teaching Assistant, Computer Science School Research Assistant",
   },
   skills: [
