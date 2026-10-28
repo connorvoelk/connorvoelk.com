@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import styles from './page.module.css'
-import { resume, type ResumeRole } from './resumeData'
+import { resume, type ResumeRole, type RichText } from './resumeData'
 
 // Generated from this page by `npm run resume:pdf`, so the download always
 // matches what's shown here (and never includes private contact details).
@@ -10,6 +10,35 @@ export const metadata: Metadata = {
   title: 'Resume – Connor Voelk',
   description: resume.summary,
 }
+
+// External links open in a new tab; in the PDF they stay clickable
+const ExternalLink = ({
+  href,
+  children,
+}: {
+  href: string
+  children: React.ReactNode
+}) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className={styles.inlineLink}
+  >
+    {children}
+  </a>
+)
+
+const Rich = ({ text }: { text: RichText }) =>
+  text.map((piece, i) =>
+    typeof piece === 'string' ? (
+      piece
+    ) : (
+      <ExternalLink key={i} href={piece.href}>
+        {piece.text}
+      </ExternalLink>
+    )
+  )
 
 const Bullets = ({ items }: { items: string[] }) => (
   <ul className={styles.bullets}>
@@ -70,6 +99,22 @@ export default function ResumePage() {
           <p className={styles.summary}>{resume.summary}</p>
         </header>
 
+        <section className={styles.section} aria-labelledby="skills">
+          <h2 id="skills" className={styles.sectionTitle}>
+            Skills
+          </h2>
+          <dl className={styles.skills}>
+            {resume.skills.map((group) => (
+              <div key={group.name} className={styles.row}>
+                <dt className={styles.skillName}>{group.name}</dt>
+                <dd className={styles.skillItems}>
+                  <Rich text={group.items} />
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
         <section className={styles.section} aria-labelledby="experience">
           <h2 id="experience" className={styles.sectionTitle}>
             Experience
@@ -79,7 +124,11 @@ export default function ResumePage() {
               <div key={company.name} className={styles.company}>
                 <div className={styles.row}>
                   <div className={styles.companyHeader}>
-                    <h3 className={styles.companyName}>{company.name}</h3>
+                    <h3 className={styles.companyName}>
+                      <ExternalLink href={company.href}>
+                        {company.name}
+                      </ExternalLink>
+                    </h3>
                     <span className={styles.location}>{company.location}</span>
                   </div>
                 </div>
@@ -103,28 +152,22 @@ export default function ResumePage() {
               <p className={styles.dates}>{education.year}</p>
               <div>
                 <div className={styles.companyHeader}>
-                  <h3 className={styles.companyName}>{education.school}</h3>
+                  <h3 className={styles.companyName}>
+                    <ExternalLink href={education.href}>
+                      {education.school}
+                    </ExternalLink>
+                  </h3>
                   <span className={styles.location}>{education.location}</span>
                 </div>
-                <p className={styles.roleTitle}>{education.degree}</p>
-                <p className={styles.roleSummary}>{education.honors}</p>
+                <p className={styles.roleTitle}>
+                  <Rich text={education.degree} />
+                </p>
+                <p className={styles.roleSummary}>
+                  <Rich text={education.honors} />
+                </p>
               </div>
             </article>
           </div>
-        </section>
-
-        <section className={styles.section} aria-labelledby="skills">
-          <h2 id="skills" className={styles.sectionTitle}>
-            Skills
-          </h2>
-          <dl className={styles.skills}>
-            {resume.skills.map((group) => (
-              <div key={group.name} className={styles.row}>
-                <dt className={styles.skillName}>{group.name}</dt>
-                <dd className={styles.skillItems}>{group.items}</dd>
-              </div>
-            ))}
-          </dl>
         </section>
       </main>
     </div>

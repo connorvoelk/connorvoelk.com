@@ -20,6 +20,18 @@ const Cover = ({ project }: { project: Project }) => {
     return <ObjModel src={project.model} alt={`${project.name} 3D model`} />
   }
 
+  // A logo sits centered on the panel; it's decorative next to the name too
+  if (project.logo) {
+    return (
+      <Image
+        src={project.logo}
+        alt=""
+        unoptimized
+        className={styles.coverLogo}
+      />
+    )
+  }
+
   const cover = project.cover ?? project.gallery.images[0]
   if (!cover) return null
 

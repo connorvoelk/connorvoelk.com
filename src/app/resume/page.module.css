@@ -81,6 +81,26 @@
   text-decoration-color: var(--focus);
 }
 
+/* Links inside the resume (employers, schools, certifications, skills):
+   quiet until hovered, so the page still reads like a resume */
+.inlineLink {
+  text-decoration: underline;
+  text-decoration-color: #4a4a4a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.inlineLink:hover {
+  text-decoration-color: var(--focus);
+}
+
+.inlineLink:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 .summary {
   max-width: 40rem;
   margin-top: 1.75rem;
@@ -363,7 +383,8 @@
     font-size: 9pt;
   }
 
-  .contact a {
+  .contact a,
+  .inlineLink {
     text-decoration: none;
   }
 

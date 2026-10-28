@@ -85,6 +85,14 @@ export default async function ProjectPage({ params }: Props) {
         <header>
           <p className={styles.kind}>{project.kind}</p>
           <div className={styles.nameRow}>
+            {project.logo && (
+              <Image
+                src={project.logo}
+                alt=""
+                unoptimized
+                className={styles.titleLogo}
+              />
+            )}
             <h1 className={styles.title}>{project.name}</h1>
             {project.inProgress && (
               <span className={styles.badge}>In progress</span>

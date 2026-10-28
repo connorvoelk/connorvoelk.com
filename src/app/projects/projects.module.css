@@ -127,6 +127,22 @@
   border-radius: 10px;
 }
 
+/* A project logo, centered on the panel */
+.coverLogo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: 46%;
+  filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.4));
+  transform: translate(-50%, -50%);
+  transition: transform 0.5s var(--ease-out);
+}
+
+.card:hover .coverLogo {
+  transform: translate(-50%, calc(-50% - 6px));
+}
+
 .card:hover .coverPhone {
   transform: translateX(-50%) translateY(-8px);
 }
@@ -207,6 +223,11 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem 1rem;
+}
+
+.titleLogo {
+  width: auto;
+  height: 2.75rem;
 }
 
 .tagline {
@@ -416,6 +437,14 @@
 
   .card:hover .coverWide {
     transform: none;
+  }
+
+  .coverLogo {
+    transition: none;
+  }
+
+  .card:hover .coverLogo {
+    transform: translate(-50%, -50%);
   }
 }
 

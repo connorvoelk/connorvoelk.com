@@ -1,7 +1,15 @@
-// Transcribed from Connor's 2026 resume. Contact details are deliberately
+// Transcribed from Connor's SDE 2026 resume (his general-purpose version;
+// tailored variants stay off the site). Contact details are deliberately
 // limited to city and public profile links — never add a phone number,
 // address, or email here (scripts/check-private-info.mjs enforces the phone
 // part at build time).
+
+// Text with some words linked: plain strings are written as-is, and
+// link(text, href) pieces become links (on the page and in the PDF)
+export type RichText = (string | { text: string; href: string })[]
+const link = (text: string, href: string) => ({ text, href })
+
+const aws = (path: string) => `https://aws.amazon.com/${path}`
 
 export interface ResumeProject {
   name: string
@@ -29,6 +37,7 @@ export interface ResumeRole {
 
 export interface ResumeCompany {
   name: string
+  href: string
   location: string
   roles: ResumeRole[]
 }
@@ -45,6 +54,7 @@ export const resume = {
   experience: [
     {
       name: 'Amazon Web Services (AWS)',
+      href: aws(''),
       location: 'Seattle, WA',
       roles: [
         {
@@ -59,7 +69,7 @@ export const resume = {
               client: 'Fortune 50 Healthcare',
               contractValue: '$1.9M',
               bullets: [
-                'Enabled thousands of internal users to deploy autonomous agents for cross-functional API tasks by architecting an enterprise platform using LangChain, AWS Bedrock AgentCore, and Model Context Protocol (MCP).',
+                'Enabled thousands of internal users to deploy autonomous agents for cross-functional API tasks by architecting an enterprise platform using LangChain, AWS Bedrock AgentCore, and Model Context Protocol.',
                 'Accelerated knowledge discovery across millions of data points by developing a GraphRAG system utilizing Amazon Neptune, Redis, and Textract to map complex semantic relationships.',
               ],
             },
@@ -68,7 +78,7 @@ export const resume = {
               client: 'Market-Leading Satellite Provider',
               contractValue: '$1.5M',
               bullets: [
-                'Led a team of 3 developers to build an Android Mobile SDK from the ground up, delivering a cross-platform telemetry solution for Android Auto utilizing dozens of system APIs.',
+                'Led a team of 3 developers to build a Kotlin Android SDK from the ground up using dozens of system APIs, enabling automakers to add location sharing and emergency assistance to their apps and Android Auto.',
                 'Reduced messaging costs by 3.5x and achieved sub-50ms latency by engineering a peer-to-peer networking layer using AWS IoT Core and MQTT as an alternative to traditional HTTP APIs.',
               ],
             },
@@ -105,6 +115,7 @@ export const resume = {
     },
     {
       name: 'Tesla',
+      href: 'https://www.tesla.com',
       location: 'Palo Alto, CA',
       roles: [
         {
@@ -121,24 +132,77 @@ export const resume = {
   ] satisfies ResumeCompany[],
   education: {
     school: 'University of Washington',
+    href: 'https://www.washington.edu',
     location: 'Seattle, WA',
-    degree: 'Bachelor of Science in Informatics, Specialization in Human Computer Interaction',
+    degree: [
+      'Bachelor of Science in ',
+      link('Informatics', 'https://ischool.uw.edu/programs/informatics'),
+      ', Specialization in Human Computer Interaction',
+    ] satisfies RichText,
     year: '2022',
     dotColor: brandColors.huskyPurple,
-    honors: "Dean's List Scholarship, iSchool Teaching Assistant, Computer Science School Research Assistant",
+    honors: [
+      "Dean's List Scholarship, ",
+      link('iSchool', 'https://ischool.uw.edu'),
+      ' Teaching Assistant, ',
+      link('Computer Science School', 'https://www.cs.washington.edu'),
+      ' Research Assistant',
+    ] satisfies RichText,
   },
+  // First on the page, as on the resume
   skills: [
     {
       name: 'AWS Certifications',
-      items: 'Solutions Architect (2026), Developer (2026), Machine Learning Engineer (2026), AI Practitioner (2025)',
+      items: [
+        link('Solutions Architect', aws('certification/certified-solutions-architect-associate/')),
+        ', ',
+        link('Developer', aws('certification/certified-developer-associate/')),
+        ', ',
+        link('Machine Learning Engineer', aws('certification/certified-machine-learning-engineer-associate/')),
+        ' (2026); ',
+        link('AI Practitioner', aws('certification/certified-ai-practitioner/')),
+        ' (2025)',
+      ],
     },
     {
       name: 'Languages & Frameworks',
-      items: 'Typescript / Javascript, Node.js, React.js, Python, Java, Kotlin, SQL, GraphQL, Dart (Flutter), IaC (CDK, Terraform)',
+      items: [
+        'TypeScript / JavaScript, Python, Java, Kotlin, SQL, Bash, GraphQL (',
+        link('Apollo', 'https://www.apollographql.com'),
+        '), React.js, Redux, Node.js, Flask, ',
+        link('LangChain', 'https://www.langchain.com'),
+        ', Jest, ',
+        link('Playwright', 'https://playwright.dev'),
+        ', Android, Dart (',
+        link('Flutter', 'https://flutter.dev'),
+        '), IaC (',
+        link('CDK', aws('cdk/')),
+        ', ',
+        link('Terraform', 'https://developer.hashicorp.com/terraform'),
+        ')',
+      ],
     },
     {
       name: 'Tools & Technologies',
-      items: 'AWS, Docker, K8s, Micro-frontends, CI/CD, GraphRAG, Agent Orchestration, IoT, MCP, REST, MQTT, Figma',
+      items: [
+        'AWS (',
+        link('Bedrock AgentCore', aws('bedrock/agentcore/')),
+        ', ',
+        link('SageMaker', aws('sagemaker/')),
+        ', ',
+        link('EKS', aws('eks/')),
+        ', ',
+        link('Neptune', aws('neptune/')),
+        ', ',
+        link('DynamoDB', aws('dynamodb/')),
+        ', ',
+        link('IoT Core', aws('iot-core/')),
+        '), Figma, Docker, Kubernetes, ',
+        link('Kafka', 'https://kafka.apache.org'),
+        ', Redis, Micro-frontends, CI/CD, GraphRAG, Agent Orchestration, ',
+        link('MCP', 'https://modelcontextprotocol.io'),
+        ', REST, MQTT',
+      ],
     },
-  ],
+  ] satisfies { name: string; items: RichText }[],
 }

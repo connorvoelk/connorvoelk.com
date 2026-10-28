@@ -13,6 +13,7 @@ import photogramUpload from './media/photogram/upload.webp'
 import photogramFeed2 from './media/photogram/feed-2.webp'
 import photogramSettings from './media/photogram/settings.webp'
 import pokedbErd from './media/pokedb/erd.webp'
+import pokedbLogo from './media/pokedb/logo.svg'
 import hhJournals from './media/head-helper/journals.webp'
 import hhGoal from './media/head-helper/goal.webp'
 import hhProgress from './media/head-helper/progress.webp'
@@ -49,6 +50,8 @@ export interface Project {
   gallery: { layout: 'phones' | 'wide'; images: ProjectImage[]; note?: string }
   // Shown on the index; defaults to the first gallery image
   cover?: ProjectImage
+  // The project's own logo: beside its name, and the index cover if set
+  logo?: StaticImageData
   // Projects that live elsewhere on the site link there instead of a page
   href?: string
   // Shown on the index as a turning 3D model instead of an image
@@ -235,6 +238,7 @@ export const projects: Project[] = [
     team: 'Team of four',
     stack: ['SQL Server', 'T-SQL', 'ERD'],
     accent: '#e3350d',
+    logo: pokedbLogo,
     links: [{ label: 'Code on GitHub', href: 'https://github.com/connorvoelk/PokeDB' }],
     sections: [
       {

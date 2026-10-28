@@ -164,6 +164,8 @@ Each object should have its own dedicated page. The bulbasaur page shows the int
 - `[x]` `/resume` — formatted HTML resume (dates on a rail, echoing the timeline) with print styles
 - `[x]` PDF download generated from the page by `npm run resume:pdf` (one Letter page, no contact details beyond city + LinkedIn/GitHub)
 - `[x]` Resume data lives in `src/app/resume/resumeData.ts`, separate from the timeline (which has colors, logos, and stops the resume doesn't)
+- `[x]` The site follows Connor's **SDE 2026** resume, his general-purpose version (updated 2026-10-28). Tailored variants (FDE, FEE, etc.) stay off the site. Re-sync only when the base resume changes meaningfully, then run `npm run resume:pdf`.
+- `[x]` Employers, UW schools, AWS certifications, and selected skills link out (`RichText` in `resumeData.ts`); the links stay clickable in the PDF. Each entry's dot uses its company's brand color.
 - `[x]` No PDF viewer needed — the web page is the resume
 
 ---
