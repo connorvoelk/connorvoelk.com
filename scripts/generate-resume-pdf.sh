@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # Prints the /resume page to public/connor-voelk-resume.pdf with headless
-# Chrome, so the download always matches the page — and, like the page, never
-# includes a phone number or address. Run it after editing resumeData.ts:
+# Chrome, so the download matches the page — and, like the page, never
+# includes a phone number or address.
+#
+# The site currently serves Connor's own PDF export instead, so running this
+# REPLACES his file with the page's version. Use it only as a fallback:
 #
 #   npm run resume:pdf
 #

@@ -24,7 +24,7 @@ This document tracks the current state, known issues, and planned work for the p
 
 1. `[x]` **Resume** (built 2026-10-27)
    - `/resume` is a web page built from `src/app/resume/resumeData.ts`, transcribed from the July 2026 resume. It has a one-page **Download PDF**, and the nav's `file` link points to the same PDF.
-   - **Editing the resume:** change `resumeData.ts`, then run `npm run resume:pdf` to regenerate `public/connor-voelk-resume.pdf` from the page.
+   - **Editing the resume:** change `resumeData.ts` to match, and copy Connor's new PDF export (one without his phone number) to `public/connor-voelk-resume.pdf`. `npm run resume:pdf` still exists as a fallback, but it overwrites his file with one printed from the page.
    - **Privacy rule:** no phone number, address, or email anywhere on the site. The original resume PDFs (which include them) are gitignored and never copied in. `npm run build` fails if anything that looks like a phone number appears in `src/` or `public/` (`scripts/check-private-info.mjs`).
    - The timeline now matches the resume: AWS is split into its two roles with real descriptions, UW lists the Informatics/HCI degree, placeholder stops are removed, and the axis is derived from the data (it runs to 2027).
 2. `[x]` **Home page** (live 2026-10-27): an intro over the dot grid with your name, a one-liner, a line on AWS, Tesla, and UW, a low-key "Currently…" line, and links to Resume, LinkedIn, and GitHub. Copy is Connor's own wording, in `src/app/page.tsx`. Also: the navbar logo links home, and hovering the profile picture shows LinkedIn, GitHub, and Instagram.
@@ -162,9 +162,9 @@ Each object should have its own dedicated page. The bulbasaur page shows the int
 
 ### Resume (`/resume` and `/file`)
 - `[x]` `/resume` — formatted HTML resume (dates on a rail, echoing the timeline) with print styles
-- `[x]` PDF download generated from the page by `npm run resume:pdf` (one Letter page, no contact details beyond city + LinkedIn/GitHub)
+- `[x]` PDF download: Connor's own SDE 2026 v3 export, a copy without his phone number (since 2026-10-28). Email in the PDF is OK by Connor; phone and address never are.
 - `[x]` Resume data lives in `src/app/resume/resumeData.ts`, separate from the timeline (which has colors, logos, and stops the resume doesn't)
-- `[x]` The site follows Connor's **SDE 2026 v3** resume, his general-purpose version (updated 2026-10-28). His own PDFs carry his phone number, so the served file is generated from the page instead; if he exports a copy without the phone line, that exact file can replace it. Tailored variants (FDE, FEE, etc.) stay off the site. Re-sync only when the base resume changes meaningfully, then run `npm run resume:pdf`.
+- `[x]` The site follows Connor's **SDE 2026 v3** resume, his general-purpose version (updated 2026-10-28). Tailored variants (FDE, FEE, etc.) stay off the site. Re-sync only when the base resume changes meaningfully: update `resumeData.ts` and swap in his new no-phone export.
 - `[x]` Employers, UW schools, AWS certifications, and selected skills link out (`RichText` in `resumeData.ts`); the links stay clickable in the PDF. Each entry's dot uses its company's brand color.
 - `[x]` No PDF viewer needed — the web page is the resume
 

@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import styles from './page.module.css'
 import { resume, type ResumeRole, type RichText } from './resumeData'
 
-// Generated from this page by `npm run resume:pdf`, so the download always
-// matches what's shown here (and never includes private contact details).
+// Connor's own PDF export (a copy without his phone number). Swap in a new
+// export when the base resume changes, and update resumeData.ts to match.
 const PDF_PATH = '/connor-voelk-resume.pdf'
 
 export const metadata: Metadata = {
