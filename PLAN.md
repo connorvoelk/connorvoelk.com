@@ -31,6 +31,7 @@ This document tracks the current state, known issues, and planned work for the p
 3. `[~]` **Blog with one post**: scaffolded on the `blog` branch (2026-10-27), not yet merged into `main`.
    - Each post is its own experience: `src/app/blog/<slug>/` holds its own `layout.tsx` and `theme.module.css` (starter moods: graph paper / ocean + pixel type / Web 1.0), and the words go in `page.mdx`. MDX means a post can mix prose with interactive components.
    - `src/app/blog/posts.ts` lists the posts. Drafts are visible locally and on preview links but **hidden on the production site** (no nav link, no index entry, and the URL 404s), so merging is safe even while other posts are unfinished.
+   - The site navbar shows on `/blog` but not on individual posts, which have their own look and a ← blog link (same as [obj]; see `SiteNav` in `Navbar.tsx`).
    - **To ship:** write one post's `page.mdx`, set its status to `'published'` in `posts.ts`, then merge `blog` into `main`.
    - Needs from you: the words for one post.
 

@@ -244,11 +244,14 @@ const Navbar = () => {
 
 // Rendered once in the root layout, so the nav stays mounted (and open, if
 // it's being hovered) across page changes and sits above the page transition.
-// [obj] has its own full-screen window UI, so it goes without; unmounting
-// there means the nav comes back closed.
+// Pages that are their own world go without: [obj]'s full-screen window UI,
+// and each blog post (every post has its own look and a link back to /blog).
+// Unmounting there means the nav comes back closed.
 const SiteNav = () => {
   const pathname = usePathname()
-  if (pathname.startsWith('/obj')) return null
+  if (pathname.startsWith('/obj') || /^\/blog\/[^/]+/.test(pathname)) {
+    return null
+  }
   return <Navbar />
 }
 

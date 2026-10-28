@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import Navbar from '@/components/Navbar'
 import styles from './page.module.css'
 import { visiblePosts } from './posts'
 
@@ -15,7 +14,6 @@ export default function BlogPage() {
 
   return (
     <div className={styles.page}>
-      <Navbar />
       <main className={styles.blog}>
         <h1 className={styles.title}>Blog</h1>
         <p className={styles.intro}>
