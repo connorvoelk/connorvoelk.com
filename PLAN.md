@@ -40,9 +40,10 @@ Smaller v1 items, done in the gaps:
 Each item is a standalone update. When a page ships, flip its `ready` flag in `Navbar.tsx`.
 - Home intro as a "fill in the blank" sentence whose key words change dynamically (idea from 2026-10-27; the static intro ships first)
 - `[x]` **Page transitions** (live 2026-10-27): on every internal link, the next page appears square by square over the current one, with squares cut along the home page's dot grid. 0.4s total, each square fading in over ~0.1s, random order. Uses the browser's View Transitions API (`src/components/PageTransitions.tsx`, `tileMask.ts`); unsupported browsers and reduced-motion users navigate instantly. **If the transition doesn't show, check reduce motion first:** it can be on in the OS, or set per browser (Firefox and Zen have a hidden `ui.prefersReducedMotion` in `about:config`). Ideas to try later: a ripple from the click point, flashing the grid lines. Back/forward buttons don't animate yet.
+- `[~]` **Home intro card** (on the `projects` branch): the smaller intro text and links sit in a dark frosted-glass card (`backdrop-filter` blur) so they read clearly over the dots; the name and headline stay on the grid.
 - `[x]` **Home dot grid hover** (live 2026-10-27): dots near the cursor brighten (up to 0.85 opacity) instead of growing, and thin grid lines connecting the dots fade in to 15% while hovering any link. Tuning values sit at the top of the canvas code in `src/app/page.tsx`.
 - [obj] individual pages (8 remaining) + gallery category filtering
-- Projects: listening pal, pokeDB, monolith (+ `/projects` index)
+- `[~]` **Projects** (on the `projects` branch, not merged): `/projects` index plus pages for mani, ListeningPal, Photogram, PokeDB, and Head Helper, with [obj] linking to `/obj`. All content lives in `src/app/projects/projectsData.ts`; images are WebP files in `src/app/projects/media/`. Still needed: real mani screenshots (the page shows an early Figma mockup), and Connor's read of the drafted wording. Other past projects that could join later: Death in US (Shiny app, still live), kno, Ride Share and Meal Share case studies, the sneaker video.
 - Blog: Data Driven Design, Lapras Invasion, Dead Internet (+ `/blog` index); consider MDX for posts
 - Vercel Web Analytics (free on Hobby), mobile layouts, accessibility pass
 
@@ -81,9 +82,8 @@ See [HOME-SCENE.md](./HOME-SCENE.md). Build it on a branch (Vercel gives every b
 | `/obj/bulbasaur` | `[~]` | GBA zoom-scroll works; content section below is placeholder |
 | `/resume` | `[x]` | Web resume built from `resumeData.ts`, with a one-page PDF download |
 | `/file` | `[x]` | The nav's `file` link opens `/connor-voelk-resume.pdf` (no separate page) |
-| `/projects` | `[ ]` | Hidden from nav until built |
-| `/listening-pal` | `[ ]` | Hidden from nav until built |
-| `/pokedb` | `[ ]` | Hidden from nav until built |
+| `/projects` | `[~]` | Index of all projects, grouped Now / Earlier (on the `projects` branch) |
+| `/projects/[slug]` | `[~]` | mani, listening-pal, photogram, pokedb, head-helper, all built from `projectsData.ts` (on the `projects` branch) |
 | `/monolith` | `[ ]` | Hidden from nav until built |
 | `/blog` | `[ ]` | Hidden from nav until built (whole blog section hidden until one post is ready) |
 | `/data-driven-design` | `[ ]` | Hidden from nav until built |
@@ -171,17 +171,19 @@ Each object should have its own dedicated page. The bulbasaur page shows the int
 ### Projects Section
 
 #### Projects Index (`/projects`)
-- `[ ]` Create projects index page
-- `[ ]` Design for listing all projects
+- `[x]` Index page: cards grouped Now / Earlier, each panel tinted with the project's own color; [obj] shows a turning 3D model
+- `[x]` Navbar: all, mani, [obj], listening pal, pokeDB (the dropdown wraps if it ever gets longer)
 
-#### Listening Pal (`/listening-pal`)
-- `[ ]` Create page — what is this project?
-
-#### PokeDB (`/pokedb`)
-- `[ ]` Create page (source: github.com/connorvoelk/PokeDB)
+#### Project pages (`/projects/[slug]`)
+One template, driven by `projectsData.ts`: facts (when, role, team, built with), outside links, a screenshot gallery, and short sections.
+- `[~]` **mani**: written from the mani repo's docs. Needs real phone screenshots in place of the Figma mockup.
+- `[x]` **ListeningPal** (2022 capstone): screens and demo video from the team's capstone site. Code lives in a private team repo (`listeningpal/ListeningPal`) that Connor's personal GitHub can't see; `voelkc/listening-pal` only holds the Flutter starter project.
+- `[x]` **Photogram**: emulator screenshots from the repo; links the public re-upload (the class repo is private).
+- `[x]` **PokeDB**: ERD plus the parts Connor wrote (marked `--Connor` in the SQL).
+- `[x]` **Head Helper**: screens cut from the 2020 design sheet. No code link (the repo is only the React Native starter).
 
 #### Monolith (`/monolith`)
-- `[ ]` Create page
+- `[ ]` Create page — what is this project?
 
 ---
 

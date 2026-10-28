@@ -54,9 +54,21 @@
   letter-spacing: -0.01em;
 }
 
+/* Frosted glass behind the smaller text, which is hard to read over the dots */
+.card {
+  max-width: 42rem;
+  margin-top: 2rem;
+  padding: 1.5rem 1.75rem 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  background-color: rgba(14, 14, 14, 0.6);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  /* The blur already hides the dots, so the letters don't need a halo */
+  text-shadow: none;
+}
+
 .proof {
-  max-width: 40rem;
-  margin-top: 1.25rem;
   color: var(--muted);
   font-size: 1.0625rem;
   line-height: 1.65;
@@ -79,7 +91,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem 1.75rem;
-  margin-top: 2.25rem;
+  margin-top: 1.75rem;
   font-size: 0.9375rem;
 }
 
@@ -110,4 +122,11 @@
 .links a:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 3px;
+}
+
+/* Phones: a tighter card keeps the three links on one line */
+@media (max-width: 480px) {
+  .card {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
 }

@@ -186,34 +186,36 @@ export default function Home() {
             I build applications with GenAI and cloud products, working
             backwards from requirements.
           </p>
-          <p className={styles.proof}>
-            Software engineer in Seattle. Four years at AWS building for
-            enterprise customers, and before that, Tesla and the University of
-            Washington&apos;s Information School and Paul G. Allen School of
-            Computer Science &amp; Engineering.
-          </p>
-          <p className={styles.now}>
-            <strong>Currently</strong> building my own projects, and open to my
-            next full-time role.
-          </p>
-          <div className={styles.links}>
-            <Link href="/resume" className={styles.primaryLink}>
-              Resume
-            </Link>
-            <a
-              href="https://www.linkedin.com/in/connorvoelk"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="https://github.com/connorvoelk"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
+          <div className={styles.card}>
+            <p className={styles.proof}>
+              Software engineer in Seattle. Four years at AWS building for
+              enterprise customers, and before that, Tesla and the University
+              of Washington&apos;s Information School and Paul G. Allen School
+              of Computer Science &amp; Engineering.
+            </p>
+            <p className={styles.now}>
+              <strong>Currently</strong> building my own projects, and open to
+              my next full-time role.
+            </p>
+            <div className={styles.links}>
+              <Link href="/resume" className={styles.primaryLink}>
+                Resume
+              </Link>
+              <a
+                href="https://www.linkedin.com/in/connorvoelk"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+              <a
+                href="https://github.com/connorvoelk"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+            </div>
           </div>
         </section>
       </main>

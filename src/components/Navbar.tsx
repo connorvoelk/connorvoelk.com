@@ -21,12 +21,14 @@ const sections = [
   {
     id: 'projects',
     href: '/projects',
-    ready: false,
+    ready: true,
     links: [
-      { label: 'listening pal', href: '/listening-pal', ready: false },
-      { label: 'pokeDB', href: '/pokedb', ready: false },
-      { label: 'monolith', href: '/monolith', ready: false },
+      { label: 'all', href: '/projects', ready: true },
+      { label: 'mani', href: '/projects/mani', ready: true },
       { label: '[obj]', href: '/obj', ready: true },
+      { label: 'listening pal', href: '/projects/listening-pal', ready: true },
+      { label: 'pokeDB', href: '/projects/pokedb', ready: true },
+      { label: 'monolith', href: '/monolith', ready: false },
     ],
   },
   {
