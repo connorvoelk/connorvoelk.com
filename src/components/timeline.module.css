@@ -1,281 +1,389 @@
-/* timeline.module.css */
-.timelineContainer {
-  width: 90%;
-  margin: 0 auto;
-  padding: 2rem;
-  min-height: 100vh;
-  overflow: hidden; /* Prevent content from spilling out */
-}
-
+/* The timeline as an NYC subway car's strip map: a black display with the
+   line's sign on the left and the stations scrolling sideways beside it */
 .timeline {
-  position: relative;
-  width: 100%;
-  min-height: 400px;
-  padding-top: 4rem;
-  padding-left: 2rem; /* Add padding for left margin */
-  padding-right: 2rem; /* Add padding for right margin */
+  --line: #1f6feb;
+  --line-light: #6ea8ff;
+  --panel: #0b0b0b;
+  --text: #ededed;
+  --text-soft: #d4d4d4;
+  --muted: #a1a1a1;
+  --focus: #06b6d4;
+
+  /* Strip geometry: stations are evenly spaced, like a real subway map */
+  --spacing: 7rem;
+  --line-y: 11.5rem;
+  --angle: -35deg;
 }
 
-/* Legend styles */
-.legend {
-  position: absolute;
-  top: 0;
-  left: 2rem; /* Match padding-left */
-  right: 2rem; /* Match padding-right */
-  height: 40px;
+.display {
   display: flex;
-  justify-content: space-between;
+  overflow: hidden;
+  border-radius: 20px;
+  background-color: var(--panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  /* Subway signage type */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.yearMark {
-  position: absolute;
-  color: rgba(255, 255, 255, 0.95);
-  font-size: 1.5rem;
+/* The line's sign, like "A / 8 Av Express / Downtown Manhattan" */
+.sign {
+  flex: none;
+  width: 15rem;
+  padding: 1.75rem 1.5rem;
+}
+
+.lineBullet {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: var(--line);
+}
+
+.lineBullet svg {
+  width: 2.5rem;
+  height: auto;
+}
+
+.lineName {
+  margin-top: 1rem;
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.destinations {
+  margin-top: 0.5rem;
+  color: #dcdcdc;
+  font-size: 0.9375rem;
   font-weight: 500;
-  transform: rotate(-45deg);
-  transform-origin: bottom left;
-  white-space: nowrap;
-  margin-bottom: 24px;
-  margin-left: 18px;
-  transition: opacity 0.3s ease;
+  line-height: 1.4;
 }
 
-/* Timeline base */
-.timelineBase {
-  position: absolute;
-  top: 48px;
-  left: 2rem; /* Match padding-left */
-  right: 2rem; /* Match padding-right */
-  height: 3px;
-  background-color: rgba(235, 235, 235, 1);
-  transition: opacity 0.3s ease;
+/* The stations scroll sideways, fading out at either edge */
+.scroller {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 2rem, #000 calc(100% - 2rem), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 2rem, #000 calc(100% - 2rem), transparent);
+  scrollbar-width: thin;
+  scrollbar-color: #333333 transparent;
 }
 
-/* Diagonal lines for timeline axis */
-.yearMark::after {
+.strip {
+  position: relative;
+  display: flex;
+  width: max-content;
+  height: 17rem;
+  /* Room on the right for the NEXT STOP sign's angled label */
+  padding: 0 13rem 0 2rem;
+  list-style: none;
+}
+
+/* The line itself, from the first station to now */
+.strip::before {
   content: '';
   position: absolute;
-  bottom: -4px;
-  left: -28px;
-  width: 80px;
-  height: 3px;
-  background-color: rgba(235, 235, 235, 1);
-  transform-origin: bottom left;
-  transition: opacity 0.3s ease;
+  top: var(--line-y);
+  left: calc(2rem + var(--spacing) / 2);
+  width: calc((var(--stations) - 1) * var(--spacing));
+  height: 10px;
+  margin-top: -5px;
+  border-radius: 5px;
+  background-color: var(--line);
 }
 
-/* Line styles */
-.lineContainer {
+.station {
   position: relative;
-  width: 100%;
-  height: 48px; /* Single consistent height */
-  pointer-events: none;
-  /* Remove margin-bottom as it's causing additional spacing */
+  flex: none;
+  width: var(--spacing);
 }
 
-.line {
-  position: absolute;
-  height: 24px;
-  border-radius: 12px;
-  cursor: pointer;
-  opacity: 0.85;
-  top: 12px; /* Center the line vertically */
-  transition: opacity 0.3s ease, transform 0.3s ease, width 0.3s ease;
-  pointer-events: auto;
-  z-index: 0; /* Ensure line stays below logo circle */
-}
-
-.line:hover {
-  opacity: 1 !important;
-  transform: scaleY(1.1);
-}
-
-.activeLine {
-  opacity: 1;
-  transform: scaleY(1.1);
-}
-
-/* Logo circle styles */
-.logoCircle {
-  position: absolute;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 2px solid;
-  background-color: var(--line-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 1;
-  top: 0; /* Align with top of lineContent */
-  transform: none; /* Remove transform as we're using absolute positioning */
-}
-
-.timeline.hasSelectedLine .lineContent:has(.activeLine) .logoCircle {
-  opacity: 1;
-}
-
-.activeLine ~ .logoCircle {
-  opacity: 1;
-}
-
-.logoCircle img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-/* Selection states */
-.timeline.hasSelectedLine .timelineBase,
-.timeline.hasSelectedLine .yearMark,
-.timeline.hasSelectedLine .yearMark::after {
-  opacity: 0.3;
-}
-
-.timeline.hasSelectedLine .line {
-  opacity: 0.3;
-}
-
-.timeline.hasSelectedLine .line.activeLine {
-  opacity: 1;
-}
-
-/* Stop styles */
+/* The button is just the dot's hit area; its label rises out of it at an
+   angle, so neighboring buttons never cover each other's labels */
 .stop {
   position: absolute;
-  width: 28px;
-  height: 28px;
-  background-color: white;
-  border: 2px solid;
+  top: calc(var(--line-y) - 22px);
+  left: calc(var(--spacing) / 2 - 22px);
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
-  top: 10px; /* Align with the line - line is at 12px with height 24px */
-  transform: translate(-50%, 0);
+  background: none;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 10;
-  opacity: 1;
-  transition: opacity 0.3s ease, transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.stop:hover,
-.activeStop {
-  transform: translate(-50%, -2px) scale(1.25);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+.stop:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -4px;
 }
 
-/* Stop labels */
-.stopLabel {
+.dot {
   position: absolute;
-  color: white;
-  font-size: 0.875rem;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px var(--panel);
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stop:hover .dot {
+  transform: translate(-50%, -50%) scale(1.25);
+}
+
+.selected .dot {
+  box-shadow: 0 0 0 3px var(--panel), 0 0 0 6px #ffffff;
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.label {
+  position: absolute;
+  bottom: calc(50% + 14px);
+  left: calc(50% + 2px);
+  color: #e6e6e6;
+  font-size: 0.9375rem;
+  font-weight: 500;
   white-space: nowrap;
-  opacity: 0;
-  transform: rotate(-45deg) translateY(2px) translateX(0px);
-  transform-origin: left;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  margin-left: 16px;
+  transform: rotate(var(--angle));
+  transform-origin: left bottom;
+  transition: color 0.2s ease;
 }
 
-.timeline.hasSelectedLine .stop {
-  opacity: 0.3;
+.stop:hover .label {
+  color: #ffffff;
 }
 
-.timeline.hasSelectedLine .lineContent:has(.activeLine) .stop {
-  opacity: 1;
+/* The selected station's name gets the NEXT STOP-style pill */
+.selected .label {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background-color: var(--line);
+  color: #ffffff;
+  font-weight: 700;
 }
 
-.timeline.hasSelectedLine .stop:hover {
-  opacity: 1;
-}
-
-.timeline.hasSelectedLine .lineContainer:has(.activeLine) .stop {
-  opacity: 1 !important; /* Added !important to ensure full opacity */
-}
-
-.timeline.hasSelectedLine .lineContainer:has(.activeLine) .stop:hover {
-  opacity: 1 !important;
-}
-
-.timeline.hasSelectedLine .activeLine ~ .stopLabel {
-  opacity: 1;
-}
-
-/* Details panel styles */
-.detailsPanel {
-  margin-top: 3rem;
-  padding: 1.5rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, auto);
-  gap: 1.5rem;
-  color: white;
-  animation: fadeIn 0.3s ease-out;
-}
-
-.mainInfo {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 1.5rem;
-}
-
-.infoCard {
-  background-color: var(--line-color);
-  border-radius: 12px;
-  padding: 1.5rem;
-  opacity: 0.9;
-  height: 200px;
-}
-
-.detailsHeader {
+/* Transfer bullets under each station */
+.transfers {
+  position: absolute;
+  top: calc(var(--line-y) + 18px);
+  left: calc(var(--spacing) / 2);
   display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 3px;
+  transform: translateX(-50%);
 }
 
-.detailsHeader h3 {
-  margin: 0;
-  font-size: 1.5rem;
+.bullet {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  /* Keeps the dark ones (Hale navy, Husky Purple) visible on black */
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.3);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.year {
+  position: absolute;
+  top: calc(var(--line-y) + 52px);
+  left: calc(var(--spacing) / 2);
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  transform: translateX(-50%);
+}
+
+/* The end of the line: a dashed stretch to the NEXT STOP */
+.nextStop::before {
+  content: '';
+  position: absolute;
+  top: var(--line-y);
+  left: calc(var(--spacing) / -2);
+  width: var(--spacing);
+  margin-top: -2px;
+  border-top: 4px dashed var(--line);
+}
+
+.nextStop .dot {
+  box-shadow: 0 0 0 3px var(--panel), 0 0 0 6px var(--line);
+}
+
+.nextStop .label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 0;
+  background: none;
+}
+
+.caption {
+  color: var(--line-light);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pill {
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  background-color: var(--line);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.nextStop.station .selected .pill,
+.nextStop .stop:hover .pill {
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The selected station's details, below the display */
+.detail {
+  min-height: 10rem;
+  margin-top: 1.25rem;
+  padding: 1.5rem 1.75rem;
+  border-radius: 16px;
+  background-color: var(--panel);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.detailHeader .transfers {
+  position: static;
+  transform: none;
+}
+
+.when {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.detailTitle {
+  margin-top: 0.625rem;
+  color: var(--text);
+  font-size: 1.375rem;
   font-weight: 600;
-  color: white;
+  letter-spacing: -0.01em;
 }
 
-.date {
-  color: white;
+.detailText {
+  max-width: 44rem;
+  margin-top: 0.4rem;
+  color: var(--text-soft);
   font-size: 1rem;
+  line-height: 1.6;
 }
 
-.location {
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0.5rem;
+.detailLink {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--text);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: #555555;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.2s ease;
 }
 
-.rowContainer {
-  position: absolute;
-  width: 100%;
-  height: 48px;
-  left: 0;
+.detailLink:hover {
+  text-decoration-color: var(--focus);
 }
 
-.lineContent {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1; /* Add z-index */
+.detailLink:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+/* What each transfer bullet means */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin-top: 1.25rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  list-style: none;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot,
+  .label {
+    transition: none;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+}
+
+/* Phones: the sign shrinks to a header row above the strip */
+@media (max-width: 720px) {
+  .display {
+    flex-direction: column;
+  }
+
+  .sign {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    width: auto;
+    padding: 1.25rem 1.25rem 0;
+  }
+
+  .lineBullet {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .lineBullet svg {
+    width: 1.75rem;
+  }
+
+  .lineName {
+    margin-top: 0;
+    font-size: 1.25rem;
+  }
+
+  .destinations {
+    display: none;
+  }
+
+  .detail {
+    padding: 1.25rem;
   }
 }

@@ -34,7 +34,6 @@ This document tracks the current state, known issues, and planned work for the p
 Smaller v1 items, done in the gaps:
 - `[x]` **Favicon**: the logo in its hover colors (`src/app/icon.svg`, `favicon.ico`, `apple-icon.png`).
 - `[ ]` **Share image**: `src/app/opengraph-image.png` (1200×630), so links to the site get a preview card on LinkedIn, iMessage, etc.
-- `[ ]` **Hale timeline stops**: "Slovenian Union of America Website" and "Hale Tech Night" still carry placeholder descriptions. They don't render yet (the stop detail view is unbuilt), so this isn't urgent.
 
 ### Phase 2 — Grow in public (after launch, any order)
 Each item is a standalone update. When a page ships, flip its `ready` flag in `Navbar.tsx`.
@@ -77,7 +76,7 @@ See [HOME-SCENE.md](./HOME-SCENE.md). Build it on a branch (Vercel gives every b
 | Route | Status | Notes |
 |---|---|---|
 | `/` | `[~]` | Dot-grid canvas animation exists, but page is mostly empty — no intro content, bio, or CTAs |
-| `/timeline` | `[~]` | Hidden from the nav (2026-10-28) until it's reworked; the page still exists at its URL |
+| `/timeline` | `[~]` | Subway strip-map rework on the `timeline` branch; hidden from the live nav until it merges |
 | `/obj` | `[~]` | Grid renders 3D models, but sidebar filtering is non-functional and only bulbasaur has its own page |
 | `/obj/bulbasaur` | `[~]` | GBA zoom-scroll works; content section below is placeholder |
 | `/resume` | `[x]` | Web resume built from `resumeData.ts`, with a one-page PDF download |
@@ -104,17 +103,14 @@ See [HOME-SCENE.md](./HOME-SCENE.md). Build it on a branch (Vercel gives every b
 ---
 
 ### Timeline (`/timeline`)
-- `[x]` Timeline line layout algorithm (handles overlapping date ranges)
-- `[x]` Click-to-expand line detail panel
-- `[x]` Clickable stops on lines
-- `[x]` Logo circle appears on selected line
-- `[x]` Timeline data (`timelineData.ts`) matches the 2026 resume; only the Hale stop descriptions remain placeholders (see Bugs section)
-- `[ ]` Info cards in detail panel — 3 cards rendered but empty (`{/* Card content 1/2/3 */}`)
-  - Need to decide what each card shows (skills? projects? media? highlights?)
-- `[ ]` Stop detail view — clicking a stop shows `selectedStop` state but nothing renders it
-- `[x]` Year legend and axis range derived from the data (every five years; same scale as the lines)
-- `[x]` UW placeholder stops ("Project", "Other Project") removed
-- `[ ]` Mobile/responsive layout
+Reworked 2026-10-28 (on the `timeline` branch) as an NYC subway car's strip map, from Connor's reference photo of an A train display.
+- `[x]` One line, evenly spaced stations (not to scale), angled station names, white station dots; scrolls sideways and opens at Now
+- `[x]` The sign on the left: the site logo as the line's bullet, "Voelk Av Express", and its "destinations"
+- `[x]` Transfer bullets under each station show which part of life it belongs to (Hale, UW, coaching, Tesla, AWS, own projects), in the resume's brand colors, with a legend
+- `[x]` NEXT STOP at the end of a dashed stretch: "My next full-time role"
+- `[x]` Clicking a station (or arrow keys) shows its details below, with a link to the project page or resume where there is one
+- `[x]` Phones: the sign shrinks to a header row; the strip scrolls with touch
+- `[x]` Stations and threads live in `src/components/timelineData.ts`
 
 ---
 
@@ -214,7 +210,7 @@ One template, driven by `projectsData.ts`: facts (when, role, team, built with),
 - `[x]` AWS full-time split into its two roles with descriptions from the resume
 - `[x]` UW Research Assistant and UW degree descriptions (degree is Informatics/HCI, not CS)
 - `[x]` UW placeholder stops removed
-- `[ ]` Hale stop descriptions are the same placeholder text
+- `[x]` Hale stops are Connor's two senior capstone projects
 - `[x]` Timeline end now derived from data (fixes the AI Practitioner cert falling off the end)
 - `[x]` Date ranges showed the previous month for dates on the 1st (UTC vs local time)
 - `[x]` Typos: "Contriubted", "Proffesional", "Practionier", "injestion", "processising", "acheived", "phyiscal"

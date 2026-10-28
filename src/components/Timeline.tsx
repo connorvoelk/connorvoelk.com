@@ -1,348 +1,219 @@
 'use client'
-import { useState, useEffect, useMemo, Fragment } from 'react'
-import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import styles from './timeline.module.css'
-import { data } from './timelineData'
+import {
+  nextStop,
+  stations,
+  threads,
+  type Station,
+  type ThreadId,
+} from './timelineData'
 
-// The axis spans whole years around the data, from January of the earliest
-// start to the January after the latest end, labelled every five years.
-// (UTC because '2015-01-01' parses as UTC midnight, which is still 2014
-// in US time zones.)
-const firstYear = Math.min(...data.lines.map((l) => l.startDate.getUTCFullYear()))
-const lastYear = Math.max(...data.lines.map((l) => l.endDate.getUTCFullYear())) + 1
-const timelineStart = new Date(`${firstYear}-01-01`)
-const timelineEnd = new Date(`${lastYear}-01-01`)
-const legendYears = Array.from(
-  { length: Math.floor((lastYear - firstYear) / 5) + 1 },
-  (_, i) => firstYear + i * 5
+const NEXT_STOP_ID = 'next-stop'
+
+const Bullet = ({ id }: { id: ThreadId }) => {
+  const thread = threads[id]
+  return (
+    <span
+      className={styles.bullet}
+      style={{ background: thread.color, color: thread.text }}
+      title={thread.name}
+      aria-hidden="true"
+    >
+      {thread.letter}
+    </span>
+  )
+}
+
+// The line's own bullet is the site logo, like the A in a subway car
+const LineBullet = () => (
+  <span className={styles.lineBullet} aria-hidden="true">
+    <svg viewBox="0 0 280.79 172.91">
+      <path
+        d="M86.76,3.39c-45.91,0-83.14,37.22-83.14,83.14s37.22,83.14,83.14,83.14h82.97L275.18,3.39H87.06l82.67,166.27"
+        stroke="white"
+        strokeWidth="14"
+        strokeMiterlimit="10"
+        fill="none"
+      />
+    </svg>
+  </span>
 )
 
-interface TimelineStop {
-  date: Date
-  name: string
-  description: string
-  iconPath?: string
-  emoji?: string
-}
-
-interface TimelineLine {
-  name: string
-  startDate: Date
-  endDate: Date
-  stops: TimelineStop[]
-  color: string
-  description: string
-  logoPath: string
-  location: string
-}
-
-interface TimelineData {
-  lines: TimelineLine[]
-}
-
-interface RowAssignment {
-  line: TimelineLine
-  row: number
+const linkLabel = (href: string) => {
+  if (href.startsWith('/projects/')) return 'Read about the project'
+  if (href === '/projects') return 'See my projects'
+  if (href === '/resume') return 'See my resume'
+  return 'Go to the home page'
 }
 
 const Timeline = () => {
-  const [selectedStop, setSelectedStop] = useState<TimelineStop | null>(null)
-  const [selectedLine, setSelectedLine] = useState<TimelineLine | null>(null)
-  const [containerWidth, setContainerWidth] = useState(0)
+  const [selectedId, setSelectedId] = useState('now')
+  const scrollerRef = useRef<HTMLDivElement>(null)
 
-  const timelineData: TimelineData = { ...data }
+  const selected: Pick<Station, 'title' | 'when' | 'threads' | 'description' | 'href'> =
+    selectedId === NEXT_STOP_ID
+      ? { title: nextStop.label, when: 'Next', threads: [], ...nextStop }
+      : stations.find((station) => station.id === selectedId)!
 
-  // Helper function to organize lines into optimal rows
-  const organizeIntoRows = (lines: TimelineLine[]): TimelineLine[][] => {
-    // Sort lines by start date to help with optimal placement
-    const sortedLines = [...lines].sort(
-      (a, b) => a.startDate.getTime() - b.startDate.getTime()
-    )
-
-    const rows: TimelineLine[][] = []
-
-    // Try to place each line in the first available row where it fits
-    sortedLines.forEach((line) => {
-      // Check each existing row to see if this line can fit
-      let placed = false
-      for (const row of rows) {
-        // Check if line can fit in this row (no overlaps with any existing line)
-        const canFit = row.every((existingLine) => {
-          const buffer = 30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
-          return !(
-            line.startDate.getTime() - buffer <=
-              existingLine.endDate.getTime() &&
-            line.endDate.getTime() + buffer >= existingLine.startDate.getTime()
-          )
-        })
-
-        if (canFit) {
-          row.push(line)
-          placed = true
-          break
-        }
-      }
-
-      // If we couldn't fit in any existing row, create a new one
-      if (!placed) {
-        rows.push([line])
-      }
-    })
-    return rows
-  }
-
-  const rowAssignments = useMemo(() => {
-    const rows = organizeIntoRows(timelineData.lines)
-    const assignments: RowAssignment[] = []
-
-    // Create assignments with row numbers based on the organized rows
-    rows.forEach((row, rowIndex) => {
-      row.forEach((line) => {
-        assignments.push({ line, row: rowIndex })
-      })
-    })
-
-    return assignments
-  }, [timelineData])
-
+  // Open at the present end of the line, with Now in view (on a phone there's
+  // only room for Now and the start of NEXT STOP), and let a mouse wheel
+  // (which only scrolls up and down) ride the line sideways while there's
+  // line left
   useEffect(() => {
-    const updateWidth = () => {
-      const container = document.getElementById('timeline-container')
-      if (container) {
-        setContainerWidth(container.offsetWidth)
-      }
-    }
+    const scroller = scrollerRef.current
+    const now = scroller?.querySelector<HTMLElement>('[data-station="now"]')
+    if (!scroller || !now) return
+    const nowX =
+      now.getBoundingClientRect().left -
+      scroller.getBoundingClientRect().left +
+      scroller.scrollLeft
+    const share = scroller.clientWidth < 600 ? 0.25 : 0.6
+    scroller.scrollLeft = nowX - scroller.clientWidth * share
 
-    updateWidth()
-    window.addEventListener('resize', updateWidth)
-    return () => window.removeEventListener('resize', updateWidth)
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return
+      const max = scroller.scrollWidth - scroller.clientWidth
+      const canScroll =
+        (e.deltaY < 0 && scroller.scrollLeft > 0) ||
+        (e.deltaY > 0 && scroller.scrollLeft < max)
+      if (!canScroll) return
+      e.preventDefault()
+      scroller.scrollLeft += e.deltaY
+    }
+    scroller.addEventListener('wheel', onWheel, { passive: false })
+    return () => scroller.removeEventListener('wheel', onWheel)
   }, [])
 
-  const dateToPosition = (date: Date): number => {
-    const totalDays =
-      (timelineEnd.getTime() - timelineStart.getTime()) / (1000 * 60 * 60 * 24)
-    const daysSinceStart =
-      (date.getTime() - timelineStart.getTime()) / (1000 * 60 * 60 * 24)
-
-    // Adjust containerWidth to account for padding
-    const usableWidth = containerWidth - 96 // 4rem (2rem on each side) in pixels
-    return (daysSinceStart / totalDays) * usableWidth + 32 // Add left padding back
-  }
-
-  const formatDateRange = (start: Date, end: Date): string => {
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ]
-
-    // UTC: dates like '2024-01-01' parse as UTC midnight, which is still
-    // the previous day in US time zones
-    const startMonth = months[start.getUTCMonth()]
-    const endMonth = months[end.getUTCMonth()]
-    const startYear = start.getUTCFullYear()
-    const endYear = end.getUTCFullYear()
-
-    if (startYear === endYear) {
-      return `${startMonth} - ${endMonth} ${startYear}`
-    }
-    return `${startMonth} ${startYear} - ${endMonth} ${endYear}`
-  }
-
-  const handleStopClick = (line: TimelineLine, stop: TimelineStop) => {
-    setSelectedStop((prev) => (prev?.name === stop.name ? null : stop))
-    setSelectedLine(line)
-  }
-
-  const handleLineClick = (line: TimelineLine) => {
-    setSelectedLine((prev) => (prev?.name === line.name ? null : line))
-    setSelectedStop(null)
-  }
-
-  const rowsToRender = useMemo(() => {
-    const rows: {
-      rowIndex: number
-      lines: { line: TimelineLine; startX: number; endX: number }[]
-    }[] = []
-
-    rowAssignments.forEach(({ line, row }) => {
-      const startX = dateToPosition(line.startDate)
-      const endX = dateToPosition(line.endDate)
-
-      if (!rows[row]) {
-        rows[row] = { rowIndex: row, lines: [] }
-      }
-      rows[row].lines.push({ line, startX, endX })
+  const select = (id: string, button?: HTMLElement | null) => {
+    setSelectedId(id)
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    button?.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'nearest',
+      inline: 'nearest',
     })
+  }
 
-    return rows
-  }, [rowAssignments, dateToPosition])
+  // Left and right arrows move along the line
+  const ids = [...stations.map((station) => station.id), NEXT_STOP_ID]
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return
+    e.preventDefault()
+    const index = ids.indexOf(selectedId)
+    const nextIndex = Math.min(
+      ids.length - 1,
+      Math.max(0, index + (e.key === 'ArrowRight' ? 1 : -1))
+    )
+    const button = scrollerRef.current?.querySelector<HTMLElement>(
+      `[data-station="${ids[nextIndex]}"]`
+    )
+    button?.focus()
+    select(ids[nextIndex], button)
+  }
 
   return (
-    <div className={styles.timelineContainer}>
-      <div
-        id="timeline-container"
-        className={`${styles.timeline} ${
-          selectedLine ? styles.hasSelectedLine : ''
-        }`}
-      >
-        {/* Timeline legend */}
-        {/* Year marks use the same scale as the lines; the legend already
-            sits inside the 2rem (32px) padding that dateToPosition adds */}
-        <div className={styles.legend}>
-          {legendYears.map((year) => (
-            <span
-              key={year}
-              className={styles.yearMark}
-              style={{ left: dateToPosition(new Date(`${year}-01-01`)) - 32 }}
-            >
-              {year}
-            </span>
-          ))}
+    <div className={styles.timeline}>
+      <section className={styles.display} aria-label="Timeline, as a subway line">
+        <div className={styles.sign}>
+          <LineBullet />
+          <p className={styles.lineName}>Voelk Av Express</p>
+          <p className={styles.destinations}>
+            Nathan Hale
+            <br />
+            University of Washington
+            <br />
+            Tesla
+            <br />
+            AWS
+            <br />
+            What&apos;s next
+          </p>
         </div>
 
-        {/* Timeline base */}
-        <div className={styles.timelineBase} />
-
-        {/* Lines and stops */}
-        {rowsToRender.map((row) => (
-          <div
-            key={row.rowIndex}
-            className={styles.rowContainer}
-            style={{
-              top: row.rowIndex * 60 + 60, // Spacing between rows
-            }}
+        <div className={styles.scroller} ref={scrollerRef}>
+          <ol
+            className={styles.strip}
+            style={{ '--stations': stations.length } as React.CSSProperties}
+            onKeyDown={onKeyDown}
           >
-            {row.lines.map(({ line, startX, endX }) => {
-              const isSelected = selectedLine?.name === line.name
-              const lineWidth = endX - startX
-              const extensionWidth = 54
-              const adjustedStartX = isSelected
-                ? startX - extensionWidth
-                : startX
-              const adjustedWidth = isSelected
-                ? lineWidth + extensionWidth
-                : lineWidth
-
+            {stations.map((station, i) => {
+              const year = station.date.slice(0, 4)
+              const newYear = i === 0 || stations[i - 1].date.slice(0, 4) !== year
+              const isSelected = station.id === selectedId
               return (
-                <div key={line.name} className={styles.lineContent}>
-                  {/* Logo Circle - Updated positioning */}
-                  {isSelected && (
-                    <div
-                      className={styles.logoCircle}
-                      style={{
-                        borderColor: line.color,
-                        '--line-color': line.color,
-                        left: startX - extensionWidth,
-                      } as React.CSSProperties}
-                    >
-                      <Image
-                        src={line.logoPath}
-                        alt={`${line.name} logo`}
-                        width={24}
-                        height={24}
-                      />
-                    </div>
-                  )}
-
-                  {/* Line */}
-                  <div
-                    onClick={() => handleLineClick(line)}
-                    className={`${styles.line} ${
-                      isSelected ? styles.activeLine : ''
-                    }`}
-                    style={{
-                      backgroundColor: line.color,
-                      left: adjustedStartX,
-                      width: adjustedWidth,
-                    }}
-                  />
-
-                  {/* Stops */}
-                  {line.stops.map((stop) => {
-                    const stopX = dateToPosition(stop.date)
-                    return (
-                      <Fragment key={stop.name}>
-                        <button
-                          onClick={() => handleStopClick(line, stop)}
-                          className={`${styles.stop} ${
-                            selectedStop?.name === stop.name
-                              ? styles.activeStop
-                              : ''
-                          }`}
-                          style={{
-                            left: stopX,
-                            borderColor: line.color,
-                          }}
-                        />
-                        <span
-                          className={styles.stopLabel}
-                          style={{
-                            left: stopX,
-                          }}
-                        >
-                          {stop.name}
-                        </span>
-                      </Fragment>
-                    )
-                  })}
-                </div>
+                <li key={station.id} className={styles.station}>
+                  <button
+                    type="button"
+                    data-station={station.id}
+                    className={`${styles.stop} ${isSelected ? styles.selected : ''}`}
+                    aria-pressed={isSelected}
+                    onClick={(e) => select(station.id, e.currentTarget)}
+                  >
+                    <span className={styles.label}>{station.label}</span>
+                    <span className={styles.dot} />
+                    <span className={styles.srOnly}>, {station.when}</span>
+                  </button>
+                  <span className={styles.transfers}>
+                    {station.threads.map((id) => (
+                      <Bullet key={id} id={id} />
+                    ))}
+                  </span>
+                  {newYear && <span className={styles.year}>{year}</span>}
+                </li>
               )
             })}
-          </div>
-        ))}
-      </div>
 
-      {selectedLine && (
-        <div className={styles.detailsPanel}>
-          <div className={styles.mainInfo}>
-            <div className={styles.detailsHeader}>
-              <h3>{selectedLine.name}</h3>
-              <span className={styles.date}>
-                {formatDateRange(selectedLine.startDate, selectedLine.endDate)}
-              </span>
-            </div>
-            <p className={styles.location}>{selectedLine.location}</p>
-            <p>{selectedLine.description}</p>
-          </div>
-
-          <div
-            className={styles.infoCard}
-            style={
-              { '--line-color': selectedLine.color } as React.CSSProperties
-            }
-          >
-            {/* Card content 1 */}
-          </div>
-
-          <div
-            className={styles.infoCard}
-            style={
-              { '--line-color': selectedLine.color } as React.CSSProperties
-            }
-          >
-            {/* Card content 2 */}
-          </div>
-
-          <div
-            className={styles.infoCard}
-            style={
-              { '--line-color': selectedLine.color } as React.CSSProperties
-            }
-          >
-            {/* Card content 3 */}
-          </div>
+            <li className={`${styles.station} ${styles.nextStop}`}>
+              <button
+                type="button"
+                data-station={NEXT_STOP_ID}
+                className={`${styles.stop} ${
+                  selectedId === NEXT_STOP_ID ? styles.selected : ''
+                }`}
+                aria-pressed={selectedId === NEXT_STOP_ID}
+                onClick={(e) => select(NEXT_STOP_ID, e.currentTarget)}
+              >
+                <span className={styles.label}>
+                  <span className={styles.caption}>Next stop</span>
+                  <span className={styles.pill}>{nextStop.label}</span>
+                </span>
+                <span className={styles.dot} />
+              </button>
+            </li>
+          </ol>
         </div>
-      )}
+      </section>
+
+      <section className={styles.detail} aria-live="polite">
+        <div className={styles.detailHeader}>
+          {selected.threads.length > 0 && (
+            <span className={styles.transfers}>
+              {selected.threads.map((id) => (
+                <Bullet key={id} id={id} />
+              ))}
+            </span>
+          )}
+          <span className={styles.when}>{selected.when}</span>
+        </div>
+        <h2 className={styles.detailTitle}>{selected.title}</h2>
+        <p className={styles.detailText}>{selected.description}</p>
+        {selected.href && (
+          <Link href={selected.href} className={styles.detailLink}>
+            {linkLabel(selected.href)} <span aria-hidden="true">→</span>
+          </Link>
+        )}
+      </section>
+
+      <ul className={styles.legend} aria-label="Lines">
+        {(Object.keys(threads) as ThreadId[]).map((id) => (
+          <li key={id}>
+            <Bullet id={id} />
+            {threads[id].name}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
