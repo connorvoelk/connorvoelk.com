@@ -43,7 +43,7 @@ Each item is a standalone update. When a page ships, flip its `ready` flag in `N
 - `[~]` **Home intro card** (on the `projects` branch): the smaller intro text and links sit in a dark frosted-glass card (`backdrop-filter` blur) so they read clearly over the dots; the name and headline stay on the grid.
 - `[x]` **Home dot grid hover** (live 2026-10-27): dots near the cursor brighten (up to 0.85 opacity) instead of growing, and thin grid lines connecting the dots fade in to 15% while hovering any link. Tuning values sit at the top of the canvas code in `src/app/page.tsx`.
 - [obj] individual pages (8 remaining) + gallery category filtering
-- `[~]` **Projects** (on the `projects` branch, not merged): `/projects` index plus pages for mani, ListeningPal, Photogram, PokeDB, and Head Helper, with [obj] linking to `/obj`. All content lives in `src/app/projects/projectsData.ts`; images are WebP files in `src/app/projects/media/`. Still needed: real mani screenshots (the page shows an early Figma mockup), and Connor's read of the drafted wording. Other past projects that could join later: Death in US (Shiny app, still live), kno, Ride Share and Meal Share case studies, the sneaker video.
+- `[~]` **Projects** (on the `projects` branch, not merged): `/projects` index plus pages for mani, ListeningPal, Photogram, PokeDB, and Head Helper, with [obj] linking to `/obj`. All content lives in `src/app/projects/projectsData.ts`; images are WebP files in `src/app/projects/media/`. Still needed: a final read of the wording. Other past projects that could join later: Death in US (Shiny app, still live), kno, Ride Share and Meal Share case studies, the sneaker video.
 - Blog: Data Driven Design, Lapras Invasion, Dead Internet (+ `/blog` index); consider MDX for posts
 - Vercel Web Analytics (free on Hobby), mobile layouts, accessibility pass
 
@@ -176,7 +176,7 @@ Each object should have its own dedicated page. The bulbasaur page shows the int
 
 #### Project pages (`/projects/[slug]`)
 One template, driven by `projectsData.ts`: facts (when, role, team, built with), outside links, a screenshot gallery, and short sections.
-- `[~]` **mani**: written from the mani repo's docs. Needs real phone screenshots in place of the Figma mockup.
+- `[x]` **mani**: written from the mani repo's docs; a real iPhone screenshot next to the early Figma mockup.
 - `[x]` **ListeningPal** (2022 capstone): screens and demo video from the team's capstone site. Code lives in a private team repo (`listeningpal/ListeningPal`) that Connor's personal GitHub can't see; `voelkc/listening-pal` only holds the Flutter starter project.
 - `[x]` **Photogram**: emulator screenshots from the repo; links the public re-upload (the class repo is private).
 - `[x]` **PokeDB**: ERD plus the parts Connor wrote (marked `--Connor` in the SQL).

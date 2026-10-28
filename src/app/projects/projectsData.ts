@@ -1,5 +1,6 @@
 import type { StaticImageData } from 'next/image'
-import maniHome from './media/mani/home.webp'
+import maniApp from './media/mani/app-home.webp'
+import maniFigma from './media/mani/figma-home.webp'
 import lpHome from './media/listening-pal/home.webp'
 import lpSchedule from './media/listening-pal/schedule.webp'
 import lpConfirm from './media/listening-pal/confirm.webp'
@@ -97,9 +98,14 @@ export const projects: Project[] = [
       layout: 'phones',
       images: [
         {
-          src: maniHome,
-          alt: "Mockup of Mani's home screen: colored cards for Personal, Work, Side Hustle, and Home sections, each listing tasks with due times",
-          caption: 'Early Figma mockup of the home screen',
+          src: maniApp,
+          alt: "Mani's home screen: colored cards for Inbox, Groceries, Personal, and Home sections, with repeating tasks showing their next dates, above a Liquid Glass tab bar",
+          caption: 'The home screen, on my iPhone',
+        },
+        {
+          src: maniFigma,
+          alt: "Early mockup of Mani's home screen: colored section cards, each listing placeholder tasks with due times",
+          caption: 'The early Figma mockup',
         },
       ],
     },
