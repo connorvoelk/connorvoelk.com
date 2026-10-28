@@ -1,4 +1,4 @@
-// Transcribed from Connor's SDE 2026 resume (his general-purpose version;
+// Transcribed from Connor's SDE 2026 resume, v3 (his general-purpose version;
 // tailored variants stay off the site). Contact details are deliberately
 // limited to city and public profile links — never add a phone number,
 // address, or email here (scripts/check-private-info.mjs enforces the phone
@@ -50,7 +50,7 @@ export const resume = {
     { label: 'github.com/connorvoelk', href: 'https://github.com/connorvoelk' },
   ],
   summary:
-    'Software Engineer with 4+ years of experience at AWS and Tesla, specializing in delivering value through GenAI and Cloud platforms through production-grade architecture and intuitive product design.',
+    'Software engineer with 4+ years at AWS and Tesla, building production GenAI, cloud, and IoT systems end to end, from distributed backends and mobile SDKs to the React interfaces people use every day.',
   experience: [
     {
       name: 'Amazon Web Services (AWS)',
@@ -62,15 +62,16 @@ export const resume = {
           dates: 'January 2024 – July 2026',
           dotColor: brandColors.amazonOrange,
           summary:
-            'Translating C-suite business requirements into high-impact GenAI and cloud-native software architectures.',
+            'Designed and built production GenAI and IoT systems for enterprise customers, from architecture to launch.',
           projects: [
             {
               name: 'Agentic AI Platform',
-              client: 'Fortune 50 Healthcare',
+              client: 'Fortune 50 Healthcare Company',
               contractValue: '$1.9M',
               bullets: [
-                'Enabled thousands of internal users to deploy autonomous agents for cross-functional API tasks by architecting an enterprise platform using LangChain, AWS Bedrock AgentCore, and Model Context Protocol.',
-                'Accelerated knowledge discovery across millions of data points by developing a GraphRAG system utilizing Amazon Neptune, Redis, and Textract to map complex semantic relationships.',
+                'Enabled thousands of internal users to deploy autonomous agents for cross-functional API tasks by architecting an enterprise platform on LangChain, AWS Bedrock AgentCore, and MCP, running on Amazon EKS.',
+                'Accelerated knowledge discovery across millions of data points by building a GraphRAG system on Amazon Neptune, Redis, and Textract that maps semantic relationships for retrieval by other GenAI products.',
+                'Partnered with the Bedrock AgentCore service team as an early adopter, reporting gaps found in production.',
               ],
             },
             {
@@ -78,35 +79,35 @@ export const resume = {
               client: 'Market-Leading Satellite Provider',
               contractValue: '$1.5M',
               bullets: [
-                'Led a team of 3 developers to build a Kotlin Android SDK from the ground up using dozens of system APIs, enabling automakers to add location sharing and emergency assistance to their apps and Android Auto.',
-                'Reduced messaging costs by 3.5x and achieved sub-50ms latency by engineering a peer-to-peer networking layer using AWS IoT Core and MQTT as an alternative to traditional HTTP APIs.',
+                'Led a team of 3 engineers building a Kotlin Android SDK from the ground up on dozens of system APIs, which automakers integrated into their apps and Android Auto for location sharing and emergency assistance.',
+                'Reduced messaging costs 3.5x and achieved sub-50ms latency by replacing HTTP APIs with a pub/sub messaging layer over MQTT on AWS IoT Core.',
               ],
             },
           ],
         },
         {
-          title: 'Frontend Engineer, Delivery Consultant',
+          title: 'Software Engineer, Delivery Consultant',
           dates: 'July 2022 – January 2024',
           dotColor: brandColors.awsSquid,
           summary:
-            'Leveraging value and impact through intuitive, high-performance user interfaces for complex backends.',
+            'Built full-stack web applications on React, GraphQL, and AWS backends for enterprise media customers.',
           projects: [
             {
-              name: 'ML-Driven Dashboard',
+              name: 'ML-Powered Forecasting Tool',
               client: 'Major National Media Network',
               contractValue: '$2.0M',
               bullets: [
-                'Increased ad-slot sales by 15% on average by designing a simulation system that enabled non-technical users to model complex viewership permutations in real-time.',
-                'Streamlined the full product lifecycle from Figma prototyping to a React.js & GraphQL production app, visualizing granular demographic data for multi-million dollar scheduling decisions.',
+                'Increased ad-slot sales 15% on average with a simulation tool that let non-technical users model viewership scenarios in real time, visualizing demographic data for multi-million dollar scheduling decisions.',
+                'Built the viewership forecasting model in Amazon SageMaker (feature engineering, training, inference), served through a React, Redux, and AppSync GraphQL app on DynamoDB.',
               ],
             },
             {
               name: 'Multi-Destination Live-Stream Orchestrator',
-              client: 'Fortune 10 Big Tech Platform',
+              client: 'Large Social Media Company',
               contractValue: '$1.4M',
               bullets: [
-                'Prevented the cancellation of a $1.4M contract by rescuing a failing engagement and revitalizing the UX/UI and backend abstraction layer within a high-velocity 4-week window to restore customer confidence.',
-                'Consolidated 8 disparate streaming destinations into a single interface, significantly reducing hardware overhead and operational complexity for broadcast engineers via AWS Elemental.',
+                'Saved a $1.4M contract by taking over a failing engagement, rebuilding the UI and backend in 4 weeks.',
+                'Consolidated 8 streaming destinations into one AWS Elemental interface, cutting broadcast hardware overhead.',
               ],
             },
           ],
@@ -123,8 +124,8 @@ export const resume = {
           dates: 'January – June 2021',
           dotColor: brandColors.teslaRed,
           bullets: [
-            'Automated real-time data ingestion and processing for hardware-in-the-loop (HIL) testing by architecting a Python and Apache Kafka pipeline, replacing manual reporting for urgent hardware tests.',
-            'Developed a centralized web application using React.js and Flask, featuring visualizations that enabled engineers to monitor live sensor streams and query legacy test data with sub-second response times.',
+            'Automated real-time HIL test data ingestion with a Python/Kafka pipeline, replacing manual reporting.',
+            'Built a centralized React/Flask app for live sensor visualization and sub-second queries over legacy test data.',
           ],
         },
       ],
@@ -143,27 +144,15 @@ export const resume = {
     dotColor: brandColors.huskyPurple,
     honors: [
       "Dean's List Scholarship, ",
+      link('CSE', 'https://www.cs.washington.edu'),
+      ' ',
+      link('UbiComp Lab', 'https://ubicomplab.cs.washington.edu'),
+      ' Research Assistant, ',
       link('iSchool', 'https://ischool.uw.edu'),
-      ' Teaching Assistant, ',
-      link('Computer Science School', 'https://www.cs.washington.edu'),
-      ' Research Assistant',
+      ' Teaching Assistant',
     ] satisfies RichText,
   },
-  // First on the page, as on the resume
   skills: [
-    {
-      name: 'AWS Certifications',
-      items: [
-        link('Solutions Architect', aws('certification/certified-solutions-architect-associate/')),
-        ', ',
-        link('Developer', aws('certification/certified-developer-associate/')),
-        ', ',
-        link('Machine Learning Engineer', aws('certification/certified-machine-learning-engineer-associate/')),
-        ' (2026); ',
-        link('AI Practitioner', aws('certification/certified-ai-practitioner/')),
-        ' (2025)',
-      ],
-    },
     {
       name: 'Languages & Frameworks',
       items: [
@@ -173,9 +162,7 @@ export const resume = {
         link('LangChain', 'https://www.langchain.com'),
         ', Jest, ',
         link('Playwright', 'https://playwright.dev'),
-        ', Android, Dart (',
-        link('Flutter', 'https://flutter.dev'),
-        '), IaC (',
+        ', Android, IaC (',
         link('CDK', aws('cdk/')),
         ', ',
         link('Terraform', 'https://developer.hashicorp.com/terraform'),
@@ -196,12 +183,29 @@ export const resume = {
         ', ',
         link('DynamoDB', aws('dynamodb/')),
         ', ',
+        link('AppSync', aws('appsync/')),
+        ', ',
         link('IoT Core', aws('iot-core/')),
-        '), Figma, Docker, Kubernetes, ',
+        ', ',
+        link('Elemental', aws('media-services/elemental/')),
+        '), PostgreSQL, Redis, ',
         link('Kafka', 'https://kafka.apache.org'),
-        ', Redis, Micro-frontends, CI/CD, GraphRAG, Agent Orchestration, ',
+        ', Docker, Kubernetes, CI/CD, GraphRAG, ',
         link('MCP', 'https://modelcontextprotocol.io'),
-        ', REST, MQTT',
+        ', REST, MQTT, Figma',
+      ],
+    },
+    {
+      name: 'AWS Certifications',
+      items: [
+        link('Solutions Architect', aws('certification/certified-solutions-architect-associate/')),
+        ', ',
+        link('Developer', aws('certification/certified-developer-associate/')),
+        ', ',
+        link('Machine Learning Engineer', aws('certification/certified-machine-learning-engineer-associate/')),
+        ' (2026); ',
+        link('AI Practitioner', aws('certification/certified-ai-practitioner/')),
+        ' (2025)',
       ],
     },
   ] satisfies { name: string; items: RichText }[],

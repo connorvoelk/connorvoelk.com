@@ -99,22 +99,6 @@ export default function ResumePage() {
           <p className={styles.summary}>{resume.summary}</p>
         </header>
 
-        <section className={styles.section} aria-labelledby="skills">
-          <h2 id="skills" className={styles.sectionTitle}>
-            Skills
-          </h2>
-          <dl className={styles.skills}>
-            {resume.skills.map((group) => (
-              <div key={group.name} className={styles.row}>
-                <dt className={styles.skillName}>{group.name}</dt>
-                <dd className={styles.skillItems}>
-                  <Rich text={group.items} />
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-
         <section className={styles.section} aria-labelledby="experience">
           <h2 id="experience" className={styles.sectionTitle}>
             Experience
@@ -168,6 +152,22 @@ export default function ResumePage() {
               </div>
             </article>
           </div>
+        </section>
+
+        <section className={styles.section} aria-labelledby="skills">
+          <h2 id="skills" className={styles.sectionTitle}>
+            Skills
+          </h2>
+          <dl className={styles.skills}>
+            {resume.skills.map((group) => (
+              <div key={group.name} className={styles.row}>
+                <dt className={styles.skillName}>{group.name}</dt>
+                <dd className={styles.skillItems}>
+                  <Rich text={group.items} />
+                </dd>
+              </div>
+            ))}
+          </dl>
         </section>
       </main>
     </div>
