@@ -2,7 +2,6 @@
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import styles from './page.module.css'
-import Navbar from '@/components/Navbar'
 import { gridLines } from '@/components/dotGrid'
 
 interface Dot {
@@ -179,7 +178,6 @@ export default function Home() {
     <div className={styles.container}>
       <canvas ref={canvasRef} className={styles.backgroundCanvas} />
       <main className={styles.main}>
-        <Navbar />
         <section className={styles.intro}>
           <h1 className={styles.name}>Connor Voelk</h1>
           <p className={styles.lead}>

@@ -1,5 +1,4 @@
 // src/app/timeline/page.tsx
-import Navbar from '@/components/Navbar'
 import Timeline from '@/components/Timeline'
 import styles from './page.module.css'
 
@@ -10,7 +9,6 @@ export default function TimelinePage() {
         <canvas className={styles.backgroundCanvas} />
       </div>
       <main className={styles.main}>
-        <Navbar />
         <div className={styles.content}>
           <Timeline />
         </div>

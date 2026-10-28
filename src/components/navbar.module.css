@@ -4,6 +4,16 @@
   left: 0;
   right: 0;
   z-index: 50;
+  /* Captured on its own during page transitions, so it isn't cut into
+     squares with the page (see tileTransitionStyles in tileMask.ts) */
+  view-transition-name: site-nav;
+}
+
+/* Never on paper, including the resume PDF */
+@media print {
+  .navbar {
+    display: none;
+  }
 }
 
 .container {

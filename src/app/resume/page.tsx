@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Navbar from '@/components/Navbar'
 import styles from './page.module.css'
 import { resume, type ResumeRole } from './resumeData'
 
@@ -45,7 +44,6 @@ export default function ResumePage() {
 
   return (
     <div className={styles.page}>
-      <Navbar />
       <main className={styles.resume}>
         <header className={styles.header}>
           <div className={styles.headerTop}>

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import Navbar from '@/components/Navbar'
 import ObjModel from './ObjModel'
 import styles from './projects.module.css'
 import { projects, projectHref, type Project } from './projectsData'
@@ -64,7 +63,6 @@ const ProjectCard = ({ project }: { project: Project }) => (
 export default function ProjectsPage() {
   return (
     <div className={styles.page}>
-      <Navbar />
       <main className={styles.main}>
         <header>
           <h1 className={styles.title}>Projects</h1>

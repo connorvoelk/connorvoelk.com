@@ -73,7 +73,11 @@ export function buildTileMask(width: number, height: number): string {
 
 // The CSS for one transition: instead of the browser's default cross-fade,
 // the new page's snapshot sits over the old one, masked by the tile strip,
-// which steps one frame at a time
+// which steps one frame at a time.
+//
+// The navbar (view-transition-name: site-nav) is captured separately, so it
+// isn't cut into squares: it stays put, live, on top of the reveal. On pages
+// without it ([obj]), it fades out or in instead.
 export function tileTransitionStyles(width: number, height: number): string {
   return `
     ::view-transition-old(root),
@@ -90,6 +94,26 @@ export function tileTransitionStyles(width: number, height: number): string {
     @keyframes tile-reveal {
       from { mask-position: 0% 0%; }
       to { mask-position: 0% 100%; }
+    }
+
+    ::view-transition-group(site-nav),
+    ::view-transition-new(site-nav) {
+      animation: none;
+      mix-blend-mode: normal;
+    }
+    ::view-transition-old(site-nav) {
+      display: none;
+    }
+    ::view-transition-old(site-nav):only-child {
+      display: block;
+      animation: nav-fade ${TRANSITION_MS}ms ease both reverse;
+    }
+    ::view-transition-new(site-nav):only-child {
+      animation: nav-fade ${TRANSITION_MS}ms ease both;
+    }
+    @keyframes nav-fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   `
 }

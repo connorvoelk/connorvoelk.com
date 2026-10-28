@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import Navbar from '@/components/Navbar'
 import styles from '../projects.module.css'
 import { projectPages, type Project } from '../projectsData'
 
@@ -78,7 +77,6 @@ export default async function ProjectPage({ params }: Props) {
       className={styles.page}
       style={{ '--accent': project.accent } as React.CSSProperties}
     >
-      <Navbar />
       <main className={styles.article}>
         <Link href="/projects" className={styles.back}>
           ← All projects

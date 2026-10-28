@@ -2,6 +2,7 @@
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { useState, useRef } from 'react'
 import styles from './navbar.module.css'
 
@@ -239,4 +240,14 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+// Rendered once in the root layout, so the nav stays mounted (and open, if
+// it's being hovered) across page changes and sits above the page transition.
+// [obj] has its own full-screen window UI, so it goes without; unmounting
+// there means the nav comes back closed.
+const SiteNav = () => {
+  const pathname = usePathname()
+  if (pathname.startsWith('/obj')) return null
+  return <Navbar />
+}
+
+export default SiteNav
