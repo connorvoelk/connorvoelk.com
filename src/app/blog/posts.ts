@@ -15,6 +15,12 @@ export interface Post {
 }
 
 export const posts: Post[] = [
+  {
+    slug: 'lapras-outbreak',
+    title: 'The Lapras Outbreak: Augmented Reality, Literally',
+    navTitle: 'Lapras Outbreak',
+    status: 'published',
+  },
   { slug: 'blue-bubble-boy', title: 'Blue Bubble Boy', status: 'published' },
   {
     slug: 'square-terminal',
@@ -23,7 +29,6 @@ export const posts: Post[] = [
     status: 'published',
   },
   { slug: 'data-driven-design', title: 'Data Driven Design', status: 'draft' },
-  { slug: 'lapras-invasion', title: 'Lapras Invasion', status: 'draft' },
   { slug: 'dead-internet', title: 'Dead Internet', status: 'draft' },
 ]
 

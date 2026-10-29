@@ -1,0 +1,146 @@
+import styles from './theme.module.css'
+import SpawnTable from './SpawnTable'
+
+export const metadata = {
+  title: 'The Lapras Outbreak: Augmented Reality, Literally – Connor Voelk',
+  description:
+    'How a Pokémon GO spawn-rate change moved 100,000 people to a recovering Japanese fishing town, and what that says about augmented reality.',
+}
+
+<h1>
+  <span className={styles.kicker}>The Lapras Outbreak<span className={styles.srOnly}>:</span></span>
+  Augmented Reality, Literally
+</h1>
+
+Connor Voelk
+
+<SpawnTable />
+
+## The morning the Lapras showed up
+
+On the morning of November 12, 2016, the streets of Ishinomaki, a fishing city on Japan’s northeast coast, were full of strangers staring at their phones. Locals could tell they weren’t from around here by their license plates, which came from all over the country. Nobody had come for the seafood or the scenery. They had come for a monster that doesn’t exist.
+
+Lapras is a big, gentle, sea-dwelling Pokémon, and in Pokémon GO it was one of the rarest things you could find. That week it was suddenly everywhere along this stretch of coastline. By the end of the day, about 10,000 players had shown up in Ishinomaki alone.
+
+As far as code goes, nothing about the city had changed. A few rows in a spawn table on a server in California had been edited. That was it. But the trains, the parking lots, the noodle shops and the cash registers in Ishinomaki all registered the change, and that’s the part I can’t stop thinking about.
+
+We’ve spent a decade calling this kind of thing “augmented reality,” meaning digital stuff drawn on top of the real world through a screen. I think that undersells what happened here. The screen wasn’t the interesting part. The interesting part is that the digital layer reached back out through the screen and moved a hundred thousand people, a couple billion yen, and eventually a prefecture’s identity.
+
+## Five years of quiet
+
+To understand why a Pokémon spawn rate mattered here, you have to rewind to March 11, 2011. At 2:46 in the afternoon, a magnitude 9.0 earthquake hit off the coast of Tohoku, and the tsunami behind it hit the coast. Ishinomaki was the single worst-hit city in the entire disaster.
+
+By the city’s own count, 3,271 people died directly in the earthquake and tsunami. Another 253 died later from the physical and psychological toll, and 436 were still missing three years on. Around 29,000 residents lost their homes. Waves topped the seawalls and pushed kilometers inland.
+
+By 2016, a lot of the physical rebuilding was underway, but the visitors never really came back. The rest of Japan, and the rest of the world, had moved on. Standing in front of the Pokémon crowd that November, Miyagi’s governor, Yoshihiro Murai, basically said exactly that: five years later, the region’s problems were being overlooked, even though things were still critical.
+
+That’s the backdrop. A place that had been rebuilt, but that people had stopped visiting. Which happens to be exactly the kind of problem a location-based game is built to solve, even if nobody designed it for that.
+
+## A config change and a festival
+
+The effort wasn’t a one-off stunt from a game studio. In August 2016, Niantic sat down with the governors of Iwate, Miyagi, Fukushima and Kumamoto, all of which had been hit by major earthquakes, and announced a joint project to bring tourists back. Pokémon GO had launched in Japan only a few weeks earlier.
+
+Niantic’s half of the job was almost comically simple. From November 11 to 23, Lapras would spawn far more often along the coasts of the three Tohoku prefectures. The game had only run its very first event, for Halloween, two weeks before that. So this was close to the first time anyone had used a live-ops lever on a specific patch of real-world geography.
+
+The prefecture’s half was physical. Miyagi ran a festival called Explore Miyagi in Ishinomaki. It had a live Pokémon show and a food festival with local dishes like Ishinomaki-style stir-fried noodles. There was a photo contest for Pokémon shots taken in the recovering city, and four bus tours that took players through the disaster zone. Players could also apply to have new PokéStops added, which means they were literally voting new landmarks into the map.
+
+Miyagi’s budget for the whole program was ¥30 million, about $275,000 at the time.
+
+I think the structure here is the most important thing in the whole story. A digital asset on its own does nothing. What worked was a GIS-placed incentive (rare Lapras, only here, only this week), paired with real events, real food, and real people telling the story of what happened. The game supplied the reason to go. The city supplied the reason it mattered.
+
+## The receipt
+
+In December, Miyagi’s tourism division published the numbers. Over the 11 days from November 11 to 21, about 100,000 people visited Ishinomaki. They spent an estimated ¥2 billion, which was roughly $17 to 18 million at the time.
+
+The prefecture broke it down: 65,000 day-trippers from elsewhere in Miyagi, 5,000 overnight visitors from within the prefecture, and 30,000 overnight visitors from outside it. About ¥1.25 billion of that was direct spending, and the other ¥750 million was the knock-on effect as that money moved through the local economy.
+
+That’s a ¥30 million budget against a ¥2 billion estimate. Even if you’re skeptical, and you should be a little, that’s a wild ratio.
+
+Here’s why to be a little skeptical. The ¥2 billion isn’t a count of receipts. It’s a model: visitor counts multiplied by average spending figures, plus a multiplier for ripple effects. As far as I can tell from the reporting, it counts everyone who visited in that window, not just the extra people above a normal November. Different outlets also disagree on the visitor count. One Japanese outlet reported 200,000, which is double the official figure.
+
+So the honest version is this: nobody knows exactly how much money the Lapras made Ishinomaki. But the direction is clear, and it’s big. A city that people had stopped visiting was suddenly packed, and the cash registers noticed. One coffee shop owner told reporters his profits had doubled during the event.
+
+## The part the press release skips
+
+The same crowd that filled the coffee shop also filled the streets. Ishinomaki’s usually empty roads were suddenly jammed with players crossing without looking, driving at a crawl to catch spawns, and parking wherever they stopped. Residents complained to the prefecture, the city and the police. Some reported strangers on their property. Some parents got so absorbed in the hunt that they lost track of their kids.
+
+The detail that stuck with me most: in one district, players gathered in a cemetery before dawn. This was a city still grieving thousands of its own. One resident told Zoom Japan it felt “as if they had barged into my home without taking their shoes off” during mourning.
+
+Then the event ended in about the most on-the-nose way possible. On the morning of November 22, an earthquake hit off the coast of Fukushima and set off a tsunami alert for the same coastline, Ishinomaki included. The players vanished almost as fast as they’d appeared, and Niantic switched off the Lapras spawns in Tohoku for safety.
+
+The visitors who were still there didn’t really know what to do. The alerts were in Japanese. Out-of-towners didn’t know where the shelters were. A family from Australia, who had flown in the day before to catch Pokémon, said they found shelter but were anxious the whole time.
+
+This is the moment where my whole thesis gets real for me. The digital layer had successfully pulled thousands of unfamiliar people onto a tsunami coast. It had no matching layer for getting them safely back off it. The game was very good at moving bodies around a map. It just hadn’t been built with any responsibility for where those bodies ended up.
+
+## The Lapras never really left
+
+You’d expect an 11-day event to leave behind an 11-day bump. That’s not what happened. Lapras stuck.
+
+In July 2019, Miyagi officially named Lapras its “Support Pokémon,” and the prefecture ran a “Lapras + Miyagi Tour” that October with boosted spawns again. Today, visitors to Miyagi can ride a Lapras-shaped boat. A creature that exists only as a 3D model and a row in a database became part of how a real prefecture markets itself.
+
+Then, in 2024, Pokémon GO Fest, the game’s flagship live event, went to Sendai, Miyagi’s capital. Niantic’s commissioned report put the economic impact at ¥7.4 billion, or about $48 million, including ¥2.8 billion in tax revenue.
+
+That’s the arc: a recovery experiment in 2016 became a regional identity, which became a host city for one of the biggest live gaming events in the world. A spawn rate turned into a mascot, and the mascot turned into infrastructure.
+
+## Then it became a playbook
+
+Once you see the pattern in Ishinomaki, you start seeing it everywhere.
+
+**Kumamoto, 2017.** Four months later, Niantic did it again. From March 4 to 13, Snorlax spawned more often in Kumamoto and Oita to help tourism after the 2016 Kumamoto earthquakes. In 2019, Kumamoto got a crossover with One Piece, whose creator, Eiichiro Oda, is from there and had donated ¥800 million to the rebuilding.
+
+**Tottori, 2017.** This one wasn’t about disaster recovery at all, just a rural prefecture that wanted visitors. A three-day Safari Zone on the Tottori sand dunes drew more than 89,000 people, over double the area’s previous record. The spending was estimated at around $16 million.
+
+**Poké Lids, 2018 to now.** This is my favorite example, because it runs in the opposite direction. The Pokémon Company and local governments started installing Pokémon-designed manhole covers in Japanese towns, mostly in places that aren’t near big tourist attractions, on purpose. Every one of them is also a PokéStop in the game. So now there’s a physical object in the ground, mirrored by a digital node on the map, and the pair of them pulls people to towns that wouldn’t otherwise get any.
+
+**Small businesses, 2020.** During COVID, Niantic took 38,000 player nominations and picked 1,000 small businesses across the US, Canada, Mexico, the UK and Japan. Their storefronts became sponsored PokéStops or Gyms for a year, for free. In 2021, for the tenth anniversary of the Tohoku disaster, Niantic ran a similar program just for local shops in the region.
+
+**GO Fest, at scale.** By now the concept has been fully industrialized. Niantic’s commissioned studies put the 2023 GO Fests in New York, London and Osaka at a combined $323 million in economic impact, with $73.8 million of that in tax revenue. Those are Niantic-funded numbers, so take them with the same grain of salt as Miyagi’s. But the shape is unmistakable.
+
+What started as a single goodwill experiment on a tsunami coast has become a repeatable product: pick a place, put something rare there, and people show up with their wallets.
+
+## Same lever, different outcome
+
+Here’s the uncomfortable part. The exact mechanism that filled Ishinomaki’s coffee shops also does things nobody would put in a press release.
+
+Two Purdue economists, Mara Faccio and John McConnell, studied about 12,000 police crash reports from Tippecanoe County, Indiana, before and after Pokémon GO launched in July 2016. They found that crashes within 100 meters of a PokéStop jumped 26.5% more than crashes elsewhere. They tied 134 extra crashes to the game in its first 148 days, including 31 injuries and two deaths. They put the county’s added cost somewhere between $5.2 million and $25.5 million.
+
+Nobody at Niantic set out to cause car crashes in Indiana, the same way nobody set out to fill a cemetery in Ishinomaki before dawn. But PokéStops are placed on real intersections, and players are real people driving real cars. A data point put on a map ends up influencing what happens at that spot on the actual street.
+
+That’s why I don’t think the takeaway from the Lapras story is “games can be good for cities.” The takeaway is that these games are a steering system for physical crowds. Steering can be aimed at a recovering town, or it can be left pointed at a busy intersection by accident. Either way, the effect lands in the real world.
+
+## Augmented reality, literally
+
+The classic way to think about this comes from Paul Milgram’s reality–virtuality continuum, which dates to 1994. On one end you have the physical world, and on the other a fully virtual one. Augmented reality sits near the physical end: digital stuff layered onto what you see. The direction of the arrow is always the same. The digital world gets added to the real one, but only through a screen, and only for whoever’s holding the phone.
+
+What happened in Ishinomaki runs the arrow the other way. The digital layer didn’t just decorate the city. It wrote back to it. It changed who showed up, where they walked, what they ate, how much they spent, which manhole covers got installed, and what a prefecture put on its tourism posters. If you’re an engineer, the comparison is obvious. AR has always been a read-only view of the world. These events are AR with write access.
+
+I’ve been calling this “reverse augmented reality,” and I’m honestly still not sure that’s the right name. I’m sure about the idea, though. A purely digital asset with no physical existence (a sea monster, a glowing pin on a map) can change the real world once you pair it with three things: a place, a moment, and other people. The geography gives it somewhere to land. The event gives it urgency. The people turn it into money, traffic, culture and, sometimes, risk.
+
+Which is what makes it powerful, and also what makes it a responsibility. The same spawn table that brought 100,000 people to a town that had been forgotten also pulled thousands of strangers onto a tsunami coast with no plan for getting them out. It also put crowds of drivers at Indiana intersections and players in a cemetery before sunrise. None of those outcomes were digital. They all happened on the ground.
+
+We tend to talk about AR as if the interesting future is better glasses and sharper overlays. I think the Lapras outbreak shows the interesting part was never the overlay. It’s the moment someone at a desk changes a number in a database, and a week later a fishing town 5,000 miles away has full parking lots. That’s augmented reality, literally. We should probably start designing for it like we know that.
+
+<section className={styles.sources}>
+
+## Sources
+
+- [Travel Voice: Miyagi Pokémon GO economic effect (EN)](https://www.travelvoice.jp/english/pokemon-go-events-generated-tourist-spending-of-about-2-billion-jpy-in-miyagi-prefecture) / [(JP)](https://www.travelvoice.jp/20161221-80223/print)
+- [Zoom Japan: Pokemon rules](https://zoomjapan.info/wp/2017/04/15/no50-experience-pokemon-rules/)
+- [iPhone Mania: Lapras event economic effect (JP)](https://iphone-mania.jp/?p=149229)
+- [Anime News Network: Tohoku Lapras event](https://fast.animenewsnetwork.com/interest/2016-11-11/japan-tohoku-region-gets-pokemon-go-lapras-event/.108730)
+- [Japan Times: Lapras](https://www.japantimes.co.jp/tag/lapras)
+- [Shashasha: Ishinomaki](https://www.shashasha.co/en/book/ishinomaki)
+- [Wikipedia: Ishinomaki](https://en.wikipedia.org/wiki/Ishinomaki)
+- [IGES: Ishinomaki after the earthquake](https://www.iges.or.jp/en/pub/fostering-new-human-nature-relationship-area-devastated-great-east-japan-earthquake-ishinomaki)
+- [Gigazine: Lapras + Miyagi Tour](https://wbgsv0a.gigazine.net/gsc_news/en/20191019-pokemon-go-kesennuma-lapras)
+- [Government of Japan: Pokémon with Tohoku (PDF)](https://www.japan.go.jp/kizuna/_userdata/pdf/2023/winter2023/pokemon_with_tohoku.pdf)
+- [Pokémon GO: Tohoku 10th anniversary](https://pokemongo.com/news/tohoku2021)
+- [iMore: Kumamoto Snorlax event](https://imore.com/pokemon-go-japan-events)
+- [Anime News Network: One Piece × Kumamoto](https://cdn.animenewsnetwork.com/interest/2019-07-17/pikachu-joins-the-straw-hat-crew-in-pokemon-go-campaign/.149083)
+- [PocketGamer.biz: Tottori Safari Zone](https://pocketgamer.biz/asia/news/67093/pokemon-go-travel-tottori-prefecture/)
+- [Pasona: Pokémon manhole covers](https://en.awajiisland.pasonagroup.co.jp/?p=19741)
+- [MCV: Local Business Recovery Initiative](https://mcvuk.com/?p=212228)
+- [Niantic: GO Fest 2023 economic impact](https://nianticlabs.com/news/pgo-economic-impact-2023) / [2024](https://nianticlabs.com/news/pgo-economic-impact-2024/)
+- [Purdue: Death by Pokémon GO](https://docs.lib.purdue.edu/dawnordoom/2018/presentations/18) / [GearBrain coverage](https://www.gearbrain.com/amp/pokemon-go-increase-road-accidents-2513177329)
+
+</section>
