@@ -25,7 +25,6 @@ const sections = [
     href: '/projects',
     ready: true,
     links: [
-      { label: 'all', href: '/projects', ready: true },
       { label: 'mani', href: '/projects/mani', ready: true },
       { label: '[obj]', href: '/obj', ready: true },
       { label: 'listening pal', href: '/projects/listening-pal', ready: true },
