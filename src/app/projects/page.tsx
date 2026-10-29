@@ -63,7 +63,6 @@ const ProjectCard = ({ project }: { project: Project }) => {
         </div>
         <div className={styles.cardHeading}>
           <h3 className={styles.cardName}>{project.name}</h3>
-          {project.years && <span className={styles.years}>{project.years}</span>}
         </div>
         <p className={styles.cardTagline}>{project.tagline}</p>
         <TagList ids={project.tags} className={styles.cardTags} />

@@ -38,6 +38,7 @@ export interface Project {
   tagline: string
   group: 'now' | 'earlier'
   kind: string
+  // Not shown for now; they'll come back once there are more projects
   years?: string
   role?: string
   team?: string

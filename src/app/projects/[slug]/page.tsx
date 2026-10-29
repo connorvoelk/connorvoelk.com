@@ -68,7 +68,6 @@ export default async function ProjectPage({ params }: Props) {
   const github = githubLink(project)
 
   const facts = [
-    { label: 'When', value: project.years },
     { label: 'Role', value: project.role },
     { label: 'Team', value: project.team },
     { label: 'Built with', value: project.stack.join(', ') },
