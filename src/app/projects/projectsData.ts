@@ -17,6 +17,7 @@ import pokedbLogo from './media/pokedb/logo.svg'
 import hhJournals from './media/head-helper/journals.webp'
 import hhGoal from './media/head-helper/goal.webp'
 import hhProgress from './media/head-helper/progress.webp'
+import type { TagId } from './tags'
 
 export interface ProjectImage {
   src: StaticImageData
@@ -38,9 +39,10 @@ export interface Project {
   group: 'now' | 'earlier'
   kind: string
   years?: string
-  inProgress?: boolean
   role?: string
   team?: string
+  // Shown as colored tags: what it is and what it's built with
+  tags: TagId[]
   stack: string[]
   // Tints the image panels, so each project keeps its own color
   accent: string
@@ -67,8 +69,8 @@ export const projects: Project[] = [
     group: 'now',
     kind: 'iOS app',
     years: '2025 – now',
-    inProgress: true,
     role: 'Design and development (solo)',
+    tags: ['ios', 'swift', 'on-device-llm'],
     stack: ['Swift', 'SwiftUI', 'SwiftData', 'Apple Foundation Models', 'Figma'],
     accent: '#a42bea',
     links: [],
@@ -120,7 +122,7 @@ export const projects: Project[] = [
       "My ceramics portfolio: pieces I've made, as 3D models you can turn around in the browser.",
     group: 'now',
     kind: 'Ceramics portfolio',
-    inProgress: true,
+    tags: ['ceramics', '3d-models', 'nextjs'],
     stack: ['Next.js', 'model-viewer', 'glTF'],
     accent: '#e5e0df',
     links: [],
@@ -139,6 +141,7 @@ export const projects: Project[] = [
     years: '2022',
     role: 'Frontend, backend, cloud, and some UI/UX design',
     team: 'Emily Dooley, Madison Johnstone, Raiham Malik, and me',
+    tags: ['mobile', 'flutter', 'aws', 'stripe', 'capstone'],
     stack: ['Flutter', 'Dart', 'AWS', 'Amazon Cognito', 'Stripe', 'Figma'],
     accent: '#5fb8bf',
     links: [
@@ -196,6 +199,7 @@ export const projects: Project[] = [
     kind: 'Android app',
     years: '2020',
     role: 'Design and development (solo)',
+    tags: ['android', 'kotlin', 'firebase'],
     stack: ['Kotlin', 'Android', 'Firebase Auth', 'Firebase Realtime Database', 'Firebase Storage'],
     accent: '#6200ee',
     links: [{ label: 'Code on GitHub', href: 'https://github.com/connorvoelk/photogram' }],
@@ -236,6 +240,7 @@ export const projects: Project[] = [
     years: '2020',
     role: 'Team lead and SQL engineer',
     team: 'Team of four',
+    tags: ['sql-server', 'database-design', 'pokemon'],
     stack: ['SQL Server', 'T-SQL', 'ERD'],
     accent: '#e3350d',
     logo: pokedbLogo,
@@ -279,6 +284,7 @@ export const projects: Project[] = [
     kind: 'App design',
     years: '2020',
     role: 'Research and design (solo)',
+    tags: ['app-design', 'figma', 'health'],
     stack: ['Figma', 'React Native'],
     accent: '#d946ef',
     links: [],

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import ObjModel from './ObjModel'
 import styles from './projects.module.css'
 import { projects, projectHref, type Project } from './projectsData'
+import { TagList } from './tags'
 
 export const metadata: Metadata = {
   title: 'Projects – Connor Voelk',
@@ -60,14 +61,10 @@ const ProjectCard = ({ project }: { project: Project }) => (
       </div>
       <div className={styles.cardHeading}>
         <h3 className={styles.cardName}>{project.name}</h3>
-        {project.inProgress ? (
-          <span className={styles.badge}>In progress</span>
-        ) : (
-          <span className={styles.years}>{project.years}</span>
-        )}
+        {project.years && <span className={styles.years}>{project.years}</span>}
       </div>
       <p className={styles.cardTagline}>{project.tagline}</p>
-      <p className={styles.cardKind}>{project.kind}</p>
+      <TagList ids={project.tags} className={styles.cardTags} />
     </Link>
   </li>
 )
@@ -79,8 +76,7 @@ export default function ProjectsPage() {
         <header>
           <h1 className={styles.title}>Projects</h1>
           <p className={styles.intro}>
-            What I&apos;m building now, and what I built before. Some are still
-            in progress.
+            What I&apos;m building now, and what I built before.
           </p>
         </header>
 

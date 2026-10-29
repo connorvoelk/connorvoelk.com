@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import styles from '../projects.module.css'
 import { projectPages, type Project } from '../projectsData'
+import { TagList } from '../tags'
 
 // Only the projects in projectsData have pages; anything else is a 404
 export const dynamicParams = false
@@ -94,11 +95,9 @@ export default async function ProjectPage({ params }: Props) {
               />
             )}
             <h1 className={styles.title}>{project.name}</h1>
-            {project.inProgress && (
-              <span className={styles.badge}>In progress</span>
-            )}
           </div>
           <p className={styles.tagline}>{project.tagline}</p>
+          <TagList ids={project.tags} className={styles.pageTags} />
 
           <dl className={styles.facts}>
             {facts.map((fact) => (
