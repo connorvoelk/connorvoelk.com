@@ -1,0 +1,56 @@
+/* Starter theme: a Web 1.0 page, the internet before the bots moved in.
+   Grey desktop, beveled window, Times, default link blue. A placeholder
+   mood; change anything. */
+.theme {
+  min-height: 100vh;
+  padding: 1.5rem 1rem 4rem;
+  background-color: #c0c0c0;
+  color: #000000;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.back {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+.article {
+  max-width: 40rem;
+  margin: 2rem auto 0;
+  padding: 2rem 2.25rem 3rem;
+  background-color: #ffffff;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: 1px 1px 0 #000000;
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+.article h1 {
+  font-size: 2.25rem;
+  line-height: 1.2;
+}
+
+.article h2 {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}
+
+.article p {
+  margin-top: 1rem;
+}
+
+.article a {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+.article a:visited {
+  color: #551a8b;
+}
+
+@media (max-width: 640px) {
+  .article {
+    padding: 1.5rem 1.25rem 2rem;
+  }
+}

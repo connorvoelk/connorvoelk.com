@@ -1,0 +1,173 @@
+import styles from './theme.module.css'
+
+export const metadata = {
+  title: 'Blue Bubble Boy – Connor Voelk',
+  description:
+    'The years I spent faking iMessage on an Android phone, and why a bubble color mattered enough to try.',
+}
+
+# Blue Bubble Boy
+
+Connor Voelk
+
+“Oh, whoa. I thought you had an iPhone.” Or: “You have an *Android*?”
+
+I heard some version of that a lot during the years I was dating. We’d match on an app, move to texting, talk for a week or two, and finally meet up. At some point she’d see the phone in my hand and do a double take. We’d been messaging the whole time in blue bubbles. As far as she knew, I had an iPhone.
+
+I’d explain that I used an Android but had iMessage running on it, so don’t worry about it. Some people thought that was weird. Some thought it was kind of cool, in a hacky way. But the reaction I remember most went something like: *I never would have kept talking to you if your texts were green. You kind of duped me.* Then, usually with a laugh: *At least I don’t have to deal with the green messages.*
+
+She was half joking. But only half. And she wasn’t wrong about the duping. For years I ran a small, fragile, homemade piece of infrastructure whose only job was to make me look like I owned a phone I didn’t own. This is the story of that setup, why it worked, why it eventually broke me, and why a bubble color mattered enough that I built it in the first place.
+
+## An Android kid
+
+I had Android phones for my entire adolescence. I always liked the *idea* of Apple hardware: the sleekness, the form. But the software felt suffocating. As a kid I jailbroke every Apple device I could get my hands on, just to make it do what I wanted.
+
+Then I found that Android phones simply did what I wanted out of the box, and they tended to be cheaper. There were dozens of international manufacturers, endless themes and launchers, and custom ROMs. It was a lush market for getting a device that did exactly what you asked of it. I went through an HTC One, then the OnePlus One (which shipped with Cyanogen OS), had a brief affair with a Nexus 5, then a Pixel 2 and a OnePlus 7 Pro.
+
+Eventually the excitement died down. The ecosystem homogenized. CyanogenMod, the custom ROM so many of us ran, fizzled after its commercial spinoff collapsed, and Google tightened its grip on what made Android feel like Android. By the Pixel 6, I was mostly choosing between two very similar slabs of glass.
+
+So I tried the other one. Around 2021 I used an iPhone 13 alongside my Pixel 6. A lot of iOS frustrated me. Notifications didn’t work the way I wanted, and it still used Lightning, which meant carrying one more cable when everything else I owned, including my MacBook, was USB-C.
+
+But the iPhone created a problem I hadn’t expected. I started using iMessage, and I saw the light.
+
+I finally understood why I’d been the butt of jokes and the bane of every group chat I’d ever been in. iMessage between iPhones is genuinely great. Group chats are managed well. Photos and videos arrive at full resolution. There are inline replies, reactions, typing indicators, even little apps and games inside the conversation. Then one non-iPhone number joins and all of it falls apart. Every bubble turns green, photos come through crushed, reactions arrive as text messages that say *Liked “see you at 8”*. Frustration builds until someone says what everyone’s thinking: maybe this guy doesn’t need to be in the group chat.
+
+For years, that guy was me.
+
+## How America turned blue
+
+It’s worth saying early: this is largely an American problem. In most of the world, people talk on WhatsApp, or WeChat, or LINE, or KakaoTalk. Those apps look the same on any phone, so nobody can tell what you’re holding. The bubble color only means something in places where the plain phone number is still the social network. That mostly means the US.
+
+That happened almost by accident. In the early 2000s Americans were late to texting. By 2005 only about 40% of US cell users texted, while some European and Asian countries were at 80 to 90%. What finally taught America to text was *American Idol*, which let viewers vote by SMS. AT&T said more than 40% of its Idol voters had never sent a text before. Then, around 2010, US carriers started throwing unlimited texting into nearly every plan. An analyst later explained that they did it on purpose to keep WhatsApp from cutting them out. It worked. Americans never had a reason to download a messaging app, so the phone number stayed the network.
+
+Apple announced iMessage at WWDC in June 2011 and shipped it with iOS 5 that October. The genius of it was that you never signed up. Messages, the default texting app, quietly checked whether the number you were texting belonged to an Apple device. If it did, your text went over Apple’s encrypted network and turned blue. If not, it fell back to carrier SMS and turned green. Nobody ever chose iMessage, so nobody ever had to choose to leave it. They just saw you change color.
+
+That sorting mechanism became more powerful as the iPhone took over. In mid-2022, Counterpoint found that iPhones made up more than half of US smartphones in use for the first time. Among teenagers, it was never close. Piper Sandler’s surveys put teen iPhone ownership at 40% in 2012 and 87% by fall 2022, where it has stayed. When nearly nine in ten of your peers are blue, green doesn’t read as a choice. It reads as an outsider.
+
+In January 2022, the *Wall Street Journal* ran a story whose headline said it all: teens dread the green text bubble. It described Android-using students being left out of group chats and pressured to switch. Google’s head of Android publicly accused Apple of profiting from peer pressure and bullying. Apple didn’t change anything.
+
+## Choosing both
+
+So I was at a crossroads. I didn’t really like the iPhone. I really liked the Pixel. The only thing pulling me toward the iPhone, and away from the cheaper phone I thought was better, was the messaging platform my friends, family, and romantic interests all used.
+
+Then I remembered hearing, years earlier, about projects that pulled iMessages off a Mac and onto an Android phone. I’d looked at one called AirMessage back then and decided it was too much of a hassle. This time I found BlueBubbles, an open-source project with an active community, and decided I could have both.
+
+Here’s the trick these tools use. They never actually crack iMessage. Apple guards the front door: to register a device for iMessage, it requires proof that the request is coming from genuine Apple hardware. So instead of picking that lock, a relay borrows a key. A real Mac stays signed in to your Apple ID and running Messages. The BlueBubbles server watches the Mac’s own message database for new texts and forwards them to your phone. When you reply, it tells the Mac to send the message for you. With extra setup, it can even reach into Apple’s private Messages framework so your reactions, typing bubbles, and replies show up as native iMessage features. Your Android phone is essentially a remote control for a Mac.
+
+Which meant I needed a Mac. I found an old Mac mini on eBay for about $50. I justified it because the Pixel was a good $100 cheaper than the iPhone, so I was still coming out ahead. I got the Mac mini running, installed the BlueBubbles server, installed the app on my Pixel, connected them, and it worked. It was genuinely cool.
+
+The first problem was one I’d half expected. iMessage knew me by my Apple ID email, but not by my phone number. If you texted my email, I was blue. If you texted my number, which is what everyone actually did, I was still green. So people would end up with two separate threads with me, one blue and one green, depending on how they’d started the conversation. It was a mess.
+
+The fix was an old iPhone 5 my parents had lying around. I charged it up, signed in to my accounts, and moved my SIM card from the Pixel into the iPhone. The iPhone registered my phone number with iMessage. In settings, I made the phone number the primary address for my iMessage account. Then I moved the SIM back into the Pixel. Apple now believed my number belonged to an iPhone, and every text to it landed on the Mac mini and came out on my Android phone.
+
+And it worked well. I changed phones a few times and kept the system running for years. For the first couple of years, I only had to repeat the SIM swap two or three times a year. Mostly I could just let it run.
+
+## The daily swap
+
+Then it started getting harder.
+
+The phone number registration began dropping more often. It felt like Apple was catching on, checking more frequently whether my number was still tethered to a real iPhone. I can’t prove what changed on Apple’s side, but the pattern was clear from mine: a couple of swaps a year became a swap every few weeks, then a few times a week, and eventually every day.
+
+It became part of my morning routine, and I got fast at it. Wake up. Turn off the Pixel. Pop out the SIM. Put it in the iPhone 5. Turn the iPhone on. Set the phone number as the primary iMessage address. Turn the iPhone off. Take the SIM out. Put it back in the Pixel. Turn the Pixel on. Every single day, so that people could text me without noticing anything.
+
+The Mac mini had its own problems. It was old, it was running around the clock, and every so often it crashed. When it went down while I was home, it was an annoyance. When it went down while I was away, I couldn’t text anyone. That happened on a trip to Hawaii. My friends couldn’t reach me properly, and I had to do a whole cutover: tell everyone *no iMessage right now* and fall back to plain green texts until I got home. Other times I’d use Chrome Remote Desktop to log in to the Mac mini from wherever I was and type messages directly into Messages on a computer sitting at home.
+
+I was jumping through all of these hoops so that people could text me more easily. Really, so that it looked like I had iMessage and an iPhone.
+
+I wasn’t alone. In late 2023, companies were fighting Apple over the same thing. In November 2023, the phone maker Nothing launched Nothing Chats, an app promising iMessage on Android. It was pulled within about a day when researchers showed it was storing users’ messages unencrypted on its servers. A few weeks later, a startup called Beeper launched Beeper Mini, built on reverse-engineering work by a high school student. It registered your actual Android phone number with iMessage directly, with no Mac and no SIM swapping. In other words, it did what my iPhone 5 did, in software. More than 100,000 people downloaded it in two days. Three days after launch, Apple cut it off, saying it had blocked techniques that exploit fake credentials. Beeper fought back for a few weeks and then gave up.
+
+That’s the part I find telling. People were buying old Macs, disabling security features, paying subscriptions, and handing Apple IDs to strangers, all to avoid being green. The one clean solution lasted 72 hours.
+
+## Green as a first impression
+
+When the system worked, it was great. My friends, my family, and the people I was seeing could all reach me on iMessage. Group chats just worked. Nobody had to think about what phone I had, which was the whole point.
+
+Dating was where I felt the stakes most clearly. I always knew the bubble color was an issue. On a dating app, your first impression is a few photos and then your texts, and a green bubble is part of that impression whether you like it or not. If someone already knew me and liked me, I doubt finding out I used an Android would have mattered much. But as a first impression, from a stranger, it clearly did. A lot of the women I met told me some version of the same thing: if my texts had been green, they wouldn’t have kept talking to me.
+
+Think about what that means. Before someone knows how kind or funny or interesting you are, an automatic design decision has already filed you under *other*. Some people will look past it. Plenty, apparently, won’t bother. And the person on the other end isn’t really being shallow. Green texts genuinely do work worse. Photos look bad. Reactions turn into clutter. The color is a quick, honest signal that the conversation is going to be more annoying.
+
+That’s why being left out of group chats stung without feeling like anyone’s fault. People kept chats “pure” for iMessage users because adding me made the experience worse for everyone. Sometimes that meant I wasn’t invited to things, or found out about plans after they’d been made in a chat I wasn’t in. The US Department of Justice later described this exact dynamic in its antitrust complaint against Apple, saying non-iPhone users experience social stigma, exclusion, and blame. When I read that, it felt less like a legal argument and more like a summary of my group chats.
+
+## In Apple’s own words
+
+It would be easy to call all of this a cultural accident. Apple’s own executives make that hard.
+
+In 2021, Epic Games’ lawsuit against Apple put internal emails into the public record. In 2013, Eddy Cue pushed to bring iMessage to Android and was overruled. Craig Federighi, Apple’s head of software, worried that iMessage on Android would remove an obstacle to iPhone families giving their kids Android phones. In 2016, a former employee wrote that iMessage was the hardest thing about leaving Apple’s ecosystem and called it “serious lock-in.” Phil Schiller agreed that moving iMessage to Android would hurt Apple more than help it.
+
+Then, in September 2022, Tim Cook said the quiet part on stage. At Vox’s Code Conference, someone in the audience explained that he couldn’t send his mom certain videos because she had an Android, and asked whether Apple would fix texting between the platforms. Cook’s answer: “Buy your mom an iPhone.”
+
+I think about that a lot. It’s the corporate version of the girl telling me she wouldn’t have kept talking to me if I’d been green. The problem isn’t the broken conversation. The problem is the person on the other end.
+
+So did Apple *purposefully* make texting non-iPhone users worse? It’s worth being precise. Most of the pain came from SMS and MMS themselves, standards from the 1990s and 2000s. Those protocols are why photos arrived crushed and why there were no typing indicators. But Apple let that experience stay broken for years while a modern replacement, RCS, existed. And several choices were Apple’s alone:
+
+- **The color.** A UX Collective analysis found that white text on Apple’s green fails accessibility contrast tests, while the blue passes. Paul Ford was already writing about green-bubble disdain in 2015.
+- **The lag on small fixes.** For years, an iPhone user’s reaction showed up on Android as a separate text reading *Liked “…”*. Google fixed this from the Android side in early 2022, translating them into emoji. Apple followed later that year, then presented it as its own feature.
+- **The platform rules.** No third-party app on iPhone is allowed to send or receive regular text messages, which the DOJ cited in its 2024 antitrust suit. You can’t build a better SMS app for iPhone even if you wanted to.
+
+The DOJ’s suit went further, arguing that the green bubble signals rival phones are inferior. In June 2025, a federal judge rejected Apple’s attempt to have the case dismissed. It is still moving toward trial.
+
+## RCS: fixed the texting, kept the color
+
+Google spent years lobbying Apple to adopt RCS, the carrier-standard successor to SMS. In August 2022 it launched a public campaign called *Get the Message*, complete with a website and hundreds of billboards in New York City. Apple didn’t budge. A month later came “buy your mom an iPhone.”
+
+Then, in November 2023, Apple suddenly announced it would support RCS the following year. Reporting suggests the real pressure came from China, whose regulators were moving to require RCS for 5G phone certification, rather than from Google’s billboards. iOS 18 shipped RCS in September 2024. Texts between iPhones and Androids finally got typing indicators, read receipts, and full-quality photos. End-to-end encryption took even longer: it only started rolling out in May 2026 with iOS 26.5, labeled beta and limited to certain carriers.
+
+To be fair to Apple, Google is not blameless here. Android cycled through Hangouts, Allo, Duo, and a patchwork of carrier messaging before settling on RCS, and for years it was easy for Apple to point at that mess.
+
+From where I sat, though, Apple’s RCS support felt like it was dragged out of them. Whether it worked depended on your carrier, and the setting lived several layers deep in Messages settings. When it did work, it removed a lot of my original reasons for running BlueBubbles. It also helped convince me to get out of the whole arrangement.
+
+But look at what Apple kept. In 2023 it confirmed that RCS messages would still be green. Texting with Android users now works almost as well as iMessage, and it still wears the color that marks you as different. If the bubble were really about technical capability, RCS would have turned it a third color, or erased the difference altogether. It didn’t. That tells you what the color was for.
+
+## Conceding
+
+Eventually I stopped. The daily SIM swap, the aging Mac mini, the risk of being unreachable on vacation: it had stopped being fun. At some point I decided, okay, whatever, I’m done.
+
+Not long after, I switched to an iPhone. I want to be honest that it wasn’t only exhaustion. Apple had closed a lot of the gaps I’d originally cared about. The iPhone finally moved to USB-C with the iPhone 15. Home screen widgets had arrived years earlier. The cameras, battery life, and OLED displays kept getting better. The hardware gap between Android and iPhone felt much smaller than when I’d left, and the software felt more usable to me. So the iPhone got better and the workaround got worse, both at once.
+
+I don’t regret the BlueBubbles years. For a long time I got exactly what I wanted from my technology: the phone I preferred and the messaging everyone around me used. It was a fun project. It was also the most effort I’ve ever put into looking ordinary.
+
+That’s the part I keep coming back to. Every hoop I jumped through was in service of one illusion: that I was a blue bubble like everyone else. The $50 Mac mini, the iPhone 5 in a drawer, the morning SIM routine, remoting into my own computer from Hawaii. None of it made my phone better. It made me *look* like I had a different one.
+
+After I finally switched, I got messages like these:
+
+> kinda love the blue bubble texting here now
+>
+> wait did u get an iphone
+>
+> ALSO BLUE MESSAGES WITH CONNOR VOELK
+
+They’re funny, and they’re affectionate. They’re also a pretty clear record of what everyone noticed. Not a new camera or a new screen. The color.
+
+Apple built a messaging system where the easiest way to tell whether someone belongs is to look at their bubble. Its executives chose to keep it that way, and wrote down why. Google’s billboards didn’t change it. RCS didn’t change it. A teenager’s reverse engineering lasted three days. For a while I beat it with a Mac mini and a SIM card. In the end, like most people do, I bought the phone.
+
+<section className={styles.footnotes}>
+
+## Sources
+
+- [Apple Platform Security: iMessage](https://support.apple.com/guide/security/secd9764312f)
+- [BlueBubbles server docs](https://docs.bluebubbles.app/server)
+- [MarketingSherpa: American Idol and US texting (2005)](https://marketingsherpa.com/article/how-to/seven-textmessaging-campaign-tips-from)
+- [RCR Wireless: Idol texting records](https://www.rcrwireless.com/?p=117363)
+- [Bloomberg via The Herald: carriers and WhatsApp](https://www.heraldonline.co.zw/phone-carriers-lose-out-us33bn-on-whatsapp/)
+- [iMessage – Wikipedia](https://en.wikipedia.org/wiki/IMessage)
+- [Engadget: iPhone passes 50% of US smartphones](https://www.engadget.com/iphone-overtakes-android-us-market-share-223251196.html)
+- [MacRumors: Piper Sandler teen survey, 2022](https://www.macrumors.com/2022/10/11/teen-survey-iphone-ownership/)
+- [Loop Insight: WSJ on green bubbles](https://loopinsight.com/2022/01/10/why-apples-imessage-is-winning-teens-dread-the-green-text-bubble)
+- [Android Authority: Google on bullying](https://www.androidauthority.com/google-apple-imessage-bullying-3086475)
+- [9to5Google: Nothing Chats privacy failure](https://9to5google.com/2023/11/18/nothing-chats-sunbird-unencrypted-data-privacy-nightmare/)
+- [Beeper (software) – Wikipedia](https://en.wikipedia.org/wiki/Beeper_(software))
+- [9to5Google: Apple’s Beeper Mini statement](https://9to5google.com/2023/12/09/apple-beeper-mini-imessage/)
+- [Cult of Mac: Epic filing emails](https://www.cultofmac.com/?p=739365)
+- [9to5Mac: Cue pushed iMessage for Android](https://9to5mac.com/?p=716821)
+- [TechCrunch: Tim Cook at Code 2022](https://techcrunch.com/2022/09/08/tim-cook-would-rather-have-you-buy-an-iphone-than-use-rcs)
+- [Quartz: DOJ on social stigma](https://qz.com/apple-antitrust-lawsuit-doj-android-imessage-green-1851360957)
+- [Mintz: DOJ case survives motion to dismiss](https://www.mintz.com/insights-center/viewpoints/2025-07-02-judge-allows-justice-departments-iphone-monopolization-suit)
+- [UX Collective: green bubble contrast](https://uxdesign.cc/how-apple-makes-you-think-green-bubbles-gross-e03b52b12fed)
+- [Techdirt on Paul Ford (2015)](https://www.techdirt.com/articles/20150211/05455029985/green-bubbles-how-apple-quietly-gets-iphone-users-to-hate-android-users.shtml)
+- [Trusted Reviews: Apple and reaction fix](https://www.trustedreviews.com/news/apple-cheekily-takes-credit-for-android-messages-fix-4270837)
+- [TechCrunch: Get The Message](https://techcrunch.com/2022/08/09/google-new-campaign-pressure-apple-adopting-rcs/)
+- [TechCrunch: Apple to bring RCS](https://techcrunch.com/2023/11/16/apple-to-finally-bring-rcs-to-iphones/amp/)
+- [Tom’s Guide: China’s RCS requirement](https://tomsguide.com/phones/blue-green-bubble-divide-the-state-of-ios-and-android-messaging-and-how-its-about-to-change)
+- [The Hacker News: iOS 26.5 encrypted RCS](https://thehackernews.com/2026/05/ios-265-brings-default-end-to-end.html)
+
+</section>

@@ -1,0 +1,61 @@
+/* Starter theme: open water with Game Boy-era pixel headings, a nod to the
+   Bulbasaur page. A placeholder mood; change anything. */
+.theme {
+  --deep: #0b2a4a;
+  --shallow: #1e5f8c;
+  --foam: #f0f9ff;
+  --spray: #bae6fd;
+  --accent: #7dd3fc;
+
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--shallow), var(--deep) 70%);
+  background-attachment: fixed;
+  color: var(--foam);
+  font-family: var(--font-body), sans-serif;
+}
+
+.back {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.5rem;
+  color: var(--spray);
+  font-family: var(--font-pixel), monospace;
+  font-size: 0.625rem;
+}
+
+.back:hover,
+.article a {
+  color: var(--accent);
+}
+
+.article {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 7rem 1.5rem 6rem;
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+.article h1,
+.article h2 {
+  font-family: var(--font-pixel), monospace;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.article h1 {
+  font-size: clamp(1.375rem, 4.5vw, 2.25rem);
+}
+
+.article h2 {
+  margin-top: 3rem;
+  font-size: 0.875rem;
+}
+
+.article p {
+  margin-top: 1rem;
+}
+
+.article em {
+  color: var(--spray);
+}
