@@ -3,8 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import styles from '../projects.module.css'
-import { projectPages, type Project } from '../projectsData'
-import { TagList } from '../tags'
+import { githubLink, projectPages, type Project } from '../projectsData'
+import { githubLogo, TagList } from '../tags'
 
 // Only the projects in projectsData have pages; anything else is a 404
 export const dynamicParams = false
@@ -65,6 +65,7 @@ export default async function ProjectPage({ params }: Props) {
   const project = await findProject(params)
   const index = projectPages.indexOf(project)
   const next = projectPages[(index + 1) % projectPages.length]
+  const github = githubLink(project)
 
   const facts = [
     { label: 'When', value: project.years },
@@ -116,8 +117,11 @@ export default async function ProjectPage({ params }: Props) {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={styles.pill}
+                  className={
+                    link === github ? `${styles.pill} ${styles.codePill}` : styles.pill
+                  }
                 >
+                  {link === github && githubLogo}
                   {link.label}
                   <span aria-hidden="true"> ↗</span>
                 </a>

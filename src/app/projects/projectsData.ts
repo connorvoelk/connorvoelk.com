@@ -73,7 +73,7 @@ export const projects: Project[] = [
     tags: ['ios', 'swift', 'on-device-llm'],
     stack: ['Swift', 'SwiftUI', 'SwiftData', 'Apple Foundation Models', 'Figma'],
     accent: '#a42bea',
-    links: [],
+    links: [{ label: 'Code on GitHub', href: 'https://github.com/connorvoelk/mani' }],
     sections: [
       {
         title: 'Why',
@@ -326,3 +326,7 @@ export const projectPages = projects.filter((project) => !project.href)
 
 export const projectHref = (project: Project) =>
   project.href ?? `/projects/${project.slug}`
+
+// The link to a project's code, if it has one
+export const githubLink = (project: Project) =>
+  project.links.find((link) => link.href.startsWith('https://github.com/'))

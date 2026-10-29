@@ -3,8 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import ObjModel from './ObjModel'
 import styles from './projects.module.css'
-import { projects, projectHref, type Project } from './projectsData'
-import { TagList } from './tags'
+import { githubLink, projects, projectHref, type Project } from './projectsData'
+import { githubLogo, TagList } from './tags'
 
 export const metadata: Metadata = {
   title: 'Projects – Connor Voelk',
@@ -49,25 +49,41 @@ const Cover = ({ project }: { project: Project }) => {
   )
 }
 
-const ProjectCard = ({ project }: { project: Project }) => (
-  <li>
-    <Link
-      href={projectHref(project)}
-      className={styles.card}
-      style={{ '--accent': project.accent } as React.CSSProperties}
-    >
-      <div className={styles.cover}>
-        <Cover project={project} />
-      </div>
-      <div className={styles.cardHeading}>
-        <h3 className={styles.cardName}>{project.name}</h3>
-        {project.years && <span className={styles.years}>{project.years}</span>}
-      </div>
-      <p className={styles.cardTagline}>{project.tagline}</p>
-      <TagList ids={project.tags} className={styles.cardTags} />
-    </Link>
-  </li>
-)
+const ProjectCard = ({ project }: { project: Project }) => {
+  const github = githubLink(project)
+  return (
+    <li className={styles.cardItem}>
+      <Link
+        href={projectHref(project)}
+        className={styles.card}
+        style={{ '--accent': project.accent } as React.CSSProperties}
+      >
+        <div className={styles.cover}>
+          <Cover project={project} />
+        </div>
+        <div className={styles.cardHeading}>
+          <h3 className={styles.cardName}>{project.name}</h3>
+          {project.years && <span className={styles.years}>{project.years}</span>}
+        </div>
+        <p className={styles.cardTagline}>{project.tagline}</p>
+        <TagList ids={project.tags} className={styles.cardTags} />
+      </Link>
+      {/* Beside the card's link, not inside it, since links can't nest */}
+      {github && (
+        <a
+          href={github.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.codeLink}
+          aria-label={`${project.name} code on GitHub`}
+        >
+          {githubLogo}
+          Code
+        </a>
+      )}
+    </li>
+  )
+}
 
 export default function ProjectsPage() {
   return (
