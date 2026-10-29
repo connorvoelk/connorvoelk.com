@@ -13,6 +13,12 @@ export interface Post {
 }
 
 export const posts: Post[] = [
+  { slug: 'blue-bubble-boy', title: 'Blue Bubble Boy', status: 'draft' },
+  {
+    slug: 'square-terminal',
+    title: 'The Proliferation of the Square Terminal',
+    status: 'draft',
+  },
   { slug: 'data-driven-design', title: 'Data Driven Design', status: 'draft' },
   { slug: 'lapras-invasion', title: 'Lapras Invasion', status: 'draft' },
   { slug: 'dead-internet', title: 'Dead Internet', status: 'draft' },

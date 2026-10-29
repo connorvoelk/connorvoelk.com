@@ -1,0 +1,211 @@
+/* A clean product page: white, near-black type in the system font, blue
+   links, and a frosted bar along the top */
+.theme {
+  --ink: #1d1d1f;
+  --ink-muted: #6e6e73;
+  --panel: #f5f5f7;
+  --link: #0066cc;
+  --button: #0071e3;
+  --bubble-gray: #e9e9eb;
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+    'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  min-height: 100vh;
+  /* The footnotes band runs edge to edge without a sideways scroll */
+  overflow-x: clip;
+  background-color: #ffffff;
+  color: var(--ink);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The post's name on the left and a blue button on the right, like a
+   product page's own bar */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 3.25rem;
+  padding: 0 max(1.5rem, calc(50% - 30rem));
+  background-color: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.barTitle {
+  font-family: var(--font-display);
+  font-size: 1.3125rem;
+  font-weight: 600;
+  letter-spacing: 0.011em;
+}
+
+.barButton {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background-color: var(--button);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  transition: background-color 0.2s ease;
+}
+
+.barButton:hover {
+  background-color: #0077ed;
+}
+
+.barButton:focus-visible,
+.article a:focus-visible {
+  outline: 2px solid var(--button);
+  outline-offset: 3px;
+}
+
+.article {
+  max-width: 43.25rem;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem 0;
+  font-size: 1.1875rem;
+  line-height: 1.58;
+  letter-spacing: 0.012em;
+}
+
+/* The headline, centered like a product's hero */
+.article h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  text-align: center;
+}
+
+/* The date and byline under it */
+.article h1 + p {
+  margin: 0.75rem 0 3.5rem;
+  color: var(--ink-muted);
+  font-size: 1.0625rem;
+  text-align: center;
+}
+
+.article h2 {
+  margin-top: 4rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+}
+
+.article p,
+.article ul {
+  margin-top: 1.25rem;
+}
+
+.article h2 + p {
+  margin-top: 1rem;
+}
+
+.article ul {
+  padding-left: 1.25rem;
+}
+
+.article li + li {
+  margin-top: 0.75rem;
+}
+
+.article strong {
+  font-weight: 600;
+}
+
+.article a {
+  color: var(--link);
+}
+
+.article a:hover {
+  text-decoration: underline;
+}
+
+/* The texts that arrived after the switch, as message bubbles */
+.article blockquote {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 2rem 0;
+  padding: 2rem 1.5rem;
+  border-radius: 18px;
+  background-color: var(--panel);
+}
+
+.article blockquote p {
+  position: relative;
+  max-width: 80%;
+  margin: 0;
+  padding: 0.5rem 0.875rem;
+  border-radius: 1.125rem;
+  background-color: var(--bubble-gray);
+  color: #000000;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+/* Each bubble's tail, curling out of its bottom left corner */
+.article blockquote p::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -0.4375rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-bottom-right-radius: 1rem;
+  background-color: var(--bubble-gray);
+}
+
+.article blockquote p::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -0.625rem;
+  width: 0.625rem;
+  height: 1.25rem;
+  border-bottom-right-radius: 0.625rem;
+  background-color: var(--panel);
+}
+
+/* Sources sit in a gray band at the bottom, like a product page's
+   footnotes */
+.footnotes {
+  margin: 5rem calc(50% - 50vw) 0;
+  padding: 2.5rem max(1.5rem, calc(50vw - 20.125rem)) 4rem;
+  background-color: var(--panel);
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.article .footnotes h2 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.article .footnotes ul {
+  margin-top: 0.75rem;
+  padding-left: 1rem;
+}
+
+.article .footnotes li + li {
+  margin-top: 0.375rem;
+}

@@ -1,0 +1,132 @@
+import LeadPainting from './LeadPainting'
+
+export const metadata = {
+  title: 'The Proliferation of the Square Terminal – Connor Voelk',
+  description:
+    'How a payment device built for small businesses quietly renegotiated tipping in America.',
+}
+
+<LeadPainting />
+
+# The Proliferation of the Square Terminal
+
+October 29, 2026 · Connor Voelk
+
+## The swivel
+
+You order a drip coffee. The barista rings it up, then turns the iPad around to face you. Three buttons glow: 20%, 25%, 30%. Below them, in smaller type, “No tip.” The barista is still standing there.
+
+That little swivel is one of the most common interactions in American commerce, and it barely existed fifteen years ago. In that time, the cash register has been replaced by a tablet, the card swipe by a tap of your phone, and the tip jar by a screen that asks a direct question at the exact moment you’re paying.
+
+I’m calling it the proliferation of the Square terminal, though Square is only the most visible brand. Clover, Toast, Stripe and a dozen others make versions of the same thing. This essay walks through how big that shift has gotten, which industries it took over, how it rewired tipping, and what the design of the tip screen itself is doing to us. Then it looks at the impact on workers, businesses, and customers.
+
+The short version: a payment device built to make small businesses’ lives easier ended up quietly renegotiating a social norm for the whole country.
+
+## From a headphone-jack dongle to the default checkout
+
+Square was founded in 2009 by Jack Dorsey and Jim McKelvey. Its first product was a tiny white card reader that plugged into a phone’s headphone jack, which let anyone with a smartphone take a credit card. The pitch was simple: no merchant account, no leased terminal, a flat fee of 2.75% per swipe.
+
+The real turning point came in 2013, when Square released the Square Stand, a $299 dock that turned an iPad into a full point-of-sale system. Square’s own framing was that it cost about what a cash register did. Dorsey’s sales pitch was a jab at the incumbents: small business owners had come to assume their checkout had to be ugly, slow, expensive and complicated. By then, iPad sellers already made up nearly half of Square’s transactions and were its fastest-growing group. In 2015 Square added a chip-and-contactless reader, which brought Apple Pay to its counters.
+
+The idea spread well beyond one company:
+
+- **Square** processed $72.8 billion in payment volume in Q2 2026 alone, up 13% year over year, with food and beverage up 20%.
+- **Clover**, owned by Fiserv, had about 910,000 merchants at the end of 2025, up from about 700,000 two years earlier.
+- **Toast**, which focuses on restaurants, grew from about 134,000 locations at the end of 2024 to about 180,000 by mid-2026.
+
+These companies serve different shapes of business. One analyst’s math from Fiserv’s investor day puts average volume at about $1.19 million per Toast location, $357,000 per Clover location, and $53,000 per Square seller. Square is the long tail: millions of small sellers. Toast is the busy restaurant. Clover sits between them, often sold through a bank.
+
+### Tapping won
+
+The hardware only matters because of how people pay with it. In the US, tapping a card or phone was under 1% of in-person Visa transactions in 2017. It reached 28% in 2022 and passed 60% in fiscal 2025. Outside the US it’s around 80%. The pandemic accelerated it, but the trend was already underway as banks shipped contactless cards and Apple Pay became normal.
+
+The last step removes the terminal entirely. In 2022 Apple launched Tap to Pay on iPhone, which lets a merchant accept a tap on their own phone with no extra hardware. Stripe launched with it first, and Square and Adyen followed. Industry people call this “SoftPOS.” One analyst pointed out the irony: eliminating hardware cost was exactly the problem Square’s original dongle set out to solve. The story has come full circle, from a reader on a phone, to a tablet on a stand, back to just the phone.
+
+## Who adopted it
+
+The tablet terminal didn’t spread evenly. It took over the businesses that were worst served by the old model: small, owner-run, often mobile, with lots of small transactions.
+
+- **Coffee shops and quick-service food.** The flagship use case. High volume, small tickets, and counter service, which matters a lot once we get to tipping.
+- **Restaurants.** Toast and Clover fight hardest here. One UBS estimate put Clover in about 160,000 of the 730,000 US restaurant locations and Toast in about 130,000, against legacy players like Oracle’s Micros and NCR. Square’s fastest growth in 2026 has been food and beverage.
+- **Food trucks, farmers markets and pop-ups.** The original dongle crowd. Craft vendors who sell at a market once a week were always Square’s sweet spot.
+- **Salons, barbers, spas and other personal services.** Square has built appointment booking and partnerships aimed specifically at beauty and wellness.
+- **Independent retail.** Boutiques, gift shops, plant stores, record stores: single-location shops running a stand, a scanner and a receipt printer.
+
+Small purchases are the common thread. Mastercard has said about 80% of contactless transactions are under $25. That’s the coffee, the sandwich, the farmers market tomatoes: exactly the purchases that used to be cash. When those moved onto a screen, the screen became the place where the business could ask you for something extra.
+
+## How tipping changed
+
+Before the tablet, tipping at a counter was passive. There was a jar. You could drop in your change or walk past it, and nobody really noticed either way. The tablet changed that by putting the question in front of every customer, every time.
+
+The result was tipping in places that never had it. In a 2023 Pew Research Center survey of nearly 12,000 adults, about seven in ten Americans said tipping is expected in more places than it was five years earlier. Pew explicitly linked this to digital payment devices that encourage tipping. Yet the same survey showed most people don’t actually tip in those new places: only about 25% always or often tip for a coffee, and just 12% at a takeout counter with no servers.
+
+For a while the screens worked. Toast data showed tips on card transactions were nearly 10% higher in Q2 2022 than a year earlier. Pandemic-era generosity, when tipping became a way to support struggling workers, helped too.
+
+Then came the backlash, which has grown every year since:
+
+- In Bankrate’s 2025 survey, 41% said tipping culture is out of control, up six points from 2024. About 38% said they’re annoyed by pre-entered tip screens.
+- In the same survey, 25% said they tip less or not at all when shown a preset screen, while only 14% said they tip more.
+- A March 2026 Popmenu survey found 59% feel compelled to tip when a screen asks, down from 66% six months earlier. Coffee shop tipping fell from 46% to 39%, and food truck tipping from 32% to 27%.
+- Pickup orders that include a digital tip fell from 78% in 2022 to 62% in 2026.
+
+It’s worth being precise about where the fatigue lives. Tipping at sit-down restaurants has stayed fairly stable, with full-service tips averaging around 19% in Toast’s data. The pullback is concentrated at the counter: coffee, takeout, food trucks, and new contexts like self-checkout. In other words, it’s concentrated where the tablet introduced tipping in the first place.
+
+## The UX of the tip screen
+
+The tip screen is a small piece of interface design with an outsized effect, and almost every element of it is a choice someone made.
+
+**The defaults are a setting, not a norm.** Square lets a business turn tipping on and pick its own three percentages. When you see 20/25/30 at a bakery, that’s a merchant’s configuration, not a new national standard. Surveys back up what people notice: 74% of consumers in the Popmenu study said they’ve seen restaurants raise their minimum suggested tip.
+
+**Defaults work, up to a point.** The best evidence is a study by economists Kareem Haggag and Giovanni Paci of more than 13 million New York City taxi rides. Two companies made the in-cab payment screens, and one showed higher suggestions (20, 25 and 30% instead of 15, 20 and 25%). Higher defaults raised the average tip. But they also pushed more riders to leave no card tip at all. The screen raised the ceiling and lowered the floor at the same time. A University of Michigan follow-up found the effect was strongest for people who didn’t know the local norm, like tourists and late-night riders.
+
+**The friction is asymmetric.** Tapping a preset is one touch. “Custom” means typing an amount while someone waits. “No tip” is often smaller, grayer, or tucked at the bottom. The design makes the generous option the easiest one, which is a textbook nudge. Still, 36% of diners now say they usually skip the presets and enter a custom amount, which suggests people are learning to fight the layout.
+
+**The timing and the audience.** The screen usually appears before you’ve received anything: the coffee isn’t made yet, so you’re tipping on a service you haven’t had. And it’s often physically turned toward you while the worker watches. As one restaurant-industry writer put it, the screen turns a passive failure to tip into an active decision not to. That’s the core of tip-screen anxiety. Declining isn’t neutral anymore. It’s a visible choice, made in front of the person it affects.
+
+From a design standpoint, these are classic dark-pattern ingredients: anchored defaults, a hard-to-find opt-out, and social pressure at the moment of commitment. Whether that’s manipulative or just effective depends on who you ask. About half of consumers in one survey said they’d felt manipulated or deceived by a tip prompt on a checkout tablet.
+
+## The impact
+
+**For small businesses, it was a genuine win.** A full point-of-sale system went from an expensive, leased, locked-down box to an iPad and a free app. Owners got inventory, sales reports, online ordering and payroll from the same screen. Now, with Tap to Pay, a farmers market vendor needs nothing but their phone. It’s hard to overstate how much this lowered the cost of starting a small business that takes cards.
+
+The tradeoff is dependence. These platforms increasingly make money from more than payments. Square’s lending products grew 25% year over year in early 2026, and Fiserv expects a growing share of Clover revenue to come from add-on services. The terminal is the front door to a whole financial relationship.
+
+**For workers, it’s a mixed bag.** Tip screens brought tips to counter workers who used to get pocket change, and for a while that meant real money. But that income now rests on a fragile mood. Tips can make up about a quarter of total income for many tipped workers, and the backlash shows up first in exactly the counter jobs the screens created. There’s a reasonable argument that the screen also shifts a wage question onto customers. Bankrate found 41% of Americans think businesses should pay employees better instead of relying on tips.
+
+**For customers, it’s convenience plus friction.** Paying has never been faster. You tap and go, often without touching anything. But many people now feel a small, recurring social tax. One Talker Research survey estimated the average American “guilt-tipped” about four times a month. People across generations report that the screens make them feel pressured rather than generous, and the data suggests that’s now changing behavior, not just attitudes.
+
+**For cash, it was a slow push out.** As cards and phones took over, some businesses dropped cash entirely, and that triggered its own backlash. Critics argued cashless stores shut out the unbanked, many seniors, and low-income customers. Philadelphia, San Francisco, New Jersey and New York City passed laws requiring businesses to accept cash, with NYC fining violators $1,000 for a first offense. Amazon Go and Sweetgreen both reversed their cashless policies. There’s still no federal requirement, and one 2025 count found 18 states with laws against going cashless and 32 without.
+
+## Where this goes
+
+The Square terminal won. Tapping to pay is the default, the tablet is the register, and the next step is that every phone becomes a terminal. That part of the story is basically over.
+
+The tipping part is not. The tip screen is a design choice layered on top of a payment device, and its defaults have drifted upward for years while customer patience has drifted the other way. The taxi study already showed where that ends: push defaults high enough and you get more people choosing zero. The 2026 survey data suggests we’re starting to see that at the counter.
+
+The interesting question is who fixes it. Platforms could ship saner defaults, or put “No tip” on equal footing with the other buttons. Businesses could move to service charges or higher wages and turn the prompt off. Or customers will just keep learning to tap “Custom” and type a smaller number. My guess is a mix of all three. One way or another, the swivel isn’t going anywhere. What’s being renegotiated is what we owe each other when it happens.
+
+---
+
+### Sources
+
+- [Square Stand press release, 2013](https://squareup.com/us/en/press/square-reinvents-the-register-with-square-stand)
+- [Macworld on Square Stand](https://www.macworld.com/article/220995/squares-new-stand-turns-ipad-into-a-cash-register.html)
+- [Zacks: Block Q2 2026 earnings](https://www.zacks.com/stock/news/2970052/block-q2-earnings-call-highlights-raised-outlook-and-ai-push)
+- [eMarketer: Block Q1 2026](https://www.emarketer.com/content/block-s-q1-2026-earnings-boost-lending-dual-sided-network-lending-neighborhoods)
+- [Payments Dive: Toast and Clover restaurant counts](https://www.paymentsdive.com/)
+- [Contactless payment statistics 2026](https://www.duck-hub.com/blog/contactless-payment-statistics)
+- [William Blair on contactless](https://www.williamblair.com/-/media/downloads/eqr/2025/williamblair_tapping-into-small-ticket-transactions-exploring-contactles.pdf)
+- [TechCrunch: Square adds Tap to Pay on iPhone](https://techcrunch.com/2022/09/29/square-now-supports-apples-tap-to-pay-on-iphones/)
+- [Digital Transactions on SoftPOS](https://tsgpayments.com/how-squares-embrace-of-apple-could-help-propel-a-trend-toward-softpos)
+- [Square sellers by segment](https://withorbital.com/data/software/square/)
+- [Pew Research tipping survey, 2023](https://alpha.pewresearch.org/pewresearch-org/2023/11/09/tipping-culture-methodology/print)
+- [Fox Business on Pew findings](https://www.foxbusiness.com/media/majority-americans-take-notice-rise-tipflation-across-industries)
+- [Bankrate 2025 via NewsNation](https://www.yahoo.com/news/growing-number-americans-tipping-culture-145326030.html)
+- [Popmenu 2026 via KTLA](https://ktla.com/news/nationworld/america-snaps-tipping-culture-finally-reaches-a-breaking-point/amp/)
+- [Popmenu details via Baller Alert](https://balleralert.com/customers-say-tipping-has-become-ridiculous/)
+- [7shifts on tip fatigue](https://www.7shifts.com/blog/tip-fatigue-and-guilt-tipping/)
+- [Haggag and Paci, “Default Tips” (2014)](https://www.aeaweb.org/articles?id=10.1257/app.6.3.1)
+- [University of Michigan on tip defaults](https://si.umich.edu/about-umsi/news/being-prompted-tip-more-can-influence-you-especially-when-youre-unfamiliar-settings)
+- [Talker Research guilt-tipping survey](https://digital-release.kxan.com/?p=2834367)
+- [Drug Store News: NYC cash law](https://drugstorenews.com/new-york-city-prohibits-cash-payment-refusal)
+- [UVM report on cashless businesses](https://www.uvm.edu/d10-files/documents/2025-01/Cashless-businesses.pdf)
