@@ -1,15 +1,17 @@
+import Image from 'next/image'
 import styles from './theme.module.css'
+import painting from './lead-painting.webp'
 
-// The painting the essay opens with, in a gilt frame. It's a placeholder
-// until the painting exists; swap the canvas's text for the image then.
+// The painting the essay opens with, in a gilt frame
 const LeadPainting = () => (
   <figure className={styles.painting}>
-    <div className={styles.canvas}>
-      <p>
-        A painting goes here: a Rococo dinner party, and a footman presenting
-        the tip screen.
-      </p>
-    </div>
+    <Image
+      src={painting}
+      alt="A Rococo-style painting of an aristocratic dinner party in a gilded salon. A footman in a blue coat holds an iPad showing a tip screen out to the nobleman at the head of the table, wincing and turning his face away, while the guests look on."
+      priority
+      unoptimized
+      className={styles.canvas}
+    />
   </figure>
 )
 
