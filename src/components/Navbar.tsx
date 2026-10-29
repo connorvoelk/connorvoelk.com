@@ -39,7 +39,7 @@ const sections = [
     // Built from the post list, which hides drafts on the production site
     ready: visiblePosts.length > 0,
     links: visiblePosts.map((post) => ({
-      label: post.title,
+      label: post.navTitle ?? post.title,
       href: `/blog/${post.slug}`,
       ready: true,
     })),

@@ -61,8 +61,3 @@
   font-weight: 600;
   letter-spacing: -0.01em;
 }
-
-.draft {
-  color: var(--muted);
-  font-size: 0.875rem;
-}

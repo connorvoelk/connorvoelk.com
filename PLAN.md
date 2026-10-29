@@ -28,11 +28,12 @@ This document tracks the current state, known issues, and planned work for the p
    - **Privacy rule:** no phone number, address, or email anywhere on the site. The original resume PDFs (which include them) are gitignored and never copied in. `npm run build` fails if anything that looks like a phone number appears in `src/` or `public/` (`scripts/check-private-info.mjs`).
    - The timeline now matches the resume: AWS is split into its two roles with real descriptions, UW lists the Informatics/HCI degree, placeholder stops are removed, and the axis is derived from the data (it runs to 2027).
 2. `[x]` **Home page** (live 2026-10-27): an intro over the dot grid with your name, a one-liner, a line on AWS, Tesla, and UW, a low-key "Currently…" line, and links to Resume, LinkedIn, and GitHub. Copy is Connor's own wording, in `src/app/page.tsx`. Also: the navbar logo links home, and hovering the profile picture shows LinkedIn, GitHub, and Instagram.
-3. `[~]` **Blog with one post**: scaffolded on the `blog` branch (2026-10-27), not yet merged into `main`.
+3. `[x]` **Blog** (live 2026-10-29): two posts, *Blue Bubble Boy* (an Apple Store-style page) and *The Proliferation of the Square Terminal* (a serif printed essay opening with a Rococo tip-screen painting). Data Driven Design, Lapras Invasion, and Dead Internet are still drafts.
    - Each post is its own experience: `src/app/blog/<slug>/` holds its own `layout.tsx` and `theme.module.css` (starter moods: graph paper / ocean + pixel type / Web 1.0), and the words go in `page.mdx`. MDX means a post can mix prose with interactive components.
-   - `src/app/blog/posts.ts` lists the posts. Drafts are visible locally and on preview links but **hidden on the production site** (no nav link, no index entry, and the URL 404s), so merging is safe even while other posts are unfinished.
+   - `src/app/blog/posts.ts` lists the posts. Drafts are visible locally and on preview links but **hidden on the production site** (no nav link, no index entry, and the URL 404s), so merging is safe even while other posts are unfinished. A post's optional `navTitle` is a shorter name for the navbar.
    - The site navbar shows on `/blog` but not on individual posts, which have their own look and a ← blog link (same as [obj]; see `SiteNav` in `Navbar.tsx`).
-   - **To ship:** write one post's `page.mdx`, set its status to `'published'` in `posts.ts`, then merge `blog` into `main`.
+   - **To ship a post:** write its `page.mdx`, set its status to `'published'` in `posts.ts`, and merge into `main`. Posts show no date, only the byline.
+   - Future: widen the navbar's expanded menu so a section's links fit on one or two lines.
    - Needs from you: the words for one post.
 
 Smaller v1 items, done in the gaps:
@@ -89,7 +90,7 @@ See [HOME-SCENE.md](./HOME-SCENE.md). Build it on a branch (Vercel gives every b
 | `/projects` | `[x]` | Index of all projects, grouped Now / Earlier |
 | `/projects/[slug]` | `[x]` | mani, listening-pal, photogram, pokedb, head-helper, all built from `projectsData.ts` |
 | `/monolith` | `[ ]` | Hidden from nav until built |
-| `/blog` | `[ ]` | Hidden from nav until built (whole blog section hidden until one post is ready) |
+| `/blog` | `[x]` | Live 2026-10-29 with two posts; drafts stay hidden |
 | `/data-driven-design` | `[ ]` | Hidden from nav until built |
 | `/lapras-invasion` | `[ ]` | Hidden from nav until built |
 | `/dead-internet` | `[ ]` | Hidden from nav until built |

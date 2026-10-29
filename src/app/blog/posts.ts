@@ -9,15 +9,18 @@
 export interface Post {
   slug: string
   title: string
+  // A shorter name for the navbar, when the title is too long for it
+  navTitle?: string
   status: 'draft' | 'published'
 }
 
 export const posts: Post[] = [
-  { slug: 'blue-bubble-boy', title: 'Blue Bubble Boy', status: 'draft' },
+  { slug: 'blue-bubble-boy', title: 'Blue Bubble Boy', status: 'published' },
   {
     slug: 'square-terminal',
     title: 'The Proliferation of the Square Terminal',
-    status: 'draft',
+    navTitle: 'Square Terminal',
+    status: 'published',
   },
   { slug: 'data-driven-design', title: 'Data Driven Design', status: 'draft' },
   { slug: 'lapras-invasion', title: 'Lapras Invasion', status: 'draft' },

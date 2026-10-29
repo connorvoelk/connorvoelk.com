@@ -24,9 +24,6 @@ export default function BlogPage() {
             <li key={post.slug}>
               <Link href={`/blog/${post.slug}`} className={styles.post}>
                 <span className={styles.postTitle}>{post.title}</span>
-                {post.status === 'draft' && (
-                  <span className={styles.draft}>Draft</span>
-                )}
               </Link>
             </li>
           ))}
