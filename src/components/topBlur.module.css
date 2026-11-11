@@ -1,0 +1,25 @@
+/* Spans from the top of the window down to the closed navbar's bottom edge
+   (.container's 0.5rem top padding + .navContent's 69px in navbar.module.css),
+   just under the nav so the nav itself stays sharp. */
+.topBlur {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(0.5rem + 69px);
+  z-index: 49;
+  pointer-events: none;
+}
+
+/* Siblings, not nested: a mask on a parent would stop its children's
+   backdrop-filter from seeing the page behind it */
+.layer {
+  position: absolute;
+  inset: 0;
+}
+
+@media print {
+  .topBlur {
+    display: none;
+  }
+}

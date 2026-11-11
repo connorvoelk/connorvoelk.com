@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useRef } from 'react'
 import styles from './navbar.module.css'
+import TopBlur from './TopBlur'
 import { visiblePosts } from '@/app/blog/posts'
 
 // Pages that aren't built yet stay listed with ready: false so they're hidden
@@ -251,7 +252,14 @@ const SiteNav = () => {
   if (pathname.startsWith('/obj') || /^\/blog\/[^/]+/.test(pathname)) {
     return null
   }
-  return <Navbar />
+  // The top-edge blur only makes sense with the nav sitting over it, so it
+  // comes and goes with the nav
+  return (
+    <>
+      <TopBlur />
+      <Navbar />
+    </>
+  )
 }
 
 export default SiteNav
