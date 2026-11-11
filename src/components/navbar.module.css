@@ -60,10 +60,10 @@
   height: 48px;
 }
 
-/* Logo styles */
+/* Logo styles: shorter than the 48px photo, since it's wider and reads bigger */
 .logo {
-  width: 79px;
-  height: 48px;
+  width: 62px;
+  height: 38px;
   display: flex;
   align-items: center;
 }

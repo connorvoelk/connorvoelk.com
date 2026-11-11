@@ -92,7 +92,7 @@ See [HOME-SCENE.md](./HOME-SCENE.md). Build it on a branch (Vercel gives every b
 | `/monolith` | `[ ]` | Hidden from nav until built |
 | `/blog` | `[x]` | Live 2026-10-29 with three posts; drafts stay hidden |
 | `/data-driven-design` | `[ ]` | Hidden from nav until built |
-| `/lapras-invasion` | `[ ]` | Hidden from nav until built |
+| `/blog/lapras-outbreak` | `[x]` | Live 2026-10-29 as "The Lapras Outbreak" (was the Lapras Invasion draft) |
 | `/dead-internet` | `[ ]` | Hidden from nav until built |
 
 ---
@@ -202,8 +202,8 @@ One template, driven by `projectsData.ts`: facts (when, role, team, built with),
 #### Data Driven Design (`/data-driven-design`)
 - `[ ]` Create post page — content TBD
 
-#### Lapras Invasion (`/lapras-invasion`)
-- `[ ]` Create post page — content TBD
+#### The Lapras Outbreak (`/blog/lapras-outbreak`)
+- `[x]` Live 2026-10-29 (was the Lapras Invasion draft)
 
 #### Dead Internet (`/dead-internet`)
 - `[ ]` Create post page — content TBD
