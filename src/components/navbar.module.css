@@ -26,8 +26,7 @@
   background-color: rgba(71, 71, 71, 0.8);
   border-radius: 34.5px;
   padding: 0;
-  min-height: 69px;
-  max-height: 69px;
+  height: 69px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   display: flex;
@@ -39,8 +38,12 @@
   border-radius: 20px;
 }
 
+/* Open: the primary row, the divider and its margins, then whichever menu is
+   showing (--menu-height is measured in Navbar.tsx). An exact height, not a
+   max-height, so it also animates when switching between menus of
+   different sizes. */
 .hasActiveSection {
-  max-height: 300px;
+  height: calc(69px + 1px + 1rem + var(--menu-height, 0px));
 }
 
 /* Primary Nav Section */
@@ -180,14 +183,54 @@
   transform: scaleX(1);
 }
 
-/* Secondary Navigation */
+/* Secondary Navigation: every menu is stacked in the same spot, and only the
+   one for the hovered item shows */
+.menus {
+  position: relative;
+  height: var(--menu-height, 0px);
+}
+
 .secondaryNav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 2rem;
   padding: 0.5rem 0 1.5rem 0;
   justify-content: center;
-  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+  /* Leaving: fade out quickly so the two menus barely overlap */
+  transition: opacity 0.15s ease,
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hidden menus wait off to the side of the one showing, so switching slides
+   the way the pointer moved: hover further right and the menus drift left */
+.menuBefore {
+  transform: translateX(-16px);
+}
+
+.menuAfter {
+  transform: translateX(16px);
+}
+
+.menuVisible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  /* Arriving: fade in just after the old menu starts fading out */
+  transition: opacity 0.25s ease 0.08s,
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menuBefore,
+  .menuAfter {
+    transform: none;
+  }
 }
 
 /* Profile picture */

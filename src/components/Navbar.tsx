@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect, type CSSProperties } from 'react'
 import styles from './navbar.module.css'
 import TopBlur from './TopBlur'
 import { visiblePosts } from '@/app/blog/posts'
@@ -62,11 +62,39 @@ const profileLinks = [
   { label: 'instagram', href: 'https://www.instagram.com/connor.voelk' },
 ]
 
+// Every secondary menu, in the same left-to-right order as what opens it in
+// the primary row, so switching menus can slide the way the pointer moved
+const menus = [
+  ...liveSections.map((section) => ({ id: section.id, links: section.links })),
+  { id: 'profile', links: profileLinks },
+]
+
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null)
   const [visibleSection, setVisibleSection] = useState<string | null>(null)
   const [isNavHovered, setIsNavHovered] = useState(false)
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // All the menus stay rendered, stacked on top of each other, so switching
+  // can crossfade them. Each one's height is measured so the nav can grow or
+  // shrink smoothly to fit whichever is showing.
+  const menuRefs = useRef(new Map<string, HTMLDivElement>())
+  const [menuHeights, setMenuHeights] = useState<Record<string, number>>({})
+
+  useEffect(() => {
+    const measure = () =>
+      setMenuHeights(
+        Object.fromEntries(
+          [...menuRefs.current].map(([id, el]) => [id, el.offsetHeight])
+        )
+      )
+    const observer = new ResizeObserver(measure)
+    menuRefs.current.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
+
+  const visibleIndex = menus.findIndex((menu) => menu.id === visibleSection)
+  const menuHeight = visibleSection ? menuHeights[visibleSection] ?? 0 : 0
 
   const handleNavMouseLeave = () => {
     setIsNavHovered(false)
@@ -80,12 +108,6 @@ const Navbar = () => {
     setVisibleSection(section)
   }
 
-  const visibleLinks =
-    visibleSection === 'profile'
-      ? profileLinks
-      : liveSections.find((section) => section.id === visibleSection)?.links ??
-        []
-
   return (
     <nav
       className={styles.navbar}
@@ -97,6 +119,7 @@ const Navbar = () => {
           className={`${styles.navContent} ${
             isNavHovered ? styles.expanded : ''
           } ${activeSection ? styles.hasActiveSection : ''}`}
+          style={{ '--menu-height': `${menuHeight}px` } as CSSProperties}
         >
           {/* Primary Nav Container */}
           <div className={styles.primaryNavContainer}>
@@ -207,31 +230,56 @@ const Navbar = () => {
           {/* Secondary Nav Container — always in DOM so CSS transitions play on close */}
           <div className={styles.secondaryNavContainer}>
             <div className={styles.divider} />
-            <div className={styles.secondaryNav}>
-              {visibleLinks.map((link) => {
-                const external = link.href.startsWith('http')
-                // Other sites and files (like the resume PDF) aren't pages in
-                // this app, so they skip Next's client-side navigation
-                return external || link.href.endsWith('.pdf') ? (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    className={styles.secondaryLink}
-                    {...(external && {
-                      target: '_blank',
-                      rel: 'noopener noreferrer',
+            <div className={styles.menus}>
+              {menus.map((menu, i) => {
+                const isVisible = i === visibleIndex
+                // Hidden menus wait just off to the side they'd slide in from
+                const side =
+                  isVisible || visibleIndex === -1
+                    ? ''
+                    : i < visibleIndex
+                      ? styles.menuBefore
+                      : styles.menuAfter
+                return (
+                  <div
+                    key={menu.id}
+                    ref={(el) => {
+                      if (el) menuRefs.current.set(menu.id, el)
+                      else menuRefs.current.delete(menu.id)
+                    }}
+                    className={`${styles.secondaryNav} ${
+                      isVisible ? styles.menuVisible : side
+                    }`}
+                    inert={!isVisible}
+                  >
+                    {menu.links.map((link) => {
+                      const external = link.href.startsWith('http')
+                      // Other sites and files (like the resume PDF) aren't
+                      // pages in this app, so they skip Next's client-side
+                      // navigation
+                      return external || link.href.endsWith('.pdf') ? (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          className={styles.secondaryLink}
+                          {...(external && {
+                            target: '_blank',
+                            rel: 'noopener noreferrer',
+                          })}
+                        >
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className={styles.secondaryLink}
+                        >
+                          {link.label}
+                        </Link>
+                      )
                     })}
-                  >
-                    {link.label}
-                  </a>
-                ) : (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={styles.secondaryLink}
-                  >
-                    {link.label}
-                  </Link>
+                  </div>
                 )
               })}
             </div>
