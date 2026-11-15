@@ -1,0 +1,28 @@
+/* The text caret after each changing part of the headline. It takes no room in the line, so
+   turning it on doesn't nudge the text. */
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin: 0 -1px;
+  vertical-align: -0.15em;
+  border-radius: 1px;
+  background-color: rgba(217, 217, 217, 0.75);
+  opacity: 0;
+}
+
+.caret.on {
+  opacity: 1;
+  animation: blink 1.1s steps(1) infinite;
+}
+
+/* Solid while it's deleting or typing, like a real caret */
+.caret.typing {
+  animation: none;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

@@ -37,6 +37,28 @@
   text-shadow: 0 0 6px #000, 0 0 12px #000;
 }
 
+/* Until the cursors have built the intro (see cursorBuild.ts), keep it out
+   of sight. If the script never runs, it shows itself after a few seconds. */
+.intro[data-build='pending'] .name,
+.intro[data-build='pending'] .card {
+  visibility: hidden;
+  animation: showUnbuilt 0s linear 4s forwards;
+}
+
+@keyframes showUnbuilt {
+  to {
+    visibility: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro[data-build='pending'] .name,
+  .intro[data-build='pending'] .card {
+    visibility: visible;
+    animation: none;
+  }
+}
+
 .name {
   font-size: clamp(3rem, 9vw, 5.75rem);
   font-weight: 700;
@@ -44,28 +66,34 @@
   letter-spacing: -0.035em;
 }
 
+/* Its words keep changing (see LiveHeadline), so room for three lines is
+   held open and the card never changes size */
 .lead {
-  max-width: 44ch;
-  text-wrap: balance;
-  margin-top: 1.5rem;
+  min-height: 3lh;
   font-size: clamp(1.375rem, 3vw, 1.875rem);
   font-weight: 500;
   line-height: 1.3;
   letter-spacing: -0.01em;
 }
 
-/* Frosted glass behind the smaller text, which is hard to read over the dots */
+/* Frosted glass behind the headline and the bio: thin enough that the dots
+   still glow through softly, blurred enough that they don't fight the text */
 .card {
   max-width: 42rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
   padding: 1.5rem 1.75rem 1.75rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  background-color: rgba(14, 14, 14, 0.6);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  backdrop-filter: blur(14px) saturate(140%);
-  /* The blur already hides the dots, so the letters don't need a halo */
+  background-color: rgba(14, 14, 14, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  -webkit-backdrop-filter: blur(4px) saturate(140%);
+  backdrop-filter: blur(4px) saturate(140%);
+  /* The blur already softens the dots, so the letters don't need a halo */
   text-shadow: none;
+}
+
+.leadCard {
+  margin-top: 2rem;
 }
 
 .proof {
@@ -124,8 +152,22 @@
   outline-offset: 3px;
 }
 
+/* Read by screen readers, never shown */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* Phones: a tighter card keeps the three links on one line */
 @media (max-width: 480px) {
+  .lead {
+    min-height: 4lh;
+  }
+
   .card {
     padding: 1.25rem 1.25rem 1.5rem;
   }
