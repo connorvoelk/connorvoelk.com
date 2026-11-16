@@ -8,18 +8,20 @@ import {
   type Sentence,
 } from './headlinePhrases'
 
-// The home page headline: "I <verb> <thing>, <ending>" with a text caret
-// after each of the three parts. Every few seconds one caret deletes its part
-// and types another from its list, like someone editing the sentence live.
+// The home page headline: "I <verb> <thing>, <ending>" with one text caret.
+// The caret sits after one of the three parts, waits, deletes that part and
+// types another from its list, then moves on to the next part and waits
+// again, like someone editing the sentence live.
 // headlinePhrases.ts holds the lists and the rules that keep every sentence
 // sensible.
 
 // Which part changes next: the thing, then the ending, then the verb
 const TURNS = [1, 2, 0]
 
-// Only one part changes at a time, and after each change the sentence is
-// left alone this long so it can be read
+// After each change the sentence is left alone this long so it can be read
 const READ_MS = 5000
+// How long the caret rests where it just typed before moving to the next part
+const LINGER_MS = 700
 
 interface Props {
   // Stays on the first sentence, with no carets, until this turns true
@@ -30,9 +32,10 @@ const LiveHeadline = ({ active }: Props) => {
   const [texts, setTexts] = useState(() =>
     FIRST_SENTENCE.map((index, slot) => wordAt(slot, index))
   )
-  // The part being retyped right now, if any
-  const [typingSlot, setTypingSlot] = useState<number | null>(null)
-  const [caretsOn, setCaretsOn] = useState(false)
+  // The part the caret sits after, once there is a caret
+  const [caretSlot, setCaretSlot] = useState<number | null>(null)
+  // Solid while it's deleting or typing, blinking while it waits
+  const [typing, setTyping] = useState(false)
 
   useEffect(() => {
     if (!active) return
@@ -60,37 +63,45 @@ const LiveHeadline = ({ active }: Props) => {
       setTexts((current) => current.map((t, i) => (i === slot ? text : t)))
 
     const run = async () => {
-      setCaretsOn(true)
       const sentence: Sentence = [...FIRST_SENTENCE]
-      for (let turn = 0; !cancelled; ) {
-        await sleep(READ_MS)
+      let turn = 0
+      // Whose turn is next and the word it will get, passing over any part
+      // that has no other word fitting the rest of the sentence right now
+      const pickNext = () => {
+        for (let tries = 0; tries < TURNS.length; tries++) {
+          const slot = TURNS[turn++ % TURNS.length]
+          const index = nextFitting(sentence, slot)
+          if (index !== null) return { slot, index }
+        }
+        return null
+      }
+
+      let next = pickNext()
+      while (!cancelled && next) {
+        // The caret waits at the part it's about to change
+        setCaretSlot(next.slot)
+        await sleep(READ_MS - LINGER_MS)
         // Nothing changes while the tab is in the background
         if (document.hidden) await visible()
         if (cancelled) return
-        // Whose turn it is, passing over any part that has no other word
-        // fitting the rest of the sentence right now
-        let slot = -1
-        let nextIndex: number | null = null
-        for (let tries = 0; tries < TURNS.length && nextIndex === null; tries++) {
-          slot = TURNS[turn++ % TURNS.length]
-          nextIndex = nextFitting(sentence, slot)
-        }
-        if (nextIndex === null) continue
-        const current = wordAt(slot, sentence[slot])
-        const next = wordAt(slot, nextIndex)
-        sentence[slot] = nextIndex
+        const { slot, index } = next
+        const from = wordAt(slot, sentence[slot])
+        const to = wordAt(slot, index)
+        sentence[slot] = index
 
-        setTypingSlot(slot)
-        for (let n = current.length - 1; n >= 0 && !cancelled; n--) {
-          setSlot(slot, current.slice(0, n))
+        setTyping(true)
+        for (let n = from.length - 1; n >= 0 && !cancelled; n--) {
+          setSlot(slot, from.slice(0, n))
           await sleep(22)
         }
         await sleep(220)
-        for (let n = 1; n <= next.length && !cancelled; n++) {
-          setSlot(slot, next.slice(0, n))
+        for (let n = 1; n <= to.length && !cancelled; n++) {
+          setSlot(slot, to.slice(0, n))
           await sleep(38 + Math.random() * 40) // slightly uneven, like typing
         }
-        setTypingSlot(null)
+        setTyping(false)
+        await sleep(LINGER_MS)
+        next = pickNext()
       }
     }
     run()
@@ -102,13 +113,14 @@ const LiveHeadline = ({ active }: Props) => {
     }
   }, [active])
 
-  const caret = (slot: number) => (
-    <span
-      className={`${styles.caret} ${caretsOn ? styles.on : ''} ${
-        typingSlot === slot ? styles.typing : ''
-      }`}
-    />
-  )
+  // Only ever one caret. It takes no room in the line, so the text doesn't
+  // shift when it moves from one part to another.
+  const caret = (slot: number) =>
+    caretSlot === slot && (
+      <span
+        className={`${styles.caret} ${styles.on} ${typing ? styles.typing : ''}`}
+      />
+    )
 
   return (
     <>
