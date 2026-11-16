@@ -45,6 +45,17 @@ const LiveHeadline = ({ active }: Props) => {
       new Promise<void>((resolve) => {
         timer = setTimeout(resolve, ms)
       })
+    let onVisible: (() => void) | null = null
+    const visible = () =>
+      new Promise<void>((resolve) => {
+        onVisible = () => {
+          if (document.hidden) return
+          document.removeEventListener('visibilitychange', onVisible!)
+          onVisible = null
+          resolve()
+        }
+        document.addEventListener('visibilitychange', onVisible)
+      })
     const setSlot = (slot: number, text: string) =>
       setTexts((current) => current.map((t, i) => (i === slot ? text : t)))
 
@@ -53,6 +64,8 @@ const LiveHeadline = ({ active }: Props) => {
       const sentence: Sentence = [...FIRST_SENTENCE]
       for (let turn = 0; !cancelled; ) {
         await sleep(READ_MS)
+        // Nothing changes while the tab is in the background
+        if (document.hidden) await visible()
         if (cancelled) return
         // Whose turn it is, passing over any part that has no other word
         // fitting the rest of the sentence right now
@@ -85,6 +98,7 @@ const LiveHeadline = ({ active }: Props) => {
     return () => {
       cancelled = true
       clearTimeout(timer)
+      if (onVisible) document.removeEventListener('visibilitychange', onVisible)
     }
   }, [active])
 

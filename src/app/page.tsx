@@ -156,10 +156,15 @@ export default function Home() {
 
       const mouse = mouseRef.current
 
-      dotsRef.current.forEach((dot) => {
+      // One fill color for every dot, with each dot's brightness set through
+      // globalAlpha: a number per dot instead of a new color string to build
+      // and parse, 60 times a second
+      ctx.fillStyle = 'rgb(217, 217, 217)'
+      const dots = dotsRef.current
+      for (let i = 0; i < dots.length; i++) {
+        const dot = dots[i]
         // Calculate opacity using sine wave
-        dot.opacity =
-          0.35 + Math.sin(performance.now() * dot.speed + dot.offset) * 0.15
+        dot.opacity = 0.35 + Math.sin(now * dot.speed + dot.offset) * 0.15
 
         // Brighten dots near the cursor
         let opacity = dot.opacity
@@ -177,11 +182,15 @@ export default function Home() {
         }
 
         // Draw dot centered on its (rounded) grid point
-        const cx = Math.round(dot.x)
-        const cy = Math.round(dot.y)
-        ctx.fillStyle = `rgba(217, 217, 217, ${opacity})`
-        ctx.fillRect(cx - dotSize / 2, cy - dotSize / 2, dotSize, dotSize)
-      })
+        ctx.globalAlpha = opacity
+        ctx.fillRect(
+          Math.round(dot.x) - dotSize / 2,
+          Math.round(dot.y) - dotSize / 2,
+          dotSize,
+          dotSize
+        )
+      }
+      ctx.globalAlpha = 1
 
       frame = requestAnimationFrame(animate)
     }
