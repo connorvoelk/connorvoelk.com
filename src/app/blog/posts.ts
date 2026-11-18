@@ -35,8 +35,14 @@ export const posts: Post[] = [
 // SHOW_DRAFTS is set at build time in next.config.ts
 const showDrafts = process.env.SHOW_DRAFTS === 'true'
 
+// The whole blog is temporarily off the production site: every post is
+// treated like a draft there (no nav link, no index, and /blog plus every
+// post URL 404s). Local and preview builds are unchanged. Set this back to
+// false to bring the blog back.
+const blogHidden = true
+
 export const visiblePosts = posts.filter(
-  (post) => post.status === 'published' || showDrafts
+  (post) => showDrafts || (post.status === 'published' && !blogHidden)
 )
 
 export const isVisible = (slug: string) =>
