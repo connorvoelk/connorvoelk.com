@@ -4,18 +4,8 @@
   background-color: black;
 }
 
-.backgroundCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
 .main {
-  position: relative;
-  z-index: 1;
+  composes: content from '../components/dotGridBackground.module.css';
 }
 
 /* Intro over the dot grid; colors match the resume page */
@@ -76,20 +66,13 @@
   letter-spacing: -0.01em;
 }
 
-/* Frosted glass behind the headline and the bio: thin enough that the dots
-   still glow through softly, blurred enough that they don't fight the text */
+/* Frosted glass behind the headline and the bio */
 .card {
+  composes: frost from '../components/dotGridBackground.module.css';
   max-width: 42rem;
   margin-top: 1rem;
   padding: 1.5rem 1.75rem 1.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 20px;
-  background-color: rgba(14, 14, 14, 0.35);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  -webkit-backdrop-filter: blur(4px) saturate(140%);
-  backdrop-filter: blur(4px) saturate(140%);
-  /* The blur already softens the dots, so the letters don't need a halo */
-  text-shadow: none;
 }
 
 .leadCard {

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import DotGridBackground from '@/components/DotGridBackground'
 import styles from './page.module.css'
 import { visiblePosts } from './posts'
 
@@ -14,11 +15,14 @@ export default function BlogPage() {
 
   return (
     <div className={styles.page}>
+      <DotGridBackground variant="reading" />
       <main className={styles.blog}>
-        <h1 className={styles.title}>Blog</h1>
-        <p className={styles.intro}>
-          Each post is built as its own experience, with its own look.
-        </p>
+        <header className={styles.header}>
+          <h1 className={styles.title}>Blog</h1>
+          <p className={styles.intro}>
+            Each post is built as its own experience, with its own look.
+          </p>
+        </header>
         <ul className={styles.posts}>
           {visiblePosts.map((post) => (
             <li key={post.slug}>

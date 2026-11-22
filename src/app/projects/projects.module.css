@@ -57,9 +57,14 @@
 /* ---------- Index ---------- */
 
 .main {
+  composes: content from '../../components/dotGridBackground.module.css';
   max-width: 66rem;
   margin: 0 auto;
   padding: 8.5rem 1.5rem 6rem;
+}
+
+.indexHeader {
+  composes: clearing from '../../components/dotGridBackground.module.css';
 }
 
 .intro {
@@ -75,6 +80,7 @@
 }
 
 .groupTitle {
+  composes: clearing from '../../components/dotGridBackground.module.css';
   margin-bottom: 1.5rem;
   font-size: 1.375rem;
   font-weight: 600;
@@ -90,10 +96,15 @@
 
 .cardItem {
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Cards in a row match heights, so their frosted bottoms line up */
 .card {
-  display: block;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   border-radius: 18px;
 }
 
@@ -133,9 +144,24 @@
 
 .cover {
   position: relative;
+  flex: none;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 18px 18px 0 0;
+}
+
+/* The card's words, on frosted glass over the dot grid */
+.cardBody {
+  composes: frost from '../../components/dotGridBackground.module.css';
+  flex: 1;
+  padding: 1.125rem 1.25rem 1.375rem;
+  border-radius: 0 0 18px 18px;
+}
+
+/* Joins onto the cover, so no edge or highlight along the top */
+.card .cardBody {
+  border-top: 0;
+  box-shadow: none;
 }
 
 /* A phone screen rising out of the bottom of the panel */
@@ -200,7 +226,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 1.125rem;
 }
 
 .cardName {

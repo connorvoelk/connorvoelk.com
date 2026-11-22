@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import DotGridBackground from '@/components/DotGridBackground'
 import ObjModel from './ObjModel'
 import styles from './projects.module.css'
 import { githubLink, projects, projectHref, type Project } from './projectsData'
@@ -61,11 +62,13 @@ const ProjectCard = ({ project }: { project: Project }) => {
         <div className={styles.cover}>
           <Cover project={project} />
         </div>
-        <div className={styles.cardHeading}>
-          <h3 className={styles.cardName}>{project.name}</h3>
+        <div className={styles.cardBody}>
+          <div className={styles.cardHeading}>
+            <h3 className={styles.cardName}>{project.name}</h3>
+          </div>
+          <p className={styles.cardTagline}>{project.tagline}</p>
+          <TagList ids={project.tags} className={styles.cardTags} />
         </div>
-        <p className={styles.cardTagline}>{project.tagline}</p>
-        <TagList ids={project.tags} className={styles.cardTags} />
       </Link>
       {/* Beside the card's link, not inside it, since links can't nest */}
       {github && (
@@ -87,8 +90,9 @@ const ProjectCard = ({ project }: { project: Project }) => {
 export default function ProjectsPage() {
   return (
     <div className={styles.page}>
+      <DotGridBackground variant="reading" />
       <main className={styles.main}>
-        <header>
+        <header className={styles.indexHeader}>
           <h1 className={styles.title}>Projects</h1>
           <p className={styles.intro}>
             What I&apos;m building now, and what I built before.
