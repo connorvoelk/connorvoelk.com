@@ -3,10 +3,10 @@ import maniApp from './media/mani/app-home.webp'
 import maniFigma from './media/mani/figma-home.webp'
 import lpHome from './media/listening-pal/home.webp'
 import lpSchedule from './media/listening-pal/schedule.webp'
+import lpTimeSelected from './media/listening-pal/time-selected.webp'
 import lpConfirm from './media/listening-pal/confirm.webp'
-import lpJoin from './media/listening-pal/join.webp'
 import lpCall from './media/listening-pal/call.webp'
-import lpSignUp from './media/listening-pal/sign-up.webp'
+import lpCredits from './media/listening-pal/credits.webp'
 import lpResources from './media/listening-pal/resources.webp'
 import photogramFeed from './media/photogram/feed.webp'
 import photogramUpload from './media/photogram/upload.webp'
@@ -142,8 +142,8 @@ export const projects: Project[] = [
     years: '2022',
     role: 'Frontend, backend, cloud, and some UI/UX design',
     team: 'Emily Dooley, Madison Johnstone, Raiham Malik, and me',
-    tags: ['mobile', 'flutter', 'dart', 'aws', 'stripe'],
-    stack: ['Flutter', 'Dart', 'AWS', 'Amazon Cognito', 'Stripe', 'Figma'],
+    tags: ['mobile', 'flutter', 'dart', 'aws', 'webrtc'],
+    stack: ['Flutter', 'Dart', 'WebRTC', 'AWS', 'Amazon Cognito', 'Stripe', 'Figma'],
     accent: '#5fb8bf',
     links: [
       { label: 'Demo video', href: 'https://www.youtube.com/watch?v=FVWiznOt_xY' },
@@ -173,7 +173,7 @@ export const projects: Project[] = [
       {
         title: 'My part',
         paragraphs: [
-          'I built much of the Flutter frontend for both apps, pitched in on the UI and UX design, and set up the cloud side on AWS: the database, the backend, and sign-up and login with Amazon Cognito. At the end we handed the code, the AWS setup, and the Figma files to ListeningPal to finish testing and publish.',
+          'I implemented live calls with WebRTC and built much of the Flutter frontend for both apps. I also pitched in on the UI and UX design and set up the cloud side on AWS: the database, the backend, and sign-up and login with Amazon Cognito. At the end we handed the code, the AWS setup, and the Figma files to ListeningPal to finish testing and publish.',
           'Emily Dooley led the UI and UX design, Madison Johnstone managed the project and its data science, and Raiham Malik built the frontend and backend with me.',
         ],
       },
@@ -184,10 +184,10 @@ export const projects: Project[] = [
       images: [
         { src: lpHome, alt: 'ListeningPal home screen listing upcoming calls by week', caption: 'Upcoming calls' },
         { src: lpSchedule, alt: 'Scheduling screen with a February 2022 calendar and a time dropdown', caption: 'Picking a time' },
+        { src: lpTimeSelected, alt: 'Scheduling screen with February 3rd and 3:30 to 4 PM selected, above a Continue button', caption: 'A time selected' },
         { src: lpConfirm, alt: 'Confirmation dialog: use one credit to book February 3rd, 3:30 to 4 PM', caption: 'Booking with a credit' },
-        { src: lpJoin, alt: "Pre-call dialog asking the user to agree to the terms and confirm they aren't in crisis", caption: 'The check before joining' },
-        { src: lpCall, alt: 'In-call screen for a call with Jane, with mute and speaker buttons', caption: 'On a call' },
-        { src: lpSignUp, alt: 'Sign-up form hosted by Amazon Cognito', caption: 'Sign-up, through Cognito' },
+        { src: lpCall, alt: 'In-call screen for a call with Jane, with mute, speaker, and Leave Call buttons', caption: 'On a call' },
+        { src: lpCredits, alt: 'ListeningPal website on a phone, offering a monthly plan of 5 credits for $135', caption: 'Buying credits on the website' },
         { src: lpResources, alt: 'Resources screen listing crisis lines and national mental health organizations', caption: 'Resources' },
       ],
     },
