@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import DotGridBackground from '@/components/DotGridBackground'
+import backdrop from './backdrop.module.css'
 import styles from './page.module.css'
 import { resume, type ResumeRole, type RichText } from './resumeData'
 
@@ -76,7 +78,8 @@ export default function ResumePage() {
 
   return (
     <div className={styles.page}>
-      <main className={styles.resume}>
+      <DotGridBackground variant="reading" />
+      <main className={`${styles.resume} ${backdrop.sheet}`}>
         <header className={styles.header}>
           <div className={styles.headerTop}>
             <h1 className={styles.name}>{resume.name}</h1>

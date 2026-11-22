@@ -1,0 +1,28 @@
+/* Everything the dot grid needs on the resume. To take the grid off this page,
+   delete this file and its uses in page.tsx (the two imports, the component
+   and the class). */
+.sheet {
+  composes: content frost from '../../components/dotGridBackground.module.css';
+}
+
+/* One sheet behind the whole resume, darker than other cards as there's so
+   much small type. main.sheet, to win over page.module.css. */
+@media screen {
+  main.sheet {
+    width: calc(100% - 2rem);
+    /* The text keeps its usual width (plus 2px for the border) */
+    max-width: calc(56rem + 2px);
+    margin: 6rem auto 3.5rem;
+    padding: 2.5rem;
+    border-radius: 20px;
+    background-color: rgba(14, 14, 14, 0.7);
+  }
+
+  @media (max-width: 640px) {
+    main.sheet {
+      width: calc(100% - 1rem);
+      margin: 5.75rem auto 2rem;
+      padding: 1.25rem 1rem 2rem;
+    }
+  }
+}
