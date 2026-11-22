@@ -67,14 +67,6 @@
   composes: clearing from '../../components/dotGridBackground.module.css';
 }
 
-.intro {
-  max-width: 40rem;
-  margin-top: 1rem;
-  color: var(--text-soft);
-  font-size: 1.125rem;
-  line-height: 1.6;
-}
-
 .group {
   margin-top: 4rem;
 }

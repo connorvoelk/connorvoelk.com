@@ -17,22 +17,12 @@
   padding: 8.5rem 1.5rem 6rem;
 }
 
-.header {
-  composes: clearing from '../../components/dotGridBackground.module.css';
-}
-
 .title {
+  composes: clearing from '../../components/dotGridBackground.module.css';
   font-size: 2.75rem;
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.025em;
-}
-
-.intro {
-  margin-top: 0.875rem;
-  color: var(--muted);
-  font-size: 1.0625rem;
-  line-height: 1.6;
 }
 
 .posts {

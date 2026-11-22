@@ -94,9 +94,6 @@ export default function ProjectsPage() {
       <main className={styles.main}>
         <header className={styles.indexHeader}>
           <h1 className={styles.title}>Projects</h1>
-          <p className={styles.intro}>
-            What I&apos;m building now, and what I built before.
-          </p>
         </header>
 
         {groups.map((group) => (

@@ -19,8 +19,8 @@
   z-index: 1;
 }
 
-/* A soft-edged gap in the grid, for a heading or a line or two that's too
-   small to read with dots in it and too short for a card */
+/* A soft-edged gap in the grid, so a heading too short for a card doesn't
+   have dots in its letters */
 .clearing {
   width: fit-content;
   max-width: 100%;

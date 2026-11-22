@@ -17,12 +17,7 @@ export default function BlogPage() {
     <div className={styles.page}>
       <DotGridBackground variant="reading" />
       <main className={styles.blog}>
-        <header className={styles.header}>
-          <h1 className={styles.title}>Blog</h1>
-          <p className={styles.intro}>
-            Each post is built as its own experience, with its own look.
-          </p>
-        </header>
+        <h1 className={styles.title}>Blog</h1>
         <ul className={styles.posts}>
           {visiblePosts.map((post) => (
             <li key={post.slug}>
